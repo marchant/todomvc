@@ -1,775 +1,746 @@
-montageDefine("6364dae","core/range-controller",{dependencies:["montage","core/promise","collections/generic-collection"],factory:function(require,exports,module){var Montage = require("montage").Montage;
-var Promise = require("core/promise").Promise;
-var GenericCollection = require("collections/generic-collection");
-
-// The content controller is responsible for determining which content from a
-// source collection are visible, their order of appearance, and whether they
-// are selected.  Multiple repetitions may share a single content controller
-// and thus their selection state.
-
-// The controller manages a series of visible iterations.  Each iteration has a
-// corresponding "object" and whether that iteration is "selected".  The
-// controller uses a bidirectional binding to ensure that the controller's
-// "selections" collection and the "selected" property of each iteration are in
-// sync.
-
-// The controller can determine which content to display and the order in which
-// to render them in a variety of ways.  You can either use a "selector" to
-// filter and sort the content or use a "visibleIndexes" array.  The controller
-// binds the content of "organizedContent" depending on which strategy you use.
-//
-// The content of "organizedContent" is then reflected with corresponding
-// incremental changes to "iterations".  The "iterations" array will always
-// have an "iteration" corresponding to the "object" in "organizedContent" at
-// the same position.
+montageDefine("604e6eb","composer/press-composer",{dependencies:["../core/core","./composer","../core/event/mutable-event"],factory:function(require,exports,module){/*global require, exports*/
 
 /**
- * A <code>RangeController</code> receives a <code>content</code> collection,
- * manages what portition of that content is visible and the order of its
- * appearance (<code>organizedContent</code>), and projects changes to the the
- * organized content into an array of iteration controllers
- * (<code>iterations</code>, containing instances of <code>Iteration</code>).
- *
- * The <code>RangeController</code> provides a variety of knobs for how to
- * project the content into the organized content, all of which are optional,
- * and the default behavior is to preserve the content and its order.  You can
- * use the bindings path expression language (from FRB) to determine the
- * <code>sortPath</code> and <code>filterPath</code>.  There is a
- * <code>reversed</code> flag to invert the order of appearance.  The
- * <code>visibleIndexes</code> property will pluck values from the sorted and
- * filtered content by position, in arbitrary order.  The <code>start</code>
- * and <code>length</code> properties manage a sliding window into the content.
- *
- * The <code>RangeController</code> is also responsible for managing which
- * content is selected and provides a variety of knobs for that purpose.
+ * @module montage/composer/press-composer
+ * @requires montage/core/core
+ * @requires montage/composer/composer
+ * @requires montage/core/event/mutable-event
  */
-var RangeController = exports.RangeController = Montage.specialize( {
+var Montage = require("../core/core").Montage,
+    Composer = require("./composer").Composer,
+    MutableEvent = require("../core/event/mutable-event").MutableEvent;
+
+/**
+ * @class PressComposer
+ * @classdesc The `PressComposer` abstracts away handling mouse and touch
+ * events that represent presses, allowing generic detection of presses, long
+ * presses, and cancelled presses.
+ *
+ * @extends Composer
+ * @fires pressStart
+ * @fires press
+ * @fires longPress
+ * @fires pressCancel
+ */
+var PressComposer = exports.PressComposer = Composer.specialize(/** @lends PressComposer.prototype # */ {
 
     /**
-     * @private
-     */
-    constructor: {
-        value: function RangeController() {
-
-            this.content = null;
-            this._selection = [];
-            this.selection = [];
-            this.defineBinding("_selection.rangeContent()", {
-                "<->": "selection.rangeContent()"
-            });
-
-            this.sortPath = null;
-            this.filterPath = null;
-            this.visibleIndexes = null;
-            this.reversed = false;
-            this.start = null;
-            this.length = null;
-
-            this.selectAddedContent = false;
-            this.deselectInvisibleContent = false;
-            this.clearSelectionOnOrderChange = false;
-            this.avoidsEmptySelection = false;
-            this.multiSelect = false;
-
-            // The following establishes a pipeline for projecting the
-            // underlying content into organizedContent.  The filterPath,
-            // sortedPath, reversed, and visibleIndexes are all optional stages
-            // in that pipeline and used if non-null and in that order.
-            // The _orderedContent variable is a necessary intermediate stage
-            // From which visibleIndexes plucks visible values.
-            this.organizedContent = [];
-            this.organizedContent.addRangeChangeListener(this, "organizedContent");
-            this.defineBinding("_orderedContent", {
-                "<-": "content" +
-                    ".($filterPath.defined() ? filter{path($filterPath)} : ())" +
-                    ".($sortPath.defined() ? sorted{path($sortPath)} : ())" +
-                    ".($reversed ?? 0 ? reversed() : ())"
-            });
-            this.defineBinding("organizedContent.rangeContent()", {
-                "<-": "_orderedContent.(" +
-                    "$visibleIndexes.defined() ?" +
-                    "$visibleIndexes" +
-                        ".filter{<$_orderedContent.length}" +
-                        ".map{$_orderedContent[()]}" +
-                    " : ()" +
-                ").(" +
-                    "$start.defined() && $length.defined() ?" +
-                    "view($start, $length)" +
-                    " : ()" +
-                ")"
-            });
-
-            this._selection.addRangeChangeListener(this, "selection");
-            this.addRangeAtPathChangeListener("content", this, "handleContentRangeChange");
-            this.addPathChangeListener("sortPath", this, "handleOrderChange");
-            this.addPathChangeListener("reversed", this, "handleOrderChange");
-            this.addOwnPropertyChangeListener("multiSelect", this);
-
-            this.iterations = [];
-        }
-    },
-
-    /**
-     * Initializes a range controller with a backing collection.
-     * @param content Any collection that produces range change events, like an
-     * <code>Array</code> or <code>SortedSet</code>.
-     * @returns this
-     */
-    initWithContent: {
-        value: function (content) {
-            this.content = content;
-            return this;
-        }
-    },
-
-    // Organizing Content
-    // ------------------
-
-    /**
-     * An FRB expression that determines how to sort the content, like "name"
-     * to sort by name.  If the <code>sortPath</code> is null, the content
-     * is not sorted.
-     */
-    sortPath: {value: null},
-
-    /**
-     * Whether to reverse the order of the sorted content.
-     */
-    reversed: {value: null},
-
-    /**
-     * An FRB expression that determines how to filter content like
-     * "name.startsWith('A')" to see only names starting with 'A'.  If the
-     * <code>filterPath</code> is null, all content is accepted.
-     */
-    filterPath: {value: null},
-
-    /**
-     * An array of indexes to pluck from the ordered and filtered content.  The
-     * output will be an array of the corresponding content.  If the
-     * <code>visibleIndexes</code> is null, all content is accepted.
-     */
-    visibleIndexes: {value: null},
-
-    /**
-     * The first index of a sliding window over the content, suitable for
-     * binding (indirectly) to the scroll offset of a large list.
-     * If <code>start</code> or <code>length</code> is null, all content is
-     * accepted.
-     */
-    start: {value: null},
-
-    /**
-     * The length of a sliding window over the content, suitable for binding
-     * (indirectly) to the scroll height.
-     * If <code>start</code> or <code>length</code> is null, all content is
-     * accepted.
-     */
-    length: {value: null},
-
-
-    // Managing Selection
-    // ------------------
-
-    /**
-     * Whether to select new content automatically.
+     * Dispatched when a press begins. It is ended by either a {@link press} or
+     * {@link pressCancel} event.
      *
-     * Off by default.
+     * @event pressStart
+     * @memberof PressComposer
+     * @param {PressEvent} event
      */
-    selectAddedContent: {value: false},
-    // TODO make this work
 
     /**
-     * Whether to automatically deselect content that disappears from the
-     * <code>organizedContent</code>.
+     * Dispatched when a press is complete.
      *
-     * Off by default.
+     * @event press
+     * @memberof PressComposer
+     * @param {PressEvent} event
      */
-    deselectInvisibleContent: {value: false},
 
     /**
-     * Whether to automatically clear the selection whenever the
-     * <code>sortPath</code>, <code>filterPath</code>, or <code>reversed</code>
-     * knobs change.
+     * Dispatched when a press lasts for longer than (@link longPressThreshold}
+     * On a long press, the sequence of events will be:
+     * - pressStart: as soon as the composer recognizes it is a press.
+     * - longPress: `longPressThreshold` after the pressStart, if the press has
+     *   not yet ended.
+     * - press: when the press ends, if it isn't cancelled.
      *
-     * Off by default.
-     */
-    clearSelectionOnOrderChange: {value: false},
-
-    /**
-     * Whether to automatically reselect a value if it is the last value
-     * removed from the selection.
+     * Handlers of the `longPress` event can call `cancelPress` to prevent
+     * `press` being triggered.
      *
-     * Off by default.
+     * @event longPress
+     * @memberof PressComposer
+     * @param {PressEvent} event
      */
-    avoidsEmptySelection: {value: false},
 
     /**
-     * Whether to automatically deselect all previously selected content when a
-     * new selection is made.
+     * Dispatched when a press is canceled. This could be because the pointer
+     * left the element, was claimed by another component or maybe a phone call
+     * came in.
      *
-     * Off by default.
+     * @event pressCancel
+     * @memberof PressComposer
+     * @param {PressEvent} event
      */
-    multiSelect: {value: false},
 
+    // Load/unload
 
-    // Properties managed by the controller
-    // ------------------------------------
-
-    /**
-     * The content after it has been sorted, reversed, and filtered, suitable
-     * for plucking visible indexes and/or then the sliding window.
-     * @private
-     */
-    _orderedContent: {value: null},
-
-    /**
-     * An array incrementally projected from <code>content</code> through sort,
-     * reversed, filter, visibleIndexes, start, and length.
-     */
-    organizedContent: {value: null},
-
-    /**
-     * An array of iterations corresponding to each of the values in
-     * <code>organizedContent</code>, providing an interface for getting or
-     * setting whether each is selected.
-     */
-    iterations: {value: null},
-
-    /**
-     * A subset of the <code>content</code> that are selected.  The user may
-     * safely reassign this property and all iterations will react to the
-     * change.  The selection may be <code>null</code>.  The selection may be
-     * any collection that supports range change events like <code>Array</code>
-     * or <code>SortedSet</code>.
-     */
-    selection: {value: null},
-
-    /**
-     * Because the user can replace the selection object, we use a range
-     * content change listener on a hidden selection array that tracks the
-     * actual selection.
-     * @private
-     */
-    _selection: {value: null},
-
-    /**
-     * A managed interface for adding values to the selection, accounting for
-     * <code>multiSelect</code>.
-     * You can however directly manipulate the selection, but that will update
-     * the selection asynchronously because the controller cannot change the
-     * selection while handling a selection change event.
-     */
-    select: {
-        value: function (value) {
-            if (!this.multiSelect && this._selection.length >= 1) {
-                this._selection.clear();
-            }
-            this._selection.add(value);
-        }
-    },
-
-    /*
-     * A managed interface for removing values from the selection, accounting
-     * for <code>avoidsEmptySelection</code>.
-     * You can however directly manipulate the selection, but that will update
-     * the selection asynchronously because the controller cannot change the
-     * selection while handling a selection change event.
-     */
-    deselect: {
-        value: function (value) {
-            if (!this.avoidsEmptySelection || this._selection.length > 1) {
-                this._selection["delete"](value);
-            }
-        }
-    },
-
-    /*
-     * A managed interface for clearing the selection, accounting for
-     * <code>avoidsEmptySelection</code>.
-     * You can however directly manipulate the selection, but that will update
-     * the selection asynchronously because the controller cannot change the
-     * selection while handling a selection change event.
-     */
-    clearSelection: {
+    load: {
         value: function () {
-            if (!this.avoidsEmptySelection || this._selection.length > 1) {
-                this._selection.clear();
-            }
-        }
-    },
-
-    /**
-     * Proxies adding content to the underlying collection, accounting for
-     * <code>selectAddedContent</code>.
-     * @param value
-     * @returns whether the value was added
-     */
-    add: {
-        value: function (value) {
-            var result;
-
-            if (!this.content) {
-                this.content = [];
-            }
-            result = this.content.add(value);
-            if (result) {
-                this.handleAdd(value);
-            }
-            return result;
-        }
-    },
-
-    /**
-     * Proxies pushing content to the underlying collection, accounting for
-     * <code>selectAddedContent</code>.
-     * @param ...values
-     * @returns whether the value was added
-     */
-    push: {
-        value: function () {
-            var result = this.content.push.apply(this.content, arguments);
-            for (var index = 0; index < arguments.length; index++) {
-                this.handleAdd(arguments[index]);
-            }
-            return result;
-        }
-    },
-
-    /**
-     * Proxies popping content from the underlying collection.
-     * @returns the popped values
-     */
-    pop: {
-        value: function () {
-            return this.content.pop();
-        }
-    },
-
-    /**
-     * Proxies shifting content from the underlying collection.
-     * @returns the shifted values
-     */
-    shift: {
-        value: function () {
-            return this.content.shift();
-        }
-    },
-
-    /**
-     * Proxies unshifting content to the underlying collection, accounting for
-     * <code>selectAddedContent</code>.
-     * @param ...values
-     * @returns whether the value was added
-     */
-    unshift: {
-        value: function () {
-            var result = this.content.unshift.apply(this.content, arguments);
-            for (var index = 0; index < arguments.length; index++) {
-                this.handleAdd(arguments[index]);
-            }
-            return result;
-        }
-    },
-
-    /**
-     * Proxies splicing values into the underlying collection.  Accounts for
-     * <code>selectAddedContent</code>
-     */
-    splice: {
-        value: function () {
-            var result = this.content.splice.apply(this.content, arguments);
-            for (var index = 2; index < arguments.length; index++) {
-                this.handleAdd(arguments[index]);
-            }
-            return result;
-        }
-    },
-
-    /**
-     * Proxies swapping values in the underlying collection.  Accounts for
-     * <code>selectAddedContent</code>
-     */
-    swap: {
-        value: function (index, length, values) {
-            var result = this.content.splice.apply(this.content, values);
-            for (var index = 2; index < values.length; index++) {
-                this.handleAdd(values[index]);
-            }
-            return result;
-        }
-    },
-
-    /**
-     * Proxies deleting content from the underlying collection.
-     */
-    "delete": {
-        value: function (value) {
-            return this.content["delete"](value);
-        }
-    },
-
-    has: {
-        value: function(value) {
-            if (this.content) {
-                return this.content.has(value);
+            if (window.Touch) {
+                this._element.addEventListener("touchstart", this, true);
             } else {
-                return false;
+                this._element.addEventListener("mousedown", this, true);
+            }
+        }
+    },
+
+    unload: {
+        value: function () {
+            if (window.Touch) {
+                this._element.removeEventListener("touchstart", this, true);
+            } else {
+                this._element.removeEventListener("mousedown", this, true);
             }
         }
     },
 
     /**
-     * Proxies adding each value into the underlying collection.
+     * Delegate that implements `surrenderPointer`. See Component for
+     * explanation of what this method should do.
+     *
+     * @type {Object}
+     * @default null
      */
-    addEach: {
-        value: GenericCollection.prototype.addEach
-    },
-
-    /**
-     * Proxies deleting each value out from the underlying collection.
-     */
-    deleteEach: {
-        value: GenericCollection.prototype.deleteEach
-    },
-
-    /**
-     * Proxies clearing the underlying content collection.
-     */
-    clear: {
-        value: function () {
-            this.content.clear();
-        }
-    },
-
-    /**
-     * Creates content and adds it to the controller and its backing
-     * collection.  Uses `add` and `contentConstructor`.
-     */
-    addContent: {
-        value: function () {
-            var content = new this.contentConstructor();
-            this.add(content);
-            return content;
-        }
-    },
-
-    _contentConstructor: {
+    delegate: {
         value: null
     },
 
+
     /**
-     * Creates a content value for this range controller.  If the backing
-     * collection has an intrinsict type, uses its `contentConstructor`.
-     * Otherwise, creates and returns simple, empty objects.
+     * Cancel the current press.
      *
-     * This property can be set to an alternate content constructor, which will
-     * take precedence over either of the above defaults.
+     * Can be used in a "longPress" event handler to prevent the "press" event
+     * being fired.
+     * @returns boolean true if a press was canceled, false if the composer was
+     * already in a unpressed or canceled state.
      */
-    contentConstructor: {
-        get: function () {
-            if (this._contentConstructor) {
-                return this._contentConstructor;
-            } else if (this.content && this.content.contentConstructor) {
-                return this.content.contentConstructor;
-            } else {
-                return Object;
-            }
-        },
-        set: function (contentConstructor) {
-            this._contentConstructor = contentConstructor;
-        }
-    },
-
-    /**
-     * Dispatched by range changes to the controller's content, arranged in
-     * constructor.  Reacts to content changes to ensure that content that no
-     * longer exists is removed from the selection, regardless of whether it is
-     * from the user or any other entity modifying the backing collection.
-     * @private
-     */
-    handleContentRangeChange: {
-        value: function (plus, minus, index) {
-            // remove all values from the selection that were removed (but
-            // not added back)
-            minus.deleteEach(plus);
-            this._selection.deleteEach(minus);
-        }
-    },
-
-    /**
-     * Dispatched by a range-at-path change listener on the selection, arragned
-     * in constructor.  Reacts to managed (as by the select or deselect methods)
-     * or unmanaged changes to the selection by enforcing the
-     * <code>avoidsEmptySelection</code> and
-     * <code>multiSelect</code> invariants.  However, it must
-     * schedule these changes for a separate event because it cannot interfere
-     * with the change operation in progress.
-     * @private
-     */
-    handleSelectionRangeChange: {
-        value: function (plus, minus, index) {
-            var self = this;
-            Promise.nextTick(function () {
-                var length = self._selection.length;
-                // Performing these in next tick avoids interfering with the
-                // plan in the dispatcher, highlighting the fact that there is
-                // a plan interference hazard inherent to the present
-                // implementation of collection event dispatch.
-                if (self.avoidsEmptySelection && length === 0) {
-                    self.select(minus[minus.length - 1]);
-                } else if (!self.multiSelect && length > 1) {
-                    self._selection.splice(0, self._selection.length, plus[plus.length - 1]);
-                }
-            });
-        }
-    },
-
-    /**
-     * Dispatched by a range-at-path change listener arranged in constructor.
-     * Synchronizes the <code>iterations</code> with changes to
-     * <code>organizedContent</code>.  Also manages the
-     * <code>deselectInvisibleContent</code> invariant.
-     * @private
-     */
-    handleOrganizedContentRangeChange: {
-        value: function (plus, minus, index) {
-            if (this.deselectInvisibleContent) {
-                var diff = minus.clone(1);
-                diff.deleteEach(plus);
-                this._selection.deleteEach(minus);
-            }
-        }
-    },
-
-    /**
-     * Dispatched by changes to sortPath, filterPath, and reversed to maintain
-     * the <code>clearSelectionOnOrderChange</code> invariant.
-     * @private
-     */
-    handleOrderChange: {
+    cancelPress: {
         value: function () {
-            if (this.clearSelectionOnOrderChange) {
-                this._selection.clear();
+            if (this._state === PressComposer.PRESSED) {
+                this._dispatchPressCancel();
+                this._endInteraction();
+                return true;
+            }
+            return false;
+        }
+    },
+
+    // Optimisation so that we don't set a timeout if we do not need to
+    addEventListener: {
+        value: function (type, listener, useCapture) {
+            Composer.addEventListener.call(this, type, listener, useCapture);
+            if (type === "longPress") {
+                this._shouldDispatchLongPress = true;
+            }
+        }
+    },
+
+    UNPRESSED: {
+        value: 0
+    },
+    PRESSED: {
+        value: 1
+    },
+    CANCELLED: {
+        value: 2
+    },
+
+    _state: {
+        enumerable: false,
+        value: 0
+    },
+    state: {
+        get: function () {
+            return this._state;
+        }
+    },
+
+    _shouldDispatchLongPress: {
+        enumerable: false,
+        value: false
+    },
+
+    _longPressThreshold: {
+        enumerable: false,
+        value: 1000
+    },
+    /**
+     * How long a press has to last (in milliseconds) for a longPress event to
+     * be dispatched
+     * @type number
+     */
+    longPressThreshold: {
+        get: function () {
+            return this._longPressThreshold;
+        },
+        set: function (value) {
+            if (this._longPressThreshold !== value) {
+                this._longPressThreshold = value;
+            }
+        }
+    },
+
+    _longPressTimeout: {
+        enumberable: false,
+        value: null
+    },
+
+    // Magic
+
+    _observedPointer: {
+        enumerable: false,
+        value: null
+    },
+
+    // TODO: maybe this should be split and moved into handleTouchstart
+    // and handleMousedown
+    _startInteraction: {
+        enumerable: false,
+        value: function (event) {
+            if (
+                ("enabled" in this.component && !this.component.enabled) ||
+                this._observedPointer !== null
+            ) {
+                return false;
+            }
+
+            var i = 0, changedTouchCount;
+
+            if (event.type === "touchstart") {
+
+                changedTouchCount = event.changedTouches.length;
+                if (changedTouchCount === 1) {
+                    this._observedPointer = event.changedTouches[0].identifier;
+                }
+
+                document.addEventListener("touchend", this, false);
+                document.addEventListener("touchcancel", this, false);
+            } else if (event.type === "mousedown") {
+                this._observedPointer = "mouse";
+                // Needed to cancel the press if mouseup'd when not on the
+                // component
+                document.addEventListener("mouseup", this, false);
+                // Needed to preventDefault if another component has claimed
+                // the pointer
+                document.addEventListener("click", this, false);
+            }
+
+            // Needed to cancel the press because once a drag is started
+            // no mouse events are fired
+            // http://www.whatwg.org/specs/web-apps/current-work/multipage/dnd.html#initiate-the-drag-and-drop-operation
+            this._element.addEventListener("dragstart", this, false);
+
+            this.component.eventManager.claimPointer(this._observedPointer, this);
+
+            this._dispatchPressStart(event);
+        }
+    },
+
+    /**
+     * Decides what should be done based on an interaction.
+     *
+     * @param {Event} event The event that caused this to be called.
+     * @private
+     */
+    _interpretInteraction: {
+        value: function (event) {
+            // TODO maybe the code should be moved out to handleClick and
+            // handleMouseup
+            var isSurrendered, target, isTarget;
+
+            if (this._observedPointer === null) {
+                this._endInteraction(event);
+                return;
+            }
+
+            isSurrendered = !this.component.eventManager.isPointerClaimedByComponent(this._observedPointer, this);
+            target = event.target;
+            while (target !== this._element && target && target.parentNode) {
+                target = target.parentNode;
+            }
+            isTarget = target === this._element;
+
+            if (isSurrendered && event.type === "click") {
+                // Pointer surrendered, so prevent the default action
+                event.preventDefault();
+                // No need to dispatch an event as pressCancel was dispatched
+                // in surrenderPointer, just end the interaction.
+                this._endInteraction(event);
+                return;
+            } else if (event.type === "mouseup") {
+
+                if (!isSurrendered && isTarget) {
+                    this._dispatchPress(event);
+                    this._endInteraction(event);
+                    return;
+                } else if (!isSurrendered && !isTarget) {
+                    this._dispatchPressCancel(event);
+                    this._endInteraction(event);
+                    return;
+                } else {
+                    this._endInteraction(event);
+                }
             }
         }
     },
 
     /**
-     * Dispatched manually by all of the managed methods for adding values to
-     * the underlying content, like <code>add</code> and <code>push</code>, to
-     * support <code>multiSelect</code>.
+     * Remove event listeners after an interaction has finished.
      * @private
      */
-    handleAdd: {
-        value: function (value) {
-            if (this.selectAddedContent) {
-                if (
-                    !this.multiSelect &&
-                    this._selection.length >= 1
-                ) {
-                    this._selection.clear();
+    _endInteraction: {
+        value: function (event) {
+            document.removeEventListener("touchend", this);
+            document.removeEventListener("touchcancel", this);
+            document.removeEventListener("click", this);
+            document.removeEventListener("mouseup", this);
+
+            if (this.component.eventManager.isPointerClaimedByComponent(this._observedPointer, this)) {
+                this.component.eventManager.forfeitPointer(this._observedPointer, this);
+            }
+            this._observedPointer = null;
+            this._state = PressComposer.UNPRESSED;
+        }
+    },
+
+    /**
+     * Checks if we are observing one of the changed touches. Returns the index
+     * of the changed touch if one matches, otherwise returns false. Make sure
+     * to check against `!== false` or `=== false` as the
+     * matching index might be 0.
+     *
+     * @function
+     * @returns {number|boolean} The index of the matching touch, or false
+     * @private
+     */
+    _changedTouchisObserved: {
+        value: function (changedTouches) {
+            if (this._observedPointer === null) {
+                return false;
+            }
+
+            var i = 0, changedTouchCount = changedTouches.length;
+
+            for (; i < changedTouchCount; i++) {
+                if (changedTouches[i].identifier === this._observedPointer) {
+                    return i;
                 }
-                this._selection.add(value);
+            }
+            return false;
+        }
+    },
+
+    // Surrender pointer
+
+    surrenderPointer: {
+        value: function (pointer, component) {
+            var shouldSurrender = this.callDelegateMethod("surrenderPointer", pointer, component);
+            if (typeof shouldSurrender !== "undefined" && shouldSurrender === false) {
+                return false;
+            }
+
+            this._dispatchPressCancel();
+            return true;
+        }
+    },
+
+    // Handlers
+
+    captureTouchstart: {
+        value: function (event) {
+            this._startInteraction(event);
+        }
+    },
+    handleTouchend: {
+        value: function (event) {
+            if (this._observedPointer === null) {
+                this._endInteraction(event);
+                return;
+            }
+
+            if (this._changedTouchisObserved(event.changedTouches) !== false) {
+                if (this.component.eventManager.isPointerClaimedByComponent(this._observedPointer, this)) {
+                    this._dispatchPress(event);
+                } else {
+                    event.preventDefault();
+                }
+                this._endInteraction(event);
+            }
+        }
+    },
+    handleTouchcancel: {
+        value: function (event) {
+            if (this._observedPointer === null || this._changedTouchisObserved(event.changedTouches) !== false) {
+                if (this.component.eventManager.isPointerClaimedByComponent(this._observedPointer, this)) {
+                    this._dispatchPressCancel(event);
+                }
+                this._endInteraction(event);
             }
         }
     },
 
-    handleMultiSelectChange: {
-        value: function() {
-            var length = this._selection.length;
+    captureMousedown: {
+        value: function (event) {
+            this._startInteraction(event);
+        }
+    },
+    handleClick: {
+        value: function (event) {
+            this._interpretInteraction(event);
+        }
+    },
+    handleMouseup: {
+        value: function (event) {
+            this._interpretInteraction(event);
+        }
+    },
+    handleDragstart: {
+        value: function (event) {
+            this._dispatchPressCancel(event);
+            this._endInteraction();
+        }
+    },
 
-            if (!this.multiSelect && length > 1) {
-                this._selection.splice(0, length - 1);
+    // Event dispatch
+
+    _createPressEvent: {
+        enumerable: false,
+        value: function (name, event) {
+            var pressEvent, detail, index;
+
+            if (!event) {
+                event = document.createEvent("CustomEvent");
+                event.initCustomEvent(name, true, true, null);
             }
+
+            pressEvent = new PressEvent();
+            pressEvent.event = event;
+            pressEvent.type = name;
+            pressEvent.pointer = this._observedPointer;
+            pressEvent.targetElement = event.target;
+
+            if (event.changedTouches &&
+                (index = this._changedTouchisObserved(event.changedTouches)) !== false
+            ) {
+                pressEvent.touch = event.changedTouches[index];
+            }
+
+            return pressEvent;
+        }
+    },
+
+    _dispatchPressStart: {
+        enumerable: false,
+        value: function (event) {
+            this._state = PressComposer.PRESSED;
+            this.dispatchEvent(this._createPressEvent("pressStart", event));
+
+            if (this._shouldDispatchLongPress) {
+                var self = this;
+                this._longPressTimeout = setTimeout(function () {
+                    self._dispatchLongPress();
+                }, this._longPressThreshold);
+            }
+        }
+    },
+
+    _dispatchPress: {
+        enumerable: false,
+        value: function (event) {
+            if (this._shouldDispatchLongPress) {
+                clearTimeout(this._longPressTimeout);
+                this._longPressTimeout = null;
+            }
+
+            this.dispatchEvent(this._createPressEvent("press", event));
+            this._state = PressComposer.UNPRESSED;
+        }
+    },
+
+    _dispatchLongPress: {
+        enumerable: false,
+        value: function (event) {
+            if (this._shouldDispatchLongPress) {
+                this.dispatchEvent(this._createPressEvent("longPress", event));
+                this._longPressTimeout = null;
+            }
+        }
+    },
+
+    _dispatchPressCancel: {
+        enumerable: false,
+        value: function (event) {
+            if (this._shouldDispatchLongPress) {
+                clearTimeout(this._longPressTimeout);
+                this._longPressTimeout = null;
+            }
+
+            this._state = PressComposer.CANCELLED;
+            this.dispatchEvent(this._createPressEvent("pressCancel", event));
         }
     }
 
-}, {
-
-    blueprintModuleId:require("montage")._blueprintModuleIdDescriptor,
-
-    blueprint:require("montage")._blueprintDescriptor
-
 });
 
-// TODO @kriskowal scrollIndex, scrollDelegate -> scrollDelegate.scrollBy(offset)
+/*
+ * @class PressEvent
+ * @inherits MutableEvent
+ * @classdesc The event dispatched by the `PressComposer`, providing access to
+ * the raw DOM event and proxying its properties.
+ */
+var PressEvent = (function (){
+    var value, eventProps, typeProps, eventPropDescriptor, typePropDescriptor, i;
 
-// TODO multiSelectWithModifiers to support ctrl/command/shift selection such
-// that individual values and ranges of values.
+    value = MutableEvent.specialize({
+        type: {
+            value: "press"
+        },
+        _event: {
+            enumerable: false,
+            value: null
+        },
+        event: {
+            get: function () {
+                return this._event;
+            },
+            set: function (value) {
+                this._event = value;
+            }
+        },
+        _touch: {
+            enumerable: false,
+            value: null
+        },
+        touch: {
+            get: function () {
+                return this._touch;
+            },
+            set: function (value) {
+                this._touch = value;
+            }
+        }
+    });
 
-// TODO @kriskowal decouple such that content controllers can be chained using
-// adapter pattern
+    // These properties are available directly on the event
+    eventProps = ["altKey", "ctrlKey", "metaKey", "shiftKey",
+    "cancelBubble", "currentTarget", "defaultPrevented",
+    "eventPhase", "timeStamp", "preventDefault",
+    "stopImmediatePropagation", "stopPropagation"];
+    // These properties are available on the event in the case of mouse, and
+    // on the _touch in the case of touch
+    typeProps = ["clientX", "clientY", "pageX", "pageY", "screenX", "screenY", "target"];
 
+    eventPropDescriptor = function (prop) {
+        return {
+            get: function () {
+                return this._event[prop];
+            }
+        };
+    };
+    typePropDescriptor = function (prop) {
+        return {
+            get: function () {
+                return (this._touch) ? this._touch[prop] : this._event[prop];
+            }
+        };
+    };
+
+    for (i = eventProps.length - 1; i >= 0; i--) {
+        Montage.defineProperty(value, eventProps[i], eventPropDescriptor(eventProps[i]));
+    }
+    for (i = typeProps.length - 1; i >= 0; i--) {
+        Montage.defineProperty(value, typeProps[i], typePropDescriptor(typeProps[i]));
+    }
+
+    return value;
+}());
 
 }})
 ;
 //*/
-montageDefine("6364dae","composer/composer",{dependencies:["montage","core/target"],factory:function(require,exports,module){/**
- * @module montage/composer/composer
- * @requires montage/core/core
- */
-var Montage = require("montage").Montage,
-    Target = require("core/target").Target;
-/**
- * @class Composer
- * @extends Target
- * @summary The Composer prototype is the base class for all composers in Montage. There are two types of composers. One type, called _gesture_ composers listen for and aggregrate low-level events into higher order events (for example, [PressComposer]{@link PressComposer}. The second type of composer is called _calculation_ composers
- */
-exports.Composer = Target.specialize( /** @lends Composer# */ {
+montageDefine("bae053a","ui/dynamic-element.reel/dynamic-element",{dependencies:["montage/ui/component"],factory:function(require,exports,module){/* <copyright>
+Copyright (c) 2012, Motorola Mobility LLC.
+All Rights Reserved.
 
-    _component: {
-        value: null
-    },
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
 
+* Redistributions of source code must retain the above copyright notice,
+  this list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+* Neither the name of Motorola Mobility LLC nor the names of its
+  contributors may be used to endorse or promote products derived from this
+  software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+</copyright> */
 /**
-    The Montage component that the composer will listen for mouse events on.
-    @type {Component}
-    @default null
+    module:"matte/ui/dynamic-element.reel"
 */
-    component: {
-        get: function() {
-            return this._component;
-        },
-        set: function(component) {
-            this._component = component;
-        }
-    },
+var Component = require("montage/ui/component").Component;
 
-    _element: {
-        value: null
-    },
 
 /**
-    The DOM element that the composer will listen for events on. If no element is specified then the composer will use the element associated with its <code>component</code> property.
-    @type {Component}
-    @default null
+    The DynamicElement is a general purpose component that aims to expose all the properties of the element as a component.
+    @class module:"matte/ui/dynamic-element.reel".DynamicElement
+    @extends module:montage/ui/component.Component
 */
-    element: {
-        get: function() {
-            return this._element;
-        },
-        set: function(element) {
-            this._element = element;
-        }
-    },
+exports.DynamicElement = Component.specialize(/** @lends module:"matte/ui/dynamic-element.reel".DynamicElement# */ {
 
-
-    /**
-     * This property controls when a composer's <code>load()</code> method is called, which is where the composer create event listeners. If `false`
-     * the composer's <code>load()</code> method is called immediately as part of the next draw
-     * cycle after <code>addComposer()</code> has been called on its associated component.  If
-     * `true`, the loading of the composer is delayed until its associated component
-     * has had its <code>prepareForActivationEvents()</code> called. Delaying the creation of event listeners until necessary can improve performance.
-     * @default false
-     */
-    lazyLoad: {
+    hasTemplate: {
         value: false
     },
 
-    _needsFrame: {
-        value: false
+    _innerHTML: {
+        value: null
+    },
+
+    _usingInnerHTML: {
+        value: null
     },
 
     /**
-        This property should be set to 'true' when the composer wants to have its <code>frame()</code> method executed during the next draw cycle.Setting this property to 'true' will cause Montage to schedule a new draw cycle if one has not already been.
-        @type {boolean}
-        @default false
-     */
-    needsFrame: {
+        The innerHTML displayed as the content of the DynamicElement
+        @type {Property}
+        @default null
+    */
+    innerHTML: {
+        get: function() {
+            return this._innerHTML;
+        },
         set: function(value) {
-            if (this._needsFrame !== value) {
-                this._needsFrame = value;
-                if (this._component) {
-                    if (value) {
-                        this._component.scheduleComposer(this);
+            this._usingInnerHTML = true;
+            if (this._innerHTML !== value) {
+                this._innerHTML = value;
+                this.needsDraw = true;
+            }
+        }
+    },
+
+    /**
+        The default html displayed if innerHTML is falsy.
+        @type {Property}
+        @default {String} ""
+    */
+    defaultHTML: {
+        value: ""
+    },
+
+    _allowedTagNames: {
+        value: null
+    },
+
+    /**
+        White list of allowed tags in the innerHTML
+        @type {Property}
+        @default null
+    */
+    allowedTagNames: {
+        get: function() {
+            return this._allowedTagNames;
+        },
+        set: function(value) {
+            if (this._allowedTagNames !== value) {
+                this._allowedTagNames = value;
+                this.needsDraw = true;
+            }
+        }
+    },
+
+
+
+    _range: {
+        value: null
+    },
+
+    enterDocument: {
+        value: function(firstTime) {
+            if (firstTime) {
+                var range = document.createRange(),
+                    className = this.element.className;
+                range.selectNodeContents(this.element);
+                this._range = range;
+            }
+        }
+    },
+
+    _contentNode: {
+        value: null
+    },
+
+    draw: {
+        value: function() {
+            // get correct value
+            var displayValue = (this.innerHTML || 0 === this.innerHTML ) ? this.innerHTML : this.defaultHTML,
+                content, allowedTagNames = this.allowedTagNames, range = this._range, elements;
+
+            // If this element is inside a Slot or another component that
+            // manipulates its contents then the range could be selecting
+            // the wrong content. Make sure we have the right stuff:
+            range.selectNodeContents(this.element);
+
+            //push to DOM
+            if(this._usingInnerHTML) {
+                if (allowedTagNames !== null) {
+                    //cleanup
+                    this._contentNode = null;
+                    range.deleteContents();
+                    //test for tag white list
+                    content = range.createContextualFragment( displayValue );
+                    if(allowedTagNames.length !== 0) {
+                        elements = content.querySelectorAll("*:not(" + allowedTagNames.join("):not(") + ")");
+                    } else {
+                        elements = content.childNodes;
+                    }
+                    if (elements.length === 0) {
+                        range.insertNode(content);
+                        if(range.endOffset === 0) {
+                            // according to https://bugzilla.mozilla.org/show_bug.cgi?id=253609 Firefox keeps a collapsed
+                            // range collapsed after insertNode
+                            range.selectNodeContents(this.element);
+                        }
+
+                    } else {
+                        console.warn("Some Elements Not Allowed " , elements);
+                    }
+                } else {
+                    content = this._contentNode;
+                    if(content === null) {
+                        //cleanup
+                        range.deleteContents();
+                        this._contentNode = content = document.createTextNode(displayValue);
+                        range.insertNode(content);
+                        if(range.endOffset === 0) {
+                            // according to https://bugzilla.mozilla.org/show_bug.cgi?id=253609 Firefox keeps a collapsed
+                            // range collapsed after insert
+                            range.selectNodeContents(this.element);
+                        }
+
+                    } else {
+                        content.data = displayValue;
                     }
                 }
             }
-        },
-        get: function() {
-            return this._needsFrame;
-        }
-    },
-
-    /**
-        This method will be invoked by the framework at the beginning of a draw cycle. This is where a composer implement its update logic.
-        @function
-        @param {Date} timestamp The time that the draw cycle started
-     */
-    frame: {
-        value: function(timestamp) {
-
-        }
-    },
-
-
-    /*
-        Invoked by the framework to default the composer's element to the component's element if necessary.
-        @private
-     */
-    _resolveDefaults: {
-        value: function() {
-            if (this.element == null && this.component != null) {
-                this.element = this.component.element;
-            }
-        }
-    },
-
-    /*
-        Invoked by the framework to load this composer
-        @private
-     */
-    _load: {
-        value: function() {
-            if (!this.element) {
-                this._resolveDefaults();
-            }
-            this.load();
-        }
-    },
-
-    /**
-        Called when a composer should be loaded.  Any event listeners that the composer needs to install should
-        be installed in this method.
-        @function
-     */
-    load: {
-        value: function() {
-
-        }
-    },
-
-    /**
-        Called when a component removes a composer.  Any event listeners that the composer needs to remove should
-        be removed in this method and any additional cleanup should be performed.
-        @function
-     */
-    unload: {
-        value: function() {
-
-        }
-    },
-
-    /*
-        Called when a composer is part of a template serialization.  It's responsible for calling addComposer on
-        the component.
-        @private
-     */
-    deserializedFromTemplate: {
-        value: function() {
-            if (this.component) {
-                this.component.addComposer(this);
-            }
         }
     }
-
 });
 
 }})
 ;
 //*/
-montageDefine("5bf8252","ui/native-control",{dependencies:["montage/ui/component"],factory:function(require,exports,module){/**
+montageDefine("184f06d","ui/main.reel/main.html",{text:'<!DOCTYPE html><html><head>\n        <meta charset=utf-8>\n        <title>Main</title>\n\n        <link rel=stylesheet href=main.css>\n\n        <script type=text/montage-serialization>\n        {\n            "owner": {\n                "properties": {\n                    "element": {"#": "mainComponent"},\n                    "_newTodoForm": {"#": "newTodoForm"},\n                    "_newTodoInput": {"#": "newTodoField"}\n                }\n            },\n\n            "todoRepetition": {\n                "prototype": "montage/ui/repetition.reel",\n                "properties": {\n                    "element": {"#": "todo-list"}\n                },\n                "bindings": {\n                    "contentController": {"<-": "@owner.todoListController"}\n                }\n            },\n\n            "todoView": {\n                "prototype": "ui/todo-view.reel",\n                "properties": {\n                    "element": {"#": "todoView"}\n                },\n                "bindings": {\n                    "todo": {"<-": "@todoRepetition:iteration.object"}\n                }\n            },\n\n            "main": {\n                "prototype": "matte/ui/dynamic-element.reel",\n                "properties": {\n                    "element": {"#": "main"}\n                },\n                "bindings": {\n                    "classList.has(\'visible\')": {\n                        "<-": "@owner.todos.length > 0"\n                    }\n                }\n            },\n\n            "footer": {\n                "prototype": "matte/ui/dynamic-element.reel",\n                "properties": {\n                    "element": {"#": "footer"}\n                },\n                "bindings": {\n                    "classList.has(\'visible\')": {\n                        "<-": "@owner.todos.length > 0"\n                    }\n                }\n            },\n\n            "toggleAllCheckbox": {\n                "prototype": "native/ui/input-checkbox.reel",\n                "properties": {\n                    "element": {"#": "toggle-all"}\n                },\n                "bindings": {\n                    "checked": {"<->": "@owner.allCompleted"}\n                }\n            },\n\n            "todoCount": {\n                "prototype": "montage/ui/text.reel",\n                "properties": {\n                    "element": {"#": "todo-count"}\n                },\n                "bindings": {\n                    "value": {\n                        "<-": "@owner.todosLeft.length"\n                    }\n                }\n            },\n\n            "todoCountWording": {\n                "prototype": "montage/ui/text.reel",\n                "properties": {\n                    "element": {"#": "todo-count-wording"}\n                },\n                "bindings": {\n                    "value": {"<-": "@owner.todosLeft.length == 1 ? \'item\' : \'items\'"}\n                }\n            },\n\n            "completedCount": {\n                "prototype": "montage/ui/text.reel",\n                "properties": {\n                    "element": {"#": "completed-count"}\n                },\n                "bindings": {\n                    "value": {\n                        "<-": "@owner.todosCompleted.length"\n                    }\n                }\n            },\n\n            "clearCompletedContainer": {\n                "prototype": "matte/ui/dynamic-element.reel",\n                "properties": {\n                    "element": {"#": "clear-completed-container"}\n                },\n                "bindings": {\n                    "classList.has(\'visible\')": {\n                        "<-": "@owner.todosCompleted.length"\n                    }\n                }\n            },\n\n            "clearCompletedButton": {\n                "prototype": "native/ui/button.reel",\n                "properties": {\n                    "element": {"#": "clear-completed"}\n                },\n                "listeners": [\n                    {\n                        "type": "action",\n                        "listener": {"@": "owner"},\n                        "capture": false\n                    }\n                ]\n            }\n        }\n        </script>\n    </head>\n    <body>\n        <div data-montage-id=mainComponent>\n\n            <section id=todoapp>\n                    <header id=header>\n                        <h1>todos</h1>\n                        <form data-montage-id=newTodoForm>\n                            <input data-montage-id=newTodoField id=new-todo placeholder="What needs to be done?" autofocus="">\n                        </form>\n                    </header>\n                    <section data-montage-id=main id=main>\n                        <input data-montage-id=toggle-all id=toggle-all type=checkbox>\n                        <label for=toggle-all>Mark all as complete</label>\n                        <ul data-montage-id=todo-list id=todo-list>\n                            <li data-montage-id=todoView></li>\n                        </ul>\n                    </section>\n                    <footer data-montage-id=footer id=footer>\n                        <span id=todo-count><strong data-montage-id=todo-count>0</strong> <span data-montage-id=todo-count-wording>items</span> left</span>\n                        <div data-montage-id=clear-completed-container id=clear-completed-container>\n                            <button data-montage-id=clear-completed id=clear-completed>Clear completed (<span data-montage-id=completed-count>0</span>)</button>\n                        </div>\n                    </footer>\n                </section>\n                <footer id=info>\n                    <p>Double-click to edit a todo</p>\n                    <p>Created with <a href=http://github.com/montagejs/montage>Montage</a> </p>\n                    <p>Source available at <a href=http://github.com/montagejs/todo-mvc>Montage-TodoMVC</a> </p>\n                    <p>Part of <a href=http://todomvc.com>TodoMVC</a></p>\n                </footer>\n        </div>\n    \n\n</body></html>'});
+;
+//*/
+montageDefine("2e7d2a9","ui/native-control",{dependencies:["montage/ui/component"],factory:function(require,exports,module){/**
     @module montage/ui/native-control
 */
 
@@ -895,10 +866,150 @@ NativeControl.addAttributes( /** @lends module:montage/ui/native-control.NativeC
 }})
 ;
 //*/
-montageDefine("262b1a4","package.json",{exports: {"name":"matte","version":"0.1.3","repository":{"type":"git","url":"https://github.com/montagejs/matte.git"},"dependencies":{"montage":"~0.13.0","native":"~0.1.1"},"devDependencies":{"montage-testing":"~0.2.0"},"exclude":["overview.html","overview","run-tests.html","test"],"readme":"matte\n==============\n\nThis is the Montage package template.\n\nNote: Before working on your package you will need to add montage to it.\n\n```\nnpm install .\n```\n\nLayout\n------\n\nThe template contains the following files and directories:\n\n* `ui/` – Directory containing all the UI .reel directories.\n* `package.json` – Describes your app and its dependencies\n* `README.md` – This readme. Replace the current content with a description of your app\n* `overview.html`\n* `overview/` – Directory that contains the files for the overview page. This is a different package so you will need to require the component using matte/*.\n  * `main.reel` – The main interface component where you can add the components to show.\n* `node_modules/` – Directory containing all npm packages needed, including Montage. Any packages here must be included as `dependencies` in `package.json` for the Montage require to find them.\n* `test/` – Directory containing tests for your package.\n  * `all.js` – Module that point the test runner to all your jasmine specs.\n* `run-tests.html` – Page to run jasmine tests manually in your browser\n* `testacular.conf.js` – This is the testacular configuration file. You can start testacular by running `node_modules/testacular/bin/testacular start`\n\nCreate the following directories if you need them:\n\n* `locale/` – Directory containing localized content.\n* `scripts/` – Directory containing other JS libraries. If a library doesn’t support the CommonJS \"exports\" object it will need to be loaded through a `<script>` tag.\n\n","readmeFilename":"README.md","description":"matte ==============","bugs":{"url":"https://github.com/montagejs/matte/issues"},"_id":"matte@0.1.3","_from":"matte@~0.1.3","directories":{"lib":"./"},"hash":"262b1a4","mappings":{"montage":{"name":"montage","hash":"6364dae","location":"../montage@6364dae/"},"native":{"name":"native","hash":"5bf8252","location":"../native@5bf8252/"}},"production":true,"useScriptInjection":true}})
+montageDefine("184f06d","ui/todo-view.reel/todo-view",{dependencies:["montage/ui/component"],factory:function(require,exports,module){var Component = require('montage/ui/component').Component;
+
+exports.TodoView = Component.specialize({
+
+    todo: {
+        value: null
+    },
+
+    editInput: {
+        value: null
+    },
+
+    constructor: {
+        value: function TodoView() {
+            this.defineBinding('isCompleted', {
+                '<-': 'todo.completed'
+            });
+        }
+    },
+
+    enterDocument: {
+        value: function (firstTime) {
+            if (firstTime) {
+                this.element.addEventListener('dblclick', this, false);
+                this.element.addEventListener('blur', this, true);
+                this.element.addEventListener('submit', this, false);
+            }
+        }
+    },
+
+    captureDestroyButtonAction: {
+        value: function () {
+            this.dispatchDestroy();
+        }
+    },
+
+    dispatchDestroy: {
+        value: function () {
+            this.dispatchEventNamed('destroyTodo', true, true, {todo: this.todo});
+        }
+    },
+
+    handleDblclick: {
+        value: function () {
+            this.isEditing = true;
+        }
+    },
+
+    _isEditing: {
+        value: false
+    },
+
+    isEditing: {
+        get: function () {
+            return this._isEditing;
+        },
+        set: function (value) {
+            if (value === this._isEditing) {
+                return;
+            }
+
+            if (value) {
+                this.classList.add('editing');
+            } else {
+                this.classList.remove('editing');
+            }
+
+            this._isEditing = value;
+            this.needsDraw = true;
+        }
+    },
+
+    _isCompleted: {
+        value: false
+    },
+
+    isCompleted: {
+        get: function () {
+            return this._isCompleted;
+        },
+        set: function (value) {
+            if (value === this._isCompleted) {
+                return;
+            }
+
+            if (value) {
+                this.classList.add('completed');
+            } else {
+                this.classList.remove('completed');
+            }
+
+            this._isCompleted = value;
+            this.needsDraw = true;
+        }
+    },
+
+    captureBlur: {
+        value: function (evt) {
+            if (this.isEditing && this.editInput.element === evt.target) {
+                this._submitTitle();
+            }
+        }
+    },
+
+    handleSubmit: {
+        value: function (evt) {
+            if (this.isEditing) {
+                evt.preventDefault();
+                this._submitTitle();
+            }
+        }
+    },
+
+    _submitTitle: {
+        value: function () {
+
+            var title = this.editInput.value.trim();
+
+            if ('' === title) {
+                this.dispatchDestroy();
+            } else {
+                this.todo.title = title;
+            }
+
+            this.isEditing = false;
+        }
+    },
+
+    draw: {
+        value: function () {
+            if (this.isEditing) {
+                this.editInput.element.focus();
+            } else {
+                this.editInput.element.blur();
+            }
+        }
+    }
+
+});
+
+}})
 ;
 //*/
-montageDefine("5bf8252","ui/input-checkbox.reel/input-checkbox",{dependencies:["ui/check-input"],factory:function(require,exports,module){/**
+montageDefine("2e7d2a9","ui/input-checkbox.reel/input-checkbox",{dependencies:["ui/check-input"],factory:function(require,exports,module){/**
     @module "montage/ui/native/input-checkbox.reel"
     @requires montage/core/core
     @requires montage/ui/check-input

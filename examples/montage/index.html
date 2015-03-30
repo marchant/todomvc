@@ -2,25 +2,28 @@
 <html lang="en" data-framework="montage" id="montage-todomvc">
 	<head>
 		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>Montage • TodoMVC</title>
 
-		<link rel="stylesheet" href="bower_components/todomvc-common/base.css">
+		<link rel="stylesheet" href="packages/todomvc-common@8ebafa5/base.css">
+		<link rel="stylesheet" href="packages/todomvc-app-css@f1b6ee7/index.css">
 		<link rel="stylesheet" href="assets/app.css">
 	</head>
 	<body>
-		<div data-montage-id="todo-container" id="todo-container"></div>
+	<div data-montage-id="todo-container" id="todo-container"></div>
 
-		<script src="bower_components/todomvc-common/base.js"></script>
-		<script src="index.html.bundle-0.js" data-montage-location="packages/montage@6364dae/" data-promise-location="packages/q@2847ee2/" data-montage-hash="6364dae" data-promise-hash="2847ee2" data-application-hash="6607c26"></script>
-		<script type="text/montage-serialization">
-			{
-				"owner": {
-					"prototype": "montage/ui/loader.reel",
-					"properties": {
-						"element": {"#": "todo-container"}
+	<script src="packages/todomvc-common@8ebafa5/base.js"></script>
+	<script src="index.html.bundle-0.js" data-montage-location="packages/montage@604e6eb/" data-promise-location="packages/q@4636076/" data-montage-hash="604e6eb" data-promise-hash="4636076" data-application-hash="184f06d"></script>
+	<script type="text/montage-serialization">
+				{
+					"owner": {
+						"prototype": "montage/ui/loader.reel",
+						"properties": {
+							"element": {"#": "todo-container"}
+						}
 					}
 				}
-			}
-		</script>
+	</script>
+
 	</body>
 </html>
