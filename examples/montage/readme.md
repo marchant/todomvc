@@ -1,6 +1,6 @@
 # MontageJS TodoMVC Example
 
-> MontageJS is a client-side HTML5 framework for building rich single-page applications. It offers time-tested patterns and principles, a modular architecture, and a web designer friendly method to achieve a clean separation of concerns. MontageJS is the open source HTML5 framework with a dedicated, cloud-based, visual authoring environment. If you have a GitHub account, you're ready to play in Montage Studio. And just like GitHub, Montage Studio is free to use for open source repos. In the studio you will discover an easier, faster way to develop single page applications that exceed user expectations on all screens. You can serve your app from your Montage Studio's session on the different target devices you care about. As you add, remove configure components to your project, or event edit the CSS, Montage Studio apply your changes in real time to connected devices running you app, through the cloud. Instant responsive feedback!
+> MontageJS is a client-side HTML5 framework for building rich single-page applications. It offers time-tested patterns and principles, a modular architecture, and a web designer friendly method to achieve a clean separation of concerns. MontageJS has a dedicated, cloud-based, visual authoring environment that provides instant responsive feedback.
 
 > 
 > _[MontageJS - http://montagestudio.com/montagejs/](http://montagestudio.com/montagejs/)_
@@ -42,14 +42,13 @@ assets | Contains global styles and the background image for the TodoMVC applica
 core | Contains the data model.
 index.html | Is the entry-point HTML document.  
 LICENSE.md | Contains copyright information.
-package.json | Describes your app and its dependencies. MontageJS uses CommonJS.
-README.md | Describes the TodoMVC application. 
+readme.md | Describes the TodoMVC application. 
 ui | Contains the user interface components of the TodoMVC application, main.reel and todo-view.reel.
 
 
 ## Running the TodoMVC Example in Montage Studio
 
-Working in Montage Studio is radically simplifying how you work on a project.
+Working in Montage Studio is radically simplifying how you work on a project. If you have a Github account, you're ready to work in Montage Studio. Just like GitHub, Montage Studio's workstation is free to use for open source repos. You can serve your app from your workstation to the multiple target devices. As you add, remove configure components to your project, or event edit CSS, Montage Studio apply your changes in real time to connected devices running you app, through the cloud. Instant responsive feedback!
 
 1. Fork the todo-mvc [GitHub repo](https://github.com/montagejs/todo-mvc) in your GitHub account.
 
