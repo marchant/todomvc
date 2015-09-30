@@ -3,12 +3,6 @@ BUNDLE=[["index.html.bundle-1-0.js","index.html.bundle-1-1.js","index.html.bundl
 //*/
 /*global BUNDLE, module: false */
 if (typeof window !== "undefined") {
-
-    // Workaround for window.Touch on desktop browsers
-    if (!("ontouchstart" in window)) {
-        window.Touch = null;
-    }
-
     document._montageTiming = {};
     document._montageTiming.loadStartTime = Date.now();
 
@@ -3771,31 +3765,31 @@ return Q;
 
 ;
 //*/
-montageDefine("184f06d","package.json",{exports: {"name":"todo-mvc","version":"1.2.3","dependencies":{"montage":"0.14.15","matte":"0.2.0","native":"~0.1.2","todomvc-app-css":"^1.0.0","todomvc-common":"^1.0.1"},"bundle":["ui/main.reel"],"shard":4,"hash":"184f06d","mappings":{"montage":{"name":"montage","hash":"604e6eb","location":"packages/montage@604e6eb/"},"matte":{"name":"matte","hash":"bae053a","location":"packages/matte@bae053a/"},"native":{"name":"native","hash":"2e7d2a9","location":"packages/native@2e7d2a9/"},"todomvc-app-css":{"name":"todomvc-app-css","hash":"f1b6ee7","location":"packages/todomvc-app-css@f1b6ee7/"},"todomvc-common":{"name":"todomvc-common","hash":"8ebafa5","location":"packages/todomvc-common@8ebafa5/"}},"production":true,"useScriptInjection":true}})
+montageDefine("94d26d8","package.json",{exports: {"name":"todo-mvc","version":"1.2.3","dependencies":{"montage":"0.14.15","matte":"0.2.0","native":"~0.1.2","todomvc-app-css":"^1.0.0","todomvc-common":"^1.0.1"},"bundle":["ui/main.reel"],"shard":4,"hash":"94d26d8","mappings":{"montage":{"name":"montage","hash":"666a351","location":"packages/montage@666a351/"},"matte":{"name":"matte","hash":"f5e1a7f","location":"packages/matte@f5e1a7f/"},"native":{"name":"native","hash":"e396087","location":"packages/native@e396087/"},"todomvc-app-css":{"name":"todomvc-app-css","hash":"639c33d","location":"packages/todomvc-app-css@639c33d/"},"todomvc-common":{"name":"todomvc-common","hash":"b52f85d","location":"packages/todomvc-common@b52f85d/"}},"production":true,"useScriptInjection":true}})
 ;
 //*/
-montageDefine("604e6eb","package.json",{exports: {"name":"montage","version":"0.14.15","description":"Build your next application with a browser based platform that really gets the web.","repository":{"type":"git","url":"https://github.com/montagejs/montage.git"},"main":"core/core","dependencies":{"collections":"~1.2.2","frb":"~0.2.18","htmlparser2":"~3.0.5","mousse":"~0.3.0","mr":"~0.15.3","q":"1.0.0","q-io":"~1.11.0"},"devDependencies":{"jshint":"~2.4.4","montage-testing":"~0.4.2","native":"~0.2.0"},"scripts":{"test":"node test/node/node-spec.js","jsdoc":"node ../montagejs.org/build/jsdoc/jsdoc.js -out $PWD/builds/jsdoc/ montage@npm-link"},"exclude":["test","tools"],"gitHead":"123a45a66fe3f74af8436692f591adafe61764b7","bugs":{"url":"https://github.com/montagejs/montage/issues"},"homepage":"https://github.com/montagejs/montage","_id":"montage@0.14.15","_shasum":"33d59c23ac0081c842ced40dae71d56b1b92d6c5","_from":"montage@0.14.15","_npmVersion":"1.4.28","_npmUser":{"name":"marchant","email":"benoit@montagestudio.com"},"maintainers":[{"name":"kriskowal","email":"kris.kowal@cixar.com"},{"name":"francoisfrisch","email":"francoisfrisch@gmail.com"},{"name":"montage-bot","email":"francoisfrisch@gmail.com"},{"name":"marchant","email":"benoit@montagestudio.com"}],"dist":{"shasum":"33d59c23ac0081c842ced40dae71d56b1b92d6c5","tarball":"http://registry.npmjs.org/montage/-/montage-0.14.15.tgz"},"directories":{},"_resolved":"https://registry.npmjs.org/montage/-/montage-0.14.15.tgz","redirects":{"montage":"core/core"},"mappings":{"mr":{"name":"mr","hash":"8449401","location":"../mr@8449401/"},"q":{"name":"q","hash":"4636076","location":"../q@4636076/"},"collections":{"name":"collections","hash":"e3166d5","location":"../collections@e3166d5/"},"frb":{"name":"frb","hash":"e5fc713","location":"../frb@e5fc713/"},"htmlparser2":{"name":"htmlparser2","hash":"26954b4","location":"../htmlparser2@26954b4/"},"mousse":{"name":"mousse","hash":"80b78ab","location":"../mousse@80b78ab/"},"q-io":{"name":"q-io","hash":"38ff807","location":"../q-io@38ff807/"}},"hash":"604e6eb","production":true,"useScriptInjection":true}})
+montageDefine("666a351","package.json",{exports: {"name":"montage","version":"0.15.0","description":"Build your next application with a browser based platform that really gets the web.","repository":{"type":"git","url":"git+https://github.com/montagejs/montage.git"},"main":"core/core","dependencies":{"collections":"~1.2.2","frb":"~0.2.18","htmlparser2":"~3.0.5","mousse":"~0.3.0","mr":"~0.15.3","q":"1.0.0","q-io":"~1.11.0"},"devDependencies":{"jshint":"~2.4.4","montage-testing":"~0.4.2"},"scripts":{"test":"node test/node/node-spec.js","jsdoc":"node ../montagejs.org/build/jsdoc/jsdoc.js -out $PWD/builds/jsdoc/ montage@npm-link"},"exclude":["test","tools"],"gitHead":"58125ac45030fddbdd81e2678edff98c2aed3745","readmeFilename":"README.md","bugs":{"url":"https://github.com/montagejs/montage/issues"},"homepage":"https://github.com/montagejs/montage#readme","_id":"montage@0.15.0","_shasum":"679f369e6dbdac8557511135f9aaa5014052be5b","_from":"montagejs/montage#58125ac45030fddbdd81e2678edff98c2aed3745","_resolved":"git://github.com/montagejs/montage.git#58125ac45030fddbdd81e2678edff98c2aed3745","redirects":{"montage":"core/core"},"mappings":{"mr":{"name":"mr","hash":"b091d09","location":"../mr@b091d09/"},"q":{"name":"q","hash":"b5f4b67","location":"../q@b5f4b67/"},"collections":{"name":"collections","hash":"6cdbef7","location":"../collections@6cdbef7/"},"frb":{"name":"frb","hash":"09f0f3b","location":"../frb@09f0f3b/"},"htmlparser2":{"name":"htmlparser2","hash":"9152309","location":"../htmlparser2@9152309/"},"mousse":{"name":"mousse","hash":"0064e12","location":"../mousse@0064e12/"},"q-io":{"name":"q-io","hash":"a203162","location":"../q-io@a203162/"}},"hash":"666a351","production":true,"useScriptInjection":true}})
 ;
 //*/
-montageDefine("80b78ab","package.json",{exports: {"name":"mousse","version":"0.3.1","description":"Deserialization of JavaScript objects","keywords":["deserialization","serialization"],"author":{"name":"António Afonso","email":"antonio.afonso@gmail.com","url":"http://github.com/aadsm/"},"contributors":[{"name":"António Afonso","email":"antonio.afonso@gmail.com","url":"http://github.com/aadsm/"}],"bugs":{"url":"http://github.com/montagejs/mousse/issues"},"licenses":[{"type":"BSD","url":"http://github.com/montagejs/mousse/raw/master/LICENSE.md"}],"repository":{"type":"git","url":"http://github.com/montagejs/mousse.git"},"main":"mousse","dependencies":{"q":"1.0.0","collections":"~1.2.1"},"devDependencies":{"jasmine-node":"~1.9.1"},"scripts":{"test":"jasmine-node spec"},"readmeFilename":"README.md","gitHead":"5d15aa142b073efd1429eccb2ffc7671031da9af","homepage":"https://github.com/montagejs/mousse","_id":"mousse@0.3.1","_shasum":"d07ab730589a0564ac2696b6c2f54b657818fbb4","_from":"mousse@~0.3.0","hash":"80b78ab","mappings":{"q":{"name":"q","hash":"4636076","location":"../q@4636076/"},"collections":{"name":"collections","hash":"e3166d5","location":"../collections@e3166d5/"}},"production":true,"useScriptInjection":true}})
+montageDefine("0064e12","package.json",{exports: {"name":"mousse","version":"0.3.1","description":"Deserialization of JavaScript objects","keywords":["deserialization","serialization"],"author":{"name":"António Afonso","email":"antonio.afonso@gmail.com","url":"http://github.com/aadsm/"},"contributors":[{"name":"António Afonso","email":"antonio.afonso@gmail.com","url":"http://github.com/aadsm/"}],"bugs":{"url":"http://github.com/montagejs/mousse/issues"},"licenses":[{"type":"BSD","url":"http://github.com/montagejs/mousse/raw/master/LICENSE.md"}],"repository":{"type":"git","url":"git+ssh://git@github.com/montagejs/mousse.git"},"main":"mousse","dependencies":{"q":"1.0.0","collections":"~1.2.1"},"devDependencies":{"jasmine-node":"~1.9.1"},"scripts":{"test":"jasmine-node spec"},"gitHead":"5d15aa142b073efd1429eccb2ffc7671031da9af","homepage":"https://github.com/montagejs/mousse","_id":"mousse@0.3.1","_shasum":"d07ab730589a0564ac2696b6c2f54b657818fbb4","_from":"mousse@>=0.3.0 <0.4.0","_npmVersion":"1.4.28","_npmUser":{"name":"marchant","email":"benoit@montagestudio.com"},"maintainers":[{"name":"stuk","email":"stuart@stuartk.com"},{"name":"aadsm","email":"antonio.afonso@gmail.com"},{"name":"montage-bot","email":"francoisfrisch@gmail.com"},{"name":"marchant","email":"benoit@montagestudio.com"}],"dist":{"shasum":"d07ab730589a0564ac2696b6c2f54b657818fbb4","tarball":"http://registry.npmjs.org/mousse/-/mousse-0.3.1.tgz"},"directories":{},"_resolved":"https://registry.npmjs.org/mousse/-/mousse-0.3.1.tgz","hash":"0064e12","mappings":{"q":{"name":"q","hash":"b5f4b67","location":"../q@b5f4b67/"},"collections":{"name":"collections","hash":"6cdbef7","location":"../collections@6cdbef7/"}},"production":true,"useScriptInjection":true}})
 ;
 //*/
-montageDefine("e3166d5","package.json",{exports: {"name":"collections","version":"1.2.2","description":"data structures with idiomatic JavaScript collection interfaces","homepage":"http://www.collectionsjs.com","author":{"name":"Kris Kowal","email":"kris@cixar.com","url":"http://github.com/kriskowal"},"keywords":["collections","data structures","observable","list","set","map","splay"],"bugs":{"url":"http://github.com/montagejs/collections/issues"},"licenses":[{"type":"MIT","url":"https://raw.github.com/montagejs/collections/master/LICENSE.md"}],"repository":{"type":"git","url":"http://github.com/montagejs/collections.git"},"dependencies":{"weak-map":"~1.0.x"},"devDependencies":{"jasmine-node":"~1.14.x","istanbul":"*","opener":"*"},"scripts":{"test":"jasmine-node spec","cover":"istanbul cover node_modules/jasmine-node/bin/jasmine-node spec && istanbul report html && opener coverage/index.html"},"readmeFilename":"README.md","gitHead":"57330a5317be6c74abf73ad29c734a4a233dc327","_id":"collections@1.2.2","_shasum":"b47f3dd47690a4aaba61a7b3ed412c703e068691","_from":"collections@^1.2.1","hash":"e3166d5","mappings":{"weak-map":{"name":"weak-map","hash":"3fafb55","location":"../weak-map@3fafb55/"}},"production":true,"useScriptInjection":true}})
+montageDefine("6cdbef7","package.json",{exports: {"name":"collections","version":"1.2.4","description":"data structures with idiomatic JavaScript collection interfaces","homepage":"http://www.collectionsjs.com","author":{"name":"Kris Kowal","email":"kris@cixar.com","url":"http://github.com/kriskowal"},"keywords":["collections","data structures","observable","list","set","map","splay"],"bugs":{"url":"http://github.com/montagejs/collections/issues"},"licenses":[{"type":"MIT","url":"https://raw.github.com/montagejs/collections/master/LICENSE.md"}],"repository":{"type":"git","url":"git+ssh://git@github.com/montagejs/collections.git"},"dependencies":{"weak-map":"~1.0.x"},"devDependencies":{"jasmine-node":"~1.14.x","istanbul":"*","opener":"*"},"scripts":{"test":"jasmine-node spec","cover":"istanbul cover node_modules/jasmine-node/bin/jasmine-node spec && istanbul report html && opener coverage/index.html"},"gitHead":"83daf11ace4df30c192632fbf8f14e1a897fc818","_id":"collections@1.2.4","_shasum":"3e2f1645ed43d7cf1fe248406001faab42e7e463","_from":"collections@>=1.2.2 <1.3.0","_npmVersion":"2.13.1","_nodeVersion":"0.12.2","_npmUser":{"name":"marchant","email":"benoit@montagestudio.com"},"maintainers":[{"name":"kriskowal","email":"kris.kowal@cixar.com"},{"name":"aadsm","email":"antonio.afonso@gmail.com"},{"name":"francoisfrisch","email":"francoisfrisch@gmail.com"},{"name":"marchant","email":"benoit@montagestudio.com"},{"name":"stuk","email":"stuart@stuartk.com"}],"dist":{"shasum":"3e2f1645ed43d7cf1fe248406001faab42e7e463","tarball":"http://registry.npmjs.org/collections/-/collections-1.2.4.tgz"},"directories":{},"_resolved":"https://registry.npmjs.org/collections/-/collections-1.2.4.tgz","hash":"6cdbef7","mappings":{"weak-map":{"name":"weak-map","hash":"a17c146","location":"../weak-map@a17c146/"}},"production":true,"useScriptInjection":true}})
 ;
 //*/
-montageDefine("e5fc713","package.json",{exports: {"name":"frb","version":"0.2.19","description":"Functional reactive bindings","keywords":["functional","reactive","bindings","observe","change"],"author":{"name":"Kris Kowal","email":"kris@cixar.com","url":"http://github.com/kriskowal/"},"contributors":[{"name":"Kris Kowal","email":"kris@cixar.com","url":"http://github.com/kriskowal/"}],"bugs":{"url":"http://github.com/kriskowal/frb/issues"},"licenses":[{"type":"MIT","url":"http://github.com/kriskowal/frb/raw/master/LICENSE.md"}],"repository":{"type":"git","url":"http://github.com/kriskowal/frb.git"},"main":"bindings","dependencies":{"collections":"^1.2.1"},"devDependencies":{"jasmine-node":">=1.13.1 <1.14.0","pegjs":"git://github.com/dmajda/pegjs.git","memwatch":"*"},"scripts":{"test":"jasmine-node spec","build-parser":"pegjs --allowed-start-rules expression,sheet grammar.pegjs"},"readmeFilename":"README.md","homepage":"https://github.com/kriskowal/frb","_id":"frb@0.2.19","_shasum":"7605f57df32f9fbb808f861cd34f22bc72657627","_resolved":"git+https://github.com/pchaussalet/frb#4ce382ebc84310e32e30e344873d310970c308c0","_from":"frb@~0.2.15","hash":"e5fc713","mappings":{"collections":{"name":"collections","hash":"e3166d5","location":"../collections@e3166d5/"}},"production":true,"useScriptInjection":true}})
+montageDefine("09f0f3b","package.json",{exports: {"name":"frb","version":"0.2.19","description":"Functional reactive bindings","keywords":["functional","reactive","bindings","observe","change"],"author":{"name":"Kris Kowal","email":"kris@cixar.com","url":"http://github.com/kriskowal/"},"contributors":[{"name":"Kris Kowal","email":"kris@cixar.com","url":"http://github.com/kriskowal/"}],"bugs":{"url":"http://github.com/kriskowal/frb/issues"},"licenses":[{"type":"MIT","url":"http://github.com/kriskowal/frb/raw/master/LICENSE.md"}],"repository":{"type":"git","url":"git+ssh://git@github.com/kriskowal/frb.git"},"main":"bindings","dependencies":{"collections":"^1.2.1"},"devDependencies":{"jasmine-node":">=1.13.1 <1.14.0","pegjs":"git://github.com/dmajda/pegjs.git","memwatch":"*"},"scripts":{"test":"jasmine-node spec","build-parser":"pegjs --allowed-start-rules expression,sheet grammar.pegjs"},"homepage":"https://github.com/kriskowal/frb","_id":"frb@0.2.19","_shasum":"93b121fcbfd2e5d539e6096b2590f50e5b967faf","_from":"frb@>=0.2.18 <0.3.0","_npmVersion":"1.4.20","_npmUser":{"name":"kriskowal","email":"kris.kowal@cixar.com"},"maintainers":[{"name":"kriskowal","email":"kris.kowal@cixar.com"}],"dist":{"shasum":"93b121fcbfd2e5d539e6096b2590f50e5b967faf","tarball":"http://registry.npmjs.org/frb/-/frb-0.2.19.tgz"},"directories":{},"_resolved":"https://registry.npmjs.org/frb/-/frb-0.2.19.tgz","hash":"09f0f3b","mappings":{"collections":{"name":"collections","hash":"6cdbef7","location":"../collections@6cdbef7/"}},"production":true,"useScriptInjection":true}})
 ;
 //*/
-montageDefine("4636076","package.json",{exports: {"name":"q","version":"1.0.1","description":"A library for promises (CommonJS/Promises/A,B,D)","homepage":"https://github.com/kriskowal/q","author":"Kris Kowal <kris@cixar.com> (https://github.com/kriskowal)","keywords":["q","promise","promises","promises-a","promises-aplus","deferred","future","async","flow control","fluent","browser","node"],"contributors":["Kris Kowal <kris@cixar.com> (https://github.com/kriskowal)","Irakli Gozalishvili <rfobic@gmail.com> (http://jeditoolkit.com)","Domenic Denicola <domenic@domenicdenicola.com> (http://domenicdenicola.com)"],"bugs":{"mail":"kris@cixar.com","url":"http://github.com/kriskowal/q/issues"},"license":{"type":"MIT","url":"http://github.com/kriskowal/q/raw/master/LICENSE"},"main":"q.js","repository":{"type":"git","url":"git://github.com/kriskowal/q.git"},"engines":{"node":">=0.6.0","teleport":">=0.2.0"},"dependencies":{},"devDependencies":{"jshint":"~2.1.9","cover":"*","jasmine-node":"1.11.0","opener":"*","promises-aplus-tests":"1.x","grunt":"~0.4.1","grunt-cli":"~0.1.9","grunt-contrib-uglify":"~0.2.2","matcha":"~0.2.0"},"scripts":{"test":"jasmine-node spec && promises-aplus-tests spec/aplus-adapter","test-browser":"opener spec/q-spec.html","benchmark":"matcha","lint":"jshint q.js","cover":"cover run node_modules/jasmine-node/bin/jasmine-node spec && cover report html && opener cover_html/index.html","minify":"grunt","prepublish":"grunt"},"directories":{"test":"./spec"},"hash":"4636076","mappings":{},"production":true,"useScriptInjection":true}})
+montageDefine("b5f4b67","package.json",{exports: {"name":"q","version":"1.0.1","description":"A library for promises (CommonJS/Promises/A,B,D)","homepage":"https://github.com/kriskowal/q","author":"Kris Kowal <kris@cixar.com> (https://github.com/kriskowal)","keywords":["q","promise","promises","promises-a","promises-aplus","deferred","future","async","flow control","fluent","browser","node"],"contributors":["Kris Kowal <kris@cixar.com> (https://github.com/kriskowal)","Irakli Gozalishvili <rfobic@gmail.com> (http://jeditoolkit.com)","Domenic Denicola <domenic@domenicdenicola.com> (http://domenicdenicola.com)"],"bugs":{"mail":"kris@cixar.com","url":"http://github.com/kriskowal/q/issues"},"license":{"type":"MIT","url":"http://github.com/kriskowal/q/raw/master/LICENSE"},"main":"q.js","repository":{"type":"git","url":"git://github.com/kriskowal/q.git"},"engines":{"node":">=0.6.0","teleport":">=0.2.0"},"dependencies":{},"devDependencies":{"jshint":"~2.1.9","cover":"*","jasmine-node":"1.11.0","opener":"*","promises-aplus-tests":"1.x","grunt":"~0.4.1","grunt-cli":"~0.1.9","grunt-contrib-uglify":"~0.2.2","matcha":"~0.2.0"},"scripts":{"test":"jasmine-node spec && promises-aplus-tests spec/aplus-adapter","test-browser":"opener spec/q-spec.html","benchmark":"matcha","lint":"jshint q.js","cover":"cover run node_modules/jasmine-node/bin/jasmine-node spec && cover report html && opener cover_html/index.html","minify":"grunt","prepublish":"grunt"},"directories":{"test":"./spec"},"hash":"b5f4b67","mappings":{},"production":true,"useScriptInjection":true}})
 ;
 //*/
-montageDefine("3fafb55","package.json",{exports: {"name":"weak-map","version":"1.0.5","description":"A WeakMap shim for Node.js and browsers","main":"weak-map.js","repository":{"type":"git","url":"git://github.com/drses/weak-map.git"},"keywords":["weakmap","weak-map","weak","map","collections","es6"],"author":{"name":"Mark Miller","email":"erights@gmail.com"},"maintainer":"Kris Kowal <kris@cixar.com>","license":"Apache 2.0","bugs":{"url":"https://github.com/drses/weak-map/issues"},"files":["weak-map.js"],"scripts":{"test":"npm run test:native; npm run test:shim","test:phantom":"","test:shim":"node test/index.js","test:native":"node --harmony_collections test/index.js"},"devDependencies":{"jasminum":"^2.0.1"},"homepage":"https://github.com/drses/weak-map","_id":"weak-map@1.0.5","dist":{"shasum":"79691584d98607f5070bd3b70a40e6bb22e401eb","tarball":"http://registry.npmjs.org/weak-map/-/weak-map-1.0.5.tgz"},"_from":"weak-map@~1.0.x","_npmVersion":"1.4.3","_npmUser":{"name":"kriskowal","email":"kris.kowal@cixar.com"},"maintainers":[{"name":"kriskowal","email":"kris.kowal@cixar.com"}],"directories":{},"_shasum":"79691584d98607f5070bd3b70a40e6bb22e401eb","_resolved":"https://registry.npmjs.org/weak-map/-/weak-map-1.0.5.tgz","hash":"3fafb55","mappings":{},"production":true,"useScriptInjection":true}})
+montageDefine("a17c146","package.json",{exports: {"name":"weak-map","version":"1.0.5","description":"A WeakMap shim for Node.js and browsers","main":"weak-map.js","repository":{"type":"git","url":"git://github.com/drses/weak-map.git"},"keywords":["weakmap","weak-map","weak","map","collections","es6"],"author":{"name":"Mark Miller","email":"erights@gmail.com"},"maintainer":"Kris Kowal <kris@cixar.com>","license":"Apache 2.0","bugs":{"url":"https://github.com/drses/weak-map/issues"},"files":["weak-map.js"],"scripts":{"test":"npm run test:native; npm run test:shim","test:phantom":"","test:shim":"node test/index.js","test:native":"node --harmony_collections test/index.js"},"devDependencies":{"jasminum":"^2.0.1"},"homepage":"https://github.com/drses/weak-map","_id":"weak-map@1.0.5","dist":{"shasum":"79691584d98607f5070bd3b70a40e6bb22e401eb","tarball":"http://registry.npmjs.org/weak-map/-/weak-map-1.0.5.tgz"},"_from":"weak-map@>=1.0.0 <1.1.0","_npmVersion":"1.4.3","_npmUser":{"name":"kriskowal","email":"kris.kowal@cixar.com"},"maintainers":[{"name":"kriskowal","email":"kris.kowal@cixar.com"}],"directories":{},"_shasum":"79691584d98607f5070bd3b70a40e6bb22e401eb","_resolved":"https://registry.npmjs.org/weak-map/-/weak-map-1.0.5.tgz","hash":"a17c146","mappings":{},"production":true,"useScriptInjection":true}})
 ;
 //*/
-montageDefine("184f06d","index.html",{text:'<!DOCTYPE html><html lang=en data-framework=montage id=montage-todomvc><head>\n        <meta charset=utf-8>\n        <meta http-equiv=X-UA-Compatible content="IE=edge">\n        <title>Montage • TodoMVC</title>\n\n        <link rel=stylesheet href=packages/todomvc-common@8ebafa5/base.css>\n        <link rel=stylesheet href=packages/todomvc-app-css@f1b6ee7/index.css>\n        <link rel=stylesheet href=assets/app.css>\n    </head>\n    <body>\n        <div data-montage-id=todo-container id=todo-container></div>\n\n        <script src=packages/todomvc-common@8ebafa5/base.js></script>\n        <script src=packages/montage@604e6eb/montage.js></script>\n        <script type=text/montage-serialization>\n            {\n                "owner": {\n                    "prototype": "montage/ui/loader.reel",\n                    "properties": {\n                        "element": {"#": "todo-container"}\n                    }\n                }\n            }\n        </script>\n    \n\n</body></html>'});
+montageDefine("94d26d8","index.html",{text:'<!DOCTYPE html><html lang=en data-framework=montage id=montage-todomvc><head>\n        <meta charset=utf-8>\n        <meta http-equiv=X-UA-Compatible content="IE=edge">\n        <title>Montage • TodoMVC</title>\n\n        <link rel=stylesheet href=packages/todomvc-common@b52f85d/base.css>\n        <link rel=stylesheet href=packages/todomvc-app-css@639c33d/index.css>\n        <link rel=stylesheet href=assets/app.css>\n    </head>\n    <body>\n        <div data-montage-id=todo-container id=todo-container></div>\n\n        <script src=packages/todomvc-common@b52f85d/base.js></script>\n        <script src=packages/montage@666a351/montage.js></script>\n        <script type=text/montage-serialization>\n            {\n                "owner": {\n                    "prototype": "montage/ui/loader.reel",\n                    "properties": {\n                        "element": {"#": "todo-container"}\n                    }\n                }\n            }\n        </script>\n    \n\n</body></html>'});
 ;
 //*/
-montageDefine("604e6eb","core/core",{dependencies:["collections/shim","./shim/object","./shim/array","./shim/string","./extras/object","./extras/date","./extras/element","./extras/function","./extras/regexp","./extras/string","./deprecate","./uuid","collections/listen/property-changes","frb","collections/weak-map","collections/map","frb/parse","frb/evaluate","frb/assign","frb/observe","frb/bind","frb/compile-observer","frb/scope","frb/observers","./serialization/bindings","./promise"],factory:function(require,exports,module){/**
+montageDefine("666a351","core/core",{dependencies:["collections/shim","./shim/object","./shim/array","./shim/string","./extras/object","./extras/date","./extras/element","./extras/function","./extras/regexp","./extras/string","./deprecate","./uuid","collections/listen/property-changes","frb","collections/weak-map","collections/map","frb/parse","frb/evaluate","frb/assign","frb/bind","frb/compile-observer","frb/scope","frb/observers","./serialization/bindings","./promise"],factory:function(require,exports,module){/**
  * @module montage/core/core
  */
 
@@ -4459,7 +4453,7 @@ var getSuper = function (object, method) {
             context = proto;
         }
     }
-    return superForImplementation(object, method._superPropertyType, method._superPropertyName);
+    return superForImplementation(object, method._superPropertyType, method._superPropertyName, method);
 };
 
 
@@ -4475,7 +4469,7 @@ Montage.defineProperty(Montage, "_superContext", {
     value: null
 });
 
-var superForImplementation = function (object, propertyType, propertyName) {
+var superForImplementation = function (object, propertyType, propertyName, method) {
     var superFunction, superObject, property, cacheObject, boundSuper,
         context = object,
         cacheId = propertyName + "." + propertyType;
@@ -4530,7 +4524,7 @@ var superForImplementation = function (object, propertyType, propertyName) {
         superObject._superDependencies[cacheId].push(cacheObject);
         property = Object.getOwnPropertyDescriptor(superObject, propertyName);
         if (property) {
-            if (typeof property[propertyType] === "function") {
+            if ((typeof property[propertyType] === "function") && (property[propertyType] !== method)) {
                 superFunction = property[propertyType];
                 break;
             } else {
@@ -4572,13 +4566,13 @@ var superForImplementation = function (object, propertyType, propertyName) {
 };
 
 var superForValueImplementation = function (propertyName) {
-    return superForImplementation(this, "value", propertyName);
+    return superForImplementation(this, "value", propertyName, superForValueImplementation.caller);
 };
 var superForGetImplementation = function (propertyName) {
-    return superForImplementation(this, "get", propertyName);
+    return superForImplementation(this, "get", propertyName, superForGetImplementation.caller);
 };
 var superForSetImplementation = function (propertyName) {
-    return superForImplementation(this, "set", propertyName);
+    return superForImplementation(this, "set", propertyName, superForSetImplementation.caller);
 };
 
 /**
@@ -5154,7 +5148,6 @@ var Map = require("collections/map");
 var parse = require("frb/parse");
 var evaluate = require("frb/evaluate");
 var assign = require("frb/assign");
-var observe = require("frb/observe");
 var bind = require("frb/bind");
 var compileObserver = require("frb/compile-observer");
 var Scope = require("frb/scope");
@@ -5592,7 +5585,7 @@ exports._blueprintDescriptor = {
 }})
 ;
 //*/
-montageDefine("604e6eb","core/event/event-manager",{dependencies:["../core","../uuid","./mutable-event","core/serialization/serializer/montage-serializer","core/serialization/deserializer/montage-deserializer"],factory:function(require,exports,module){/*global Window,Document,Element,Event,Components,Touch */
+montageDefine("666a351","core/event/event-manager",{dependencies:["../core","../uuid","./mutable-event","core/serialization/serializer/montage-serializer","core/serialization/deserializer/montage-deserializer"],factory:function(require,exports,module){/*global Window,Document,Element,Event,Components,Touch */
 
 /**
  * @author Lea Verou
@@ -5641,20 +5634,6 @@ if (typeof window !== "undefined") { // client-side
             }, true);
         })();
     }
-
-    var EventListenerDescriptor = Montage.specialize({
-        type: {
-            value: null
-        },
-
-        listener: {
-            value: null
-        },
-
-        capture: {
-            value: null
-        }
-    });
 
     var _PointerStorageMemoryEntry = Montage.specialize({
         constructor: {
@@ -6068,6 +6047,11 @@ if (typeof window !== "undefined") { // client-side
         constructor: {
             value: function EventManager () {
                 this.super();
+
+                this._trackingTouchList = {
+                    touchesStart: Object.create(null),
+                    touchesEnd: Object.create(null)
+                };
             }
         },
 
@@ -6629,7 +6613,7 @@ if (typeof window !== "undefined") { // client-side
                     eventRegistration = this.registeredEventListeners[eventType];
                 }
 
-                if (!eventRegistration) {
+                if (!eventRegistration || !target) {
                     return null;
                 } else {
                     targetRegistration = eventRegistration[target.uuid];
@@ -6940,15 +6924,13 @@ if (typeof window !== "undefined") { // client-side
                         // Prepare any components associated with elements that may receive this event
                         // They need to registered there listeners before the next step, which is to find the components that
                         // observing for this type of event
-                        if ("focus" === eventType || "mousedown" === eventType || "touchstart" === eventType) {
-                            if (evt.changedTouches) {
-                                touchCount = evt.changedTouches.length;
-                                for (var i = 0; i < touchCount; i++) {
-                                    eventManager._prepareComponentsForActivation(evt.changedTouches[i].target);
-                                }
-                            } else {
-                                eventManager._prepareComponentsForActivation(evt.target);
+                        if (evt.changedTouches) {
+                            touchCount = evt.changedTouches.length;
+                            for (var i = 0; i < touchCount; i++) {
+                                eventManager._prepareComponentsForActivation(evt.changedTouches[i].target);
                             }
+                        } else {
+                                eventManager._prepareComponentsForActivation(evt.target);
                         }
 
                     };
@@ -6959,14 +6941,19 @@ if (typeof window !== "undefined") { // client-side
                 // when the EM handles them eventually it will need to allow
                 // all components from the event target to the window to prepareForPointerEvents
                 // before finding event handlers that were registered for these events
-                if (aWindow.Touch) {
-                    // TODO on iOS the touch doesn't capture up at the window, just the document; interesting
-                    aWindow.document.nativeAddEventListener("touchstart", this._activationHandler, true);
+                //TODO also should accommodate mouseenter/mouseover possibly
+                if (window.PointerEvent) {
+                    aWindow.nativeAddEventListener("pointerdown", this._activationHandler, true);
+
+                } else if (window.navigator.msPointerEnabled) {
+                    aWindow.nativeAddEventListener("MSPointerDown", this._activationHandler, true);
+
                 } else {
-                    aWindow.document.nativeAddEventListener("mousedown", this._activationHandler, true);
-                    //TODO also should accommodate mouseenter/mouseover possibly
+                    aWindow.nativeAddEventListener("touchstart", this._activationHandler, true);
+                    aWindow.nativeAddEventListener("mousedown", this._activationHandler, true);
                 }
-                aWindow.document.nativeAddEventListener("focus", this._activationHandler, true);
+
+                aWindow.nativeAddEventListener("focus", this._activationHandler, true);
 
                 if (this.application) {
 
@@ -6990,7 +6977,8 @@ if (typeof window !== "undefined") { // client-side
 
                 var applicationLevelEvents = this.registeredEventListenersOnTarget_(this.application),
                     windowLevelEvents = this.registeredEventListenersOnTarget_(aWindow),
-                    eventType;
+                    eventType,
+                    index;
 
                 for (eventType in applicationLevelEvents) {
                     this._stopObservingTarget_forEventType_(aWindow, eventType);
@@ -6998,6 +6986,11 @@ if (typeof window !== "undefined") { // client-side
 
                 for (eventType in windowLevelEvents) {
                     this._stopObservingTarget_forEventType_(aWindow, eventType);
+                }
+
+                if ((index = this._listeningWindowOnTouchCancel.indexOf(aWindow)) > -1) {
+                    this._listeningWindowOnTouchCancel.splice(index, 1);
+                    // the listener on 'touchCancel' has already been removed by the previous step.
                 }
             }
         },
@@ -7043,12 +7036,18 @@ if (typeof window !== "undefined") { // client-side
          */
         methodNameForBubblePhaseOfEventType: {
             enumerable: false,
-            value: (function (_methodNameForBubblePhaseByEventType_) {
+            value: (function (_methodNameByEventType_,_methodNameByEventTypeIdentifier_) {
                 return function (eventType, identifier) {
-                    var eventTypeKey = identifier ? eventType + "+" + identifier : eventType;
-                    return _methodNameForBubblePhaseByEventType_[eventTypeKey] || (_methodNameForBubblePhaseByEventType_[eventTypeKey] = ("handle" + (identifier ? identifier.toCapitalized() : "") + eventType.toCapitalized()));
+                  var eventTypeBucket;
+                  if(identifier) {
+                    eventTypeBucket = _methodNameByEventTypeIdentifier_[eventType] || (_methodNameByEventTypeIdentifier_[eventType] = Object.create(null));
+                    return eventTypeBucket[identifier] || (eventTypeBucket[identifier] = ("handle" + identifier.toCapitalized() + eventType.toCapitalized()));
+                  }
+                  else {
+                    return _methodNameByEventType_[eventType] || (_methodNameByEventType_[eventType] = ("handle" + eventType.toCapitalized()));
+                  }
                 };
-            })({})
+            })(Object.create(null), Object.create(null))
         },
 
         /**
@@ -7060,12 +7059,18 @@ if (typeof window !== "undefined") { // client-side
 
         methodNameForCapturePhaseOfEventType: {
             enumerable: false,
-            value: (function (_methodNameForCapturePhaseByEventType_) {
+            value: (function (_methodNameByEventType_,_methodNameByEventTypeIdentifier_) {
                 return function (eventType, identifier) {
-                    var eventTypeKey = identifier ? eventType + "+" + identifier : eventType;
-                    return _methodNameForCapturePhaseByEventType_[eventTypeKey] || (_methodNameForCapturePhaseByEventType_[eventTypeKey] = "capture" + (identifier ? identifier.toCapitalized() : "") + eventType.toCapitalized());
+                  var eventTypeBucket;
+                  if(identifier) {
+                    eventTypeBucket = _methodNameByEventTypeIdentifier_[eventType] || (_methodNameByEventTypeIdentifier_[eventType] = Object.create(null));
+                    return eventTypeBucket[identifier] || (eventTypeBucket[identifier] = ("capture" + identifier.toCapitalized() + eventType.toCapitalized()));
+                  }
+                  else {
+                    return _methodNameByEventType_[eventType] || (_methodNameByEventType_[eventType] = ("capture" + eventType.toCapitalized()));
+                  }
                 };
-            })({})
+              })(Object.create(null), Object.create(null))
         },
 
         // Claimed pointer information
@@ -7234,12 +7239,13 @@ if (typeof window !== "undefined") { // client-side
                 if (value === true) {
                     if (!this._isStoringPointerEvents) {
                         this._isStoringPointerEvents = true;
-                        if (window.Touch) {
-                            Object.defineProperty(Touch.prototype, "velocity", {
+
+                        var PointerConstructor = window.PointerEvent || window.MSPointerEvent && window.navigator.msPointerEnabled ? window.MSPointerEvent : window.Touch;
+
+                        if (PointerConstructor) {
+                            Object.defineProperty(PointerConstructor.prototype, "velocity", {
                                 get: function () {
                                     return defaultEventManager.pointerMotion(this.identifier).velocity;
-                                },
-                                set: function () {
                                 }
                             });
                         }
@@ -7317,93 +7323,114 @@ if (typeof window !== "undefined") { // client-side
                 isStored: function (identifier) {
                     return (this.memory[identifier] && (this.memory[identifier].size > 0));
                 },
-                storeEvent: function (event) {
-                    var i;
-                    switch (event.type) {
-                        case "mousedown":
-                            defaultEventManager._isMouseDragging = true;
-                        // roll into mousemove. break omitted intentionally.
-                        case "mousemove":
-                            if (defaultEventManager._isStoringMouseEventsWhileDraggingOnly) {
-                                if (defaultEventManager._isMouseDragging) {
-                                    this.add("mouse", {
-                                        clientX: event.clientX,
-                                        clientY: event.clientY,
-                                        timeStamp: event.timeStamp
-                                    });
-                                    Object.defineProperty(event, "velocity", {
-                                        get: function () {
-                                            return defaultEventManager.pointerMotion("mouse").velocity;
-                                        },
-                                        set: function () {
-                                        }
-                                    });
-                                }
-                            } else {
-                                this.add("mouse", {
-                                    clientX: event.clientX,
-                                    clientY: event.clientY,
-                                    timeStamp: event.timeStamp
-                                });
-                                Object.defineProperty(event, "velocity", {
-                                    get: function () {
-                                        return defaultEventManager.pointerMotion("mouse").velocity;
-                                    },
-                                    set: function () {
+                storeEvent: function (mutableEvent) {
+                    var isBrowserSupportPointerEvents = !!(window.PointerEvent || window.navigator.msPointerEnabled),
+                        event = mutableEvent instanceof MutableEvent ? mutableEvent._event : mutableEvent;
+
+                    if ((isBrowserSupportPointerEvents &&
+                        (mutableEvent.pointerType === "mouse" || (window.MSPointerEvent && mutableEvent.pointerType === window.MSPointerEvent.MSPOINTER_TYPE_MOUSE))) ||
+                        (!isBrowserSupportPointerEvents && event instanceof MouseEvent)) {
+
+                        switch (mutableEvent.type) {
+                            case "pointerdown":
+                            case "MSPointerDown":
+                            case "mousedown":
+                                defaultEventManager._isMouseDragging = true;
+                            // roll into mousemove. break omitted intentionally.
+                            case "pointermove":
+                            case "MSPointerMove":
+                            case "mousemove":
+                                if (defaultEventManager._isStoringMouseEventsWhileDraggingOnly) {
+                                    if (defaultEventManager._isMouseDragging) {
+                                        this._storeMouse(mutableEvent);
                                     }
-                                });
-                            }
-                            break;
-                        case "mouseup":
-                            this.add("mouse", {
-                                clientX: event.clientX,
-                                clientY: event.clientY,
-                                timeStamp: event.timeStamp
-                            });
-                            Object.defineProperty(event, "velocity", {
-                                get: function () {
-                                    return defaultEventManager.pointerMotion("mouse").velocity;
-                                },
-                                set: function () {
+                                } else {
+                                    this._storeMouse(mutableEvent);
                                 }
-                            });
-                            break;
-                        case "touchstart":
-                        case "touchmove":
-                            for (i = 0; i < event.touches.length; i++) {
-                                this.add(event.touches[i].identifier, {
-                                    clientX: event.touches[i].clientX,
-                                    clientY: event.touches[i].clientY,
-                                    timeStamp: event.timeStamp
-                                });
-                            }
-                            break;
-                        case "touchend":
-                            for (i = 0; i < event.changedTouches.length; i++) {
-                                this.add(event.changedTouches[i].identifier, {
-                                    clientX: event.changedTouches[i].clientX,
-                                    clientY: event.changedTouches[i].clientY,
-                                    timeStamp: event.timeStamp
-                                });
-                            }
-                            break;
+                                break;
+
+                            case "pointerup":
+                            case "MSPointerUp":
+                            case "mouseup":
+                                this._storeMouse(mutableEvent);
+                                break;
+                        }
+                    } else if ((isBrowserSupportPointerEvents &&
+                        (mutableEvent.pointerType === "touch" || (window.MSPointerEvent && mutableEvent.pointerType === window.MSPointerEvent.MSPOINTER_TYPE_TOUCH))) ||
+                        (window.TouchEvent !== void 0 && !isBrowserSupportPointerEvents && event instanceof TouchEvent)) {
+
+                        var i;
+
+                        switch (mutableEvent.type) {
+                            case "pointerdown":
+                            case "MSPointerDown":
+                            case "pointermove":
+                            case "MSPointerMove":
+                            case "touchstart":
+                            case "touchmove":
+                                for (i = 0; i < mutableEvent.touches.length; i++) {
+                                    this.add(mutableEvent.touches[i].identifier, {
+                                        clientX: mutableEvent.touches[i].clientX,
+                                        clientY: mutableEvent.touches[i].clientY,
+                                        timeStamp: mutableEvent.timeStamp
+                                    });
+                                }
+                                break;
+
+                            case "pointerup":
+                            case "MSPointerUp":
+                            case "touchend":
+                                for (i = 0; i < mutableEvent.changedTouches.length; i++) {
+                                    this.add(mutableEvent.changedTouches[i].identifier, {
+                                        clientX: mutableEvent.changedTouches[i].clientX,
+                                        clientY: mutableEvent.changedTouches[i].clientY,
+                                        timeStamp: mutableEvent.timeStamp
+                                    });
+                                }
+                                break;
+                        }
                     }
                 },
-                removeEvent: function (event) {
-                    var i;
-                    switch (event.type) {
-                        case "mouseup":
+
+                removeEvent: function (mutableEvent) {
+                    var isBrowserSupportPointerEvents = !!(window.PointerEvent || window.navigator.msPointerEnabled),
+                        event = mutableEvent instanceof MutableEvent ? mutableEvent._event : mutableEvent;
+
+                    if ((isBrowserSupportPointerEvents &&
+                        (mutableEvent.pointerType === "mouse" || (window.MSPointerEvent && mutableEvent.pointerType === window.MSPointerEvent.MSPOINTER_TYPE_MOUSE))) ||
+                        (!isBrowserSupportPointerEvents && event instanceof MouseEvent)) {
+
+                        if (event.type === "mouseup" || event.type === "pointerup" || event.type === "MSPointerUp") {
                             defaultEventManager._isMouseDragging = false;
+
                             if (defaultEventManager._isStoringMouseEventsWhileDraggingOnly) {
                                 this.clear("mouse");
                             }
-                            break;
-                        case "touchend":
-                            for (i = 0; i < event.changedTouches.length; i++) {
-                                this.remove(event.changedTouches[i].identifier);
+                        }
+                    } else if ((isBrowserSupportPointerEvents &&
+                        (mutableEvent.pointerType === "touch" || (window.MSPointerEvent && mutableEvent.pointerType === window.MSPointerEvent.MSPOINTER_TYPE_TOUCH))) ||
+                        (window.TouchEvent !== void 0 && !isBrowserSupportPointerEvents && event instanceof TouchEvent)) {
+
+                        if (event.type === "touchend" || event.type === "pointerup" || event.type === "MSPointerUp") {
+                            for (var i = 0; i < mutableEvent.changedTouches.length; i++) {
+                                this.remove(mutableEvent.changedTouches[i].identifier);
                             }
-                            break;
+                        }
                     }
+                },
+
+                _storeMouse: function (event) {
+                    this.add("mouse", {
+                        clientX: event.clientX,
+                        clientY: event.clientY,
+                        timeStamp: event.timeStamp
+                    });
+
+                    Object.defineProperty(event, "velocity", {
+                        get: function () {
+                            return defaultEventManager.pointerMotion("mouse").velocity;
+                        }
+                    });
                 }
             }
         },
@@ -7421,7 +7448,6 @@ if (typeof window !== "undefined") { // client-side
                     startTime,
                     iTime,
                     oldTime, oldX, oldY, squaredModule,
-                    difTime = 0,
                     addData = true,
                     data = {
                         x: [],
@@ -7461,7 +7487,7 @@ if (typeof window !== "undefined") { // client-side
         _fitPointerCurve: {
             enumerable: false,
             value: function (bezier, data) {
-                var pos, a, b, c, d, epsilon = 0.0001,
+                var a, b, c, d, epsilon = 0.0001,
                     dl = data.length, e, t, v, t2, t3, i,
                     f0, c0, d0, b0, a0, s0, e0,
                     f1, c1, d1, b1, a1, s1, e1,
@@ -7758,6 +7784,224 @@ if (typeof window !== "undefined") { // client-side
             })
         },
 
+        _touchNeedTracking: {
+            value: ["touchstart", "touchend"]
+        },
+
+
+        _mouseEventTypeEmulatedList: {
+            value: ["mousedown", "mouseup", "click"]
+        },
+
+        _trackingTouchList: {
+            value: null
+        },
+
+        _trackingTouchTimeoutIDs: {
+            value: Object.create(null)
+        },
+
+        __isIOSPlatform: {
+            value: null
+        },
+
+        _isIOSPlatform: {
+            get: function () {
+                return this.__isIOSPlatform = this.__isIOSPlatform || (/iphone|ipod|ipad/gi).test(navigator.platform);
+            }
+        },
+
+        _wouldTouchTriggerSimulatedEvent: {
+            value: function (event) {
+                return this._touchNeedTracking.indexOf(event.type) > -1;
+            }
+        },
+
+        _couldEventBeSimulated: {
+            value: function (event) {
+                return this._mouseEventTypeEmulatedList.indexOf(event.type) > -1;
+            }
+        },
+
+        _listeningWindowOnTouchCancel: {
+            value: []
+        },
+
+        _findWindowFromEvent: {
+            value: function (event) {
+                var target = event.target,
+                    aWindow;
+
+                if (target) {
+                    aWindow = target instanceof Window ? target : target.defaultView instanceof Window ?
+                        target.defaultView : target.ownerDocument && target.ownerDocument.defaultView ?
+                        target.ownerDocument.defaultView : null;
+                }
+
+                return aWindow;
+            }
+        },
+
+        _isWindowListeningOnTouchCancel: {
+            value: function (aWindow) {
+                return this._registeredWindows.indexOf(aWindow) > -1 && this._listeningWindowOnTouchCancel.indexOf(aWindow) > -1;
+            }
+        },
+
+        _listenToTouchCancelIfNeeded: {
+            value: function (event) {
+                var aWindow = this._findWindowFromEvent(event);
+
+                if (aWindow && !this._isWindowListeningOnTouchCancel(aWindow)) {
+                    var self = this;
+
+                    aWindow.addEventListener("touchcancel", function (event) {
+                        var changedTouches = event.changedTouches,
+                            touchesStartList = self._trackingTouchList.touchesStart,
+                            identifier;
+
+                        for (var i = 0, length = changedTouches.length; i < length; i++) {
+                            identifier = changedTouches[i].identifier;
+
+                            if (touchesStartList[identifier]) {
+                                delete touchesStartList[identifier];
+                            }
+                        }
+                    }, true);
+
+                    this._listeningWindowOnTouchCancel.push(aWindow);
+                }
+            }
+        },
+
+        blocksEmulatedEvents: {
+            value: true
+        },
+
+        /**
+         * @function
+         * @param {Event} event
+         * @description Decides if an event can be dispatched by the EventManager within a montage app.
+         * Filter emulated mouse events (mousedown, mouseup, click) from touch events.
+         *
+         * @private
+         */
+        _shouldDispatchEvent: {
+            value: function (event) {
+                if (this.blocksEmulatedEvents && !window.PointerEvent && !window.navigator.msPointerEnabled) {
+                    /**
+                     * Under IOS emulated mouse events have a timestamp set to 0.
+                     * Plus, this property can't be used for Firefox.
+                     * Firefox has an open bug since 2004: the property timeStamp is not populated correctly.
+                     * -> https://bugzilla.mozilla.org/show_bug.cgi?id=238041
+                     */
+                    if (this._isIOSPlatform) {
+                        return !(event.timeStamp === 0);
+                    }
+
+                    // Checks if the event may trigger simulated events.
+                    if (this._wouldTouchTriggerSimulatedEvent(event)) {
+                        var changedTouches = event.changedTouches;
+
+                        // Needs to clean the tracking touches "start" when a touch event is canceled.
+                        this._listenToTouchCancelIfNeeded(event);
+
+                        for (var i = 0, length = changedTouches.length; i < length; i++) {
+                            this._trackTouch(event, changedTouches[i].identifier);
+                        }
+
+                    } else if (this._couldEventBeSimulated(event)) { // Determines if mouse events are simulated.
+                        return !this._isEmulatedEvent(event);
+                    }  // else -> Dispatches all the others.
+                }
+
+                return true;
+            }
+        },
+
+        _trackTouch: {
+            value: function (touchEvent, touchIdentifier) {
+                var touchList = this._trackingTouchList,
+                    timeoutIDs = this._trackingTouchTimeoutIDs;
+
+                if (touchEvent.type === "touchstart") {
+                    /**
+                     * Touch identifiers are not unique for Firefox or Chrome (they are re-used).
+                     * So, we need to clear the timeout that was supposed to clean this tracking touch.
+                     */
+                    var timeoutID = timeoutIDs[touchIdentifier];
+
+                    if (timeoutID) {
+                        clearTimeout(timeoutID);
+                        delete timeoutIDs[touchIdentifier];
+                    }
+
+                    touchList.touchesStart[touchIdentifier] = touchEvent.target;
+
+                } else { // touchend
+                    timeoutIDs[touchIdentifier] = setTimeout(function () {
+                        delete touchList.touchesEnd[touchIdentifier];
+                        delete timeoutIDs[touchIdentifier];
+                    }, 300); // 300ms -> click delay.
+
+                    delete touchList.touchesStart[touchIdentifier];
+                    touchList.touchesEnd[touchIdentifier] = touchEvent.target;
+                }
+            }
+        },
+
+        /**
+         * @function
+         * @param {Event} event
+         * @description Decides if an event is an emualted mouse event.
+         * Checks if a target has already been "activated" by a touch.
+         *
+         * @private
+         */
+        _isEmulatedEvent: {
+            value: function (event) {
+                var trackingTouchList = this._trackingTouchList.touchesStart,
+                    mouseTarget = event.target,
+                    response = false,
+                    identifier;
+
+                /**
+                 * Can't use the position, indeed the emulated mouse events are not at the same position
+                 * than the touch events than triggered them. Doesn't work with a radius as well.
+                 * (using a radius can make it fail with wide fast movements -> FF)
+                 *
+                 * Needs to check both maps for devices with multiples pointers
+                 * (touchstart + mousedown -> mouseup -> click) or (touchstart + delay ≈ 600ms -> mousedown)
+                 */
+                for (identifier in trackingTouchList) {
+                    if ((response = trackingTouchList[identifier] === mouseTarget)) break;
+                }
+
+                if (!response) {
+                    trackingTouchList = this._trackingTouchList.touchesEnd;
+
+                    for (identifier in trackingTouchList) {
+                        if ((response = trackingTouchList[identifier] === mouseTarget)) break;
+                    }
+
+                    // Faster "awake", can be useful for devices with multiple pointers. (simultaneous click/touch)
+                    if (response && event.type === "click") {
+                        var timeoutIDs = this._trackingTouchTimeoutIDs,
+                            timeoutID = timeoutIDs[identifier];
+
+                        if (timeoutID) {
+                            clearTimeout(timeoutID);
+
+                            delete trackingTouchList[identifier];
+                            delete timeoutIDs[identifier];
+                        }
+                    }
+                }
+
+                return response;
+            }
+        },
+
         // Event Handling
 
         /**
@@ -7767,6 +8011,9 @@ if (typeof window !== "undefined") { // client-side
         handleEvent: {
             enumerable: false,
             value: function (event) {
+                if (!this._shouldDispatchEvent(event)) {
+                    return void 0;
+                }
 
                 if (this.monitorDOMModificationInEventHandling) {
                     document.body.addEventListener("DOMSubtreeModified", this.domModificationEventHandler, true);
@@ -7781,7 +8028,6 @@ if (typeof window !== "undefined") { // client-side
                     j,
                     jListenerEntry,
                     listenerEntryKeys,
-                    listenerEntryKeyCount,
                     jListener,
                     eventPath,
                     eventType = event.type,
@@ -7790,8 +8036,7 @@ if (typeof window !== "undefined") { // client-side
                     bubbleMethodName,
                     identifierSpecificCaptureMethodName,
                     identifierSpecificBubbleMethodName,
-                    mutableEvent,
-                    touchCount;
+                    mutableEvent;
 
                 if ("DOMContentLoaded" === eventType) {
                     loadedWindow = event.target.defaultView;
@@ -7977,9 +8222,8 @@ if (typeof window !== "undefined") { // client-side
                                 activeTarget = this._findActiveTarget(associatedComponent);
                             }
 
-                            if (!associatedComponent._preparedForActivationEvents) {
+                            if (!associatedComponent.preparedForActivationEvents) {
                                 associatedComponent._prepareForActivationEvents();
-                                associatedComponent._preparedForActivationEvents = true;
                             }
                         }
                     }
@@ -8237,11 +8481,10 @@ if (typeof window !== "undefined") { // client-side
 
 } // client-side
 
-
 }})
 ;
 //*/
-montageDefine("604e6eb","core/serialization/deserializer/montage-reviver",{dependencies:["../../core","mousse/deserialization/reviver","./properties-deserializer","./self-deserializer","./unit-deserializer","../../module-reference","../alias","../../promise"],factory:function(require,exports,module){var Montage = require("../../core").Montage;
+montageDefine("666a351","core/serialization/deserializer/montage-reviver",{dependencies:["../../core","mousse/deserialization/reviver","./properties-deserializer","./self-deserializer","./unit-deserializer","../../module-reference","../alias","../../promise"],factory:function(require,exports,module){var Montage = require("../../core").Montage;
 var Reviver = require("mousse/deserialization/reviver").Reviver;
 var PropertiesDeserializer = require("./properties-deserializer").PropertiesDeserializer;
 var SelfDeserializer = require("./self-deserializer").SelfDeserializer;
@@ -8747,7 +8990,7 @@ if (typeof exports !== "undefined") {
 }})
 ;
 //*/
-montageDefine("604e6eb","core/logger",{dependencies:["./core"],factory:function(require,exports,module){/**
+montageDefine("666a351","core/logger",{dependencies:["./core"],factory:function(require,exports,module){/**
  * @module montage/core/logger
  * @requires montage/core/core
  */
@@ -8755,7 +8998,6 @@ var Montage = require("./core").Montage,
     Logger,
     loggers,
     consoleLog,
-    emptyLoggerFunction,
     getFunctionName,
     toTimeString,
     LoggerUI,
@@ -8780,9 +9022,6 @@ toTimeString = function (date) {
         secs = date.getSeconds();
         return (hours.length === 1 ? "0" + hours : hours) + ":" + (mins.length === 1 ? "0" + mins : mins) + ":" + (secs.length === 1 ? "0" + secs : secs) + "." + date.getMilliseconds();
     }
-};
-
-emptyLoggerFunction = function () {
 };
 
 consoleLog = function () {
@@ -8873,13 +9112,13 @@ Logger = exports.Logger = Montage.specialize(/** @lends Logger# */ {
      */
     isDebug: {
         get: function () {
-            return this.debug !== emptyLoggerFunction;
+            return this.debug !== Function.noop;
         },
         set: function (value) {
             if (value) {
                 this.debug = this._consoleLogMontage;
             } else {
-                this.debug = emptyLoggerFunction;
+                this.debug = Function.noop;
             }
         }
 
@@ -8890,13 +9129,13 @@ Logger = exports.Logger = Montage.specialize(/** @lends Logger# */ {
      */
     isError: {
         get: function () {
-            return this.error !== emptyLoggerFunction;
+            return this.error !== Function.noop;
         },
         set: function (value) {
             if (value) {
                 this.error = this._consoleLogMontage;
             } else {
-                this.error = emptyLoggerFunction;
+                this.error = Function.noop;
             }
         }
     },
@@ -8962,7 +9201,7 @@ Logger = exports.Logger = Montage.specialize(/** @lends Logger# */ {
      * @param {string} [...]
      */
     debug: {
-        value: emptyLoggerFunction
+        value: Function.noop
     },
 
     /**
@@ -8971,7 +9210,7 @@ Logger = exports.Logger = Montage.specialize(/** @lends Logger# */ {
      * @param {string} [...]
      */
     error: {
-        value: emptyLoggerFunction
+        value: Function.noop
     },
 
     /**
@@ -9273,8 +9512,7 @@ var colors = exports.logger("colors");
 }})
 ;
 //*/
-montageDefine("604e6eb","core/serialization/deserializer/properties-deserializer",{dependencies:["../../core","../../promise"],factory:function(require,exports,module){var Montage = require("../../core").Montage;
-var Promise = require("../../promise").Promise;
+montageDefine("666a351","core/serialization/deserializer/properties-deserializer",{dependencies:["../../core"],factory:function(require,exports,module){var Montage = require("../../core").Montage;
 
 var PropertiesDeserializer = Montage.specialize( {
     _object: {value: null},
@@ -9330,8 +9568,7 @@ exports.PropertiesDeserializer = PropertiesDeserializer;
 }})
 ;
 //*/
-montageDefine("604e6eb","core/serialization/deserializer/self-deserializer",{dependencies:["../../core","../../promise"],factory:function(require,exports,module){var Montage = require("../../core").Montage;
-var Promise = require("../../promise").Promise;
+montageDefine("666a351","core/serialization/deserializer/self-deserializer",{dependencies:["../../core"],factory:function(require,exports,module){var Montage = require("../../core").Montage;
 
 var SelfDeserializer = Montage.specialize( {
     _object: {value: null},
@@ -9442,8 +9679,7 @@ exports.SelfDeserializer = SelfDeserializer;
 }})
 ;
 //*/
-montageDefine("604e6eb","core/serialization/deserializer/unit-deserializer",{dependencies:["../../core","../../promise"],factory:function(require,exports,module){var Montage = require("../../core").Montage;
-var Promise = require("../../promise").Promise;
+montageDefine("666a351","core/serialization/deserializer/unit-deserializer",{dependencies:["../../core"],factory:function(require,exports,module){var Montage = require("../../core").Montage;
 
 var UnitDeserializer = Montage.specialize(/** @lends UnitDeserializer# */ {
     _context: {value: null},
@@ -9512,7 +9748,7 @@ exports.UnitDeserializer = UnitDeserializer;
 }})
 ;
 //*/
-montageDefine("604e6eb","core/module-reference",{dependencies:["./core"],factory:function(require,exports,module){/**
+montageDefine("666a351","core/module-reference",{dependencies:["./core"],factory:function(require,exports,module){/**
  * @module montage/core/module-reference
  * @requires montage/core/core
  */
@@ -9619,7 +9855,7 @@ exports.ModuleReference = Montage.specialize( /** @lends ModuleReference.prototy
 }})
 ;
 //*/
-montageDefine("604e6eb","core/serialization/alias",{dependencies:["../core"],factory:function(require,exports,module){/*global require, exports */
+montageDefine("666a351","core/serialization/alias",{dependencies:["../core"],factory:function(require,exports,module){/*global require, exports */
 
 var Montage = require("../core").Montage;
 
@@ -9735,7 +9971,7 @@ exports.Alias = Montage.specialize({ /** @lends Alias# */
 }})
 ;
 //*/
-montageDefine("604e6eb","core/shim/object",{dependencies:[],factory:function(require,exports,module){/**
+montageDefine("666a351","core/shim/object",{dependencies:[],factory:function(require,exports,module){/**
  * Defines standardized shims for the intrinsic `Object`.
  * @see {external:Object}
  * @module montage/core/shim/object
@@ -9800,7 +10036,7 @@ if (!Object.seal) {
 }})
 ;
 //*/
-montageDefine("604e6eb","core/shim/array",{dependencies:[],factory:function(require,exports,module){/**
+montageDefine("666a351","core/shim/array",{dependencies:[],factory:function(require,exports,module){/**
  * Defines standardized shims to intrinsic `Array` object.
  * @see {external:Array}
  * @module montage/core/shim/array
@@ -9837,7 +10073,7 @@ if (!Array.isArray) {
 }})
 ;
 //*/
-montageDefine("604e6eb","core/shim/string",{dependencies:[],factory:function(require,exports,module){/**
+montageDefine("666a351","core/shim/string",{dependencies:[],factory:function(require,exports,module){/**
  * Defines standardized shims for the intrinsic String object.
  * @see {external:String}
  * @module montage/core/shim/string
@@ -9887,19 +10123,11 @@ if (!String.prototype.endsWith) {
 }})
 ;
 //*/
-montageDefine("604e6eb","core/extras/object",{dependencies:["collections/weak-map","frb"],factory:function(require,exports,module){/**
+montageDefine("666a351","core/extras/object",{dependencies:["frb"],factory:function(require,exports,module){/**
     Defines extensions to intrinsic `Object`.
     @see {external:Object}
     @module montage/core/extras/object
 */
-
-var WeakMap = require("collections/weak-map");
-
-// string table, for strings that might be constructed multiple times
-// seems to reduce allocations in a version of Firefox I once heard tell
-var MODIFY = "modify";
-var STRING = "string";
-var FUNCTION = "function";
 
 /**
  * Returns the descriptor object for an object's property.
@@ -10027,7 +10255,7 @@ Object.defineProperty(Object, "deleteBinding", {
 }})
 ;
 //*/
-montageDefine("604e6eb","core/extras/date",{dependencies:[],factory:function(require,exports,module){/**
+montageDefine("666a351","core/extras/date",{dependencies:[],factory:function(require,exports,module){/**
 *  Defines extensions to intrinsic `Date` object.
  *
 *  @module montage/core/extras/date
@@ -10056,7 +10284,7 @@ Object.defineProperty(Date.prototype, "clone", {
 }})
 ;
 //*/
-montageDefine("604e6eb","core/extras/element",{dependencies:[],factory:function(require,exports,module){
+montageDefine("666a351","core/extras/element",{dependencies:[],factory:function(require,exports,module){
 if (typeof Element !== "undefined" && !Element.isElement) {
     Object.defineProperty(Element, "isElement", {
         value: function (obj) {
@@ -10070,7 +10298,7 @@ if (typeof Element !== "undefined" && !Element.isElement) {
 }})
 ;
 //*/
-montageDefine("604e6eb","core/extras/function",{dependencies:["./object"],factory:function(require,exports,module){/**
+montageDefine("666a351","core/extras/function",{dependencies:["./object"],factory:function(require,exports,module){/**
  * Defines extensions to intrinsic `Function` object.
  * @see {external:Function}
  * @module montage/core/extras/function
@@ -10146,7 +10374,7 @@ Object.defineProperty(Function, "by", {
 }})
 ;
 //*/
-montageDefine("604e6eb","core/extras/regexp",{dependencies:[],factory:function(require,exports,module){/**
+montageDefine("666a351","core/extras/regexp",{dependencies:[],factory:function(require,exports,module){/**
  * @external RegExp
  */
 
@@ -10179,7 +10407,7 @@ if (!RegExp.isRegExp) {
 }})
 ;
 //*/
-montageDefine("604e6eb","core/extras/string",{dependencies:[],factory:function(require,exports,module){
+montageDefine("666a351","core/extras/string",{dependencies:[],factory:function(require,exports,module){
 /**
  * Defines extensions to the intrinsic `String` object.
  * @see {external:String}
@@ -10240,7 +10468,7 @@ Object.defineProperty(String.prototype, "toCapitalized", {
 }})
 ;
 //*/
-montageDefine("604e6eb","core/deprecate",{dependencies:[],factory:function(require,exports,module){/* global ARRAY_PROTOTYPE: false, Montage: false */
+montageDefine("666a351","core/deprecate",{dependencies:[],factory:function(require,exports,module){/* global ARRAY_PROTOTYPE: false, Montage: false */
 
 /**
  * @module montage/core/deprecate
@@ -10332,7 +10560,7 @@ exports.callDeprecatedFunction = function callDeprecatedFunction(scope, callback
 }})
 ;
 //*/
-montageDefine("604e6eb","core/uuid",{dependencies:[],factory:function(require,exports,module){/* <notice>
+montageDefine("666a351","core/uuid",{dependencies:[],factory:function(require,exports,module){/* <notice>
  Code from node-uuid: https://github.com/broofa/node-uuid/raw/master/uuid.js
  MIT license https://github.com/broofa/node-uuid/blob/master/LICENSE.md
  </notice> */
@@ -10405,8 +10633,7 @@ function generate() {
 }})
 ;
 //*/
-montageDefine("604e6eb","core/serialization/bindings",{dependencies:["frb","frb/parse","frb/stringify","frb/expand","frb/scope","core/serialization/serializer/montage-serializer","core/serialization/deserializer/montage-deserializer"],factory:function(require,exports,module){var Bindings = require("frb"),
-    parse = require("frb/parse"),
+montageDefine("666a351","core/serialization/bindings",{dependencies:["frb","frb/stringify","frb/expand","frb/scope","core/serialization/serializer/montage-serializer","core/serialization/deserializer/montage-deserializer"],factory:function(require,exports,module){var Bindings = require("frb"),
     stringify = require("frb/stringify"),
     expand = require("frb/expand"),
     Scope = require("frb/scope"),
@@ -10506,7 +10733,7 @@ Deserializer.defineDeserializationUnit("bindings", function (deserializer, objec
 }})
 ;
 //*/
-montageDefine("604e6eb","core/event/mutable-event",{dependencies:["../core"],factory:function(require,exports,module){/**
+montageDefine("666a351","core/event/mutable-event",{dependencies:["../core"],factory:function(require,exports,module){/**
  @module montage/core/event/mutable-event
  @requires montage
  */
@@ -10516,7 +10743,6 @@ var Montage = require("../core").Montage;
 if (typeof window !== "undefined") {
 
     var _eventConstructorsByType = {};
-    var nullDescriptor = {value: null};
 
     var wrapProperty = function (obj, key) {
 
@@ -10717,7 +10943,7 @@ if (typeof window !== "undefined") {
 }})
 ;
 //*/
-montageDefine("604e6eb","core/serialization/serializer/montage-serializer",{dependencies:["../../core","mousse/serialization/malker","mousse/serialization/serializer","./montage-builder","./montage-labeler","./montage-visitor","../../logger"],factory:function(require,exports,module){/**
+montageDefine("666a351","core/serialization/serializer/montage-serializer",{dependencies:["../../core","mousse/serialization/malker","mousse/serialization/serializer","./montage-builder","./montage-labeler","./montage-visitor","../../logger"],factory:function(require,exports,module){/**
  * @module montage/core/serialization/serializer/montage-serializer
  */
 
@@ -10804,8 +11030,7 @@ exports.serialize = function (object, _require) {
 }})
 ;
 //*/
-montageDefine("604e6eb","core/serialization/deserializer/montage-deserializer",{dependencies:["../../core","mousse/deserialization/interpreter","mousse/deserialization/deserializer","./montage-interpreter","./montage-reviver","../../promise","../../jshint","../../logger"],factory:function(require,exports,module){var Montage = require("../../core").Montage;
-var Interpreter = require("mousse/deserialization/interpreter").Interpreter;
+montageDefine("666a351","core/serialization/deserializer/montage-deserializer",{dependencies:["../../core","mousse/deserialization/deserializer","./montage-interpreter","./montage-reviver","../../promise","../../jshint","../../logger"],factory:function(require,exports,module){var Montage = require("../../core").Montage;
 var Deserializer = require("mousse/deserialization/deserializer").Deserializer;
 var MontageInterpreter = require("./montage-interpreter").MontageInterpreter;
 var MontageReviver = require("./montage-reviver").MontageReviver;
@@ -10828,7 +11053,7 @@ var MontageDeserializer = Montage.specialize.call(Deserializer, {
             }
 
             Deserializer.call(this, serializationString);
-            this._origin;
+
             this._serialization = null;
             this._interpreter = new MontageInterpreter()
                 .init(_require, objectRequires);
@@ -10952,7 +11177,7 @@ exports.deserialize = function (serializationString, _require) {
 }})
 ;
 //*/
-montageDefine("604e6eb","core/serialization/serializer/montage-builder",{dependencies:["../../core","mousse/serialization/builder","./montage-ast"],factory:function(require,exports,module){var Montage = require("../../core").Montage;
+montageDefine("666a351","core/serialization/serializer/montage-builder",{dependencies:["../../core","mousse/serialization/builder","./montage-ast"],factory:function(require,exports,module){var Montage = require("../../core").Montage;
 var Builder = require("mousse/serialization/builder").Builder;
 var MontageAst = require("./montage-ast");
 
@@ -10987,7 +11212,7 @@ exports.MontageBuilder = MontageBuilder;
 }})
 ;
 //*/
-montageDefine("604e6eb","core/serialization/serializer/montage-labeler",{dependencies:["../../core","mousse/serialization/labeler"],factory:function(require,exports,module){var Montage = require("../../core").Montage;
+montageDefine("666a351","core/serialization/serializer/montage-labeler",{dependencies:["../../core","mousse/serialization/labeler"],factory:function(require,exports,module){var Montage = require("../../core").Montage;
 var Labeler = require("mousse/serialization/labeler").Labeler;
 
 exports.MontageLabeler = Montage.specialize.call(Labeler, {
@@ -11046,7 +11271,7 @@ exports.MontageLabeler = Montage.specialize.call(Labeler, {
 }})
 ;
 //*/
-montageDefine("604e6eb","core/serialization/serializer/montage-visitor",{dependencies:["../../core","./montage-serializer","./properties-serializer","./self-serializer","./unit-serializer","../alias","mousse/serialization/visitor"],factory:function(require,exports,module){var Montage = require("../../core").Montage;
+montageDefine("666a351","core/serialization/serializer/montage-visitor",{dependencies:["../../core","./montage-serializer","./properties-serializer","./self-serializer","./unit-serializer","../alias","mousse/serialization/visitor"],factory:function(require,exports,module){var Montage = require("../../core").Montage;
 var MontageSerializerModule = require("./montage-serializer");
 var PropertiesSerializer = require("./properties-serializer").PropertiesSerializer;
 var SelfSerializer = require("./self-serializer").SelfSerializer;
@@ -11447,13 +11672,12 @@ exports.MontageVisitor = MontageVisitor;
 }})
 ;
 //*/
-montageDefine("604e6eb","core/serialization/deserializer/montage-interpreter",{dependencies:["../../core","mousse/deserialization/interpreter","mousse/deserialization/context","./montage-reviver","../../promise"],factory:function(require,exports,module){var Montage = require("../../core").Montage,
-    Interpreter = require("mousse/deserialization/interpreter").Interpreter,
+montageDefine("666a351","core/serialization/deserializer/montage-interpreter",{dependencies:["../../core","mousse/deserialization/context","./montage-reviver","../../promise"],factory:function(require,exports,module){var Montage = require("../../core").Montage,
     Context = require("mousse/deserialization/context").Context,
     MontageReviver = require("./montage-reviver").MontageReviver,
     Promise = require("../../promise").Promise;
 
-var MontageInterpreter = Montage.specialize.call(Interpreter, {
+var MontageInterpreter = Montage.specialize({
     _require: {value: null},
     _reviver: {value: null},
 
@@ -11585,7 +11809,7 @@ exports.MontageContext = MontageContext;
 }})
 ;
 //*/
-montageDefine("604e6eb","core/jshint",{dependencies:[],factory:function(require,exports,module){// jshint -W015, -W106
+montageDefine("666a351","core/jshint",{dependencies:[],factory:function(require,exports,module){// jshint -W015, -W106
 /*
  * JSHint, by JSHint Community.
  *
@@ -13817,7 +14041,7 @@ var JSHINT = (function (setup) {
 
 
     function statements(begin) {
-        var a = [], f, p;
+        var a = [];
 
         while (!nexttoken.reach && nexttoken.id !== '(end)') {
             if (nexttoken.id === ';') {
@@ -15535,7 +15759,7 @@ if (typeof bootstrap !== "undefined") {
 }})
 ;
 //*/
-montageDefine("604e6eb","core/serialization/serializer/montage-ast",{dependencies:["../../core","mousse/serialization/ast"],factory:function(require,exports,module){var Montage = require("../../core").Montage;
+montageDefine("666a351","core/serialization/serializer/montage-ast",{dependencies:["../../core","mousse/serialization/ast"],factory:function(require,exports,module){var Montage = require("../../core").Montage;
 var Value = require("mousse/serialization/ast").Value;
 
 /**
@@ -15592,7 +15816,7 @@ exports.ModuleReference = ModuleReference;
 }})
 ;
 //*/
-montageDefine("604e6eb","core/serialization/serializer/properties-serializer",{dependencies:["../../core"],factory:function(require,exports,module){var Montage = require("../../core").Montage;
+montageDefine("666a351","core/serialization/serializer/properties-serializer",{dependencies:["../../core"],factory:function(require,exports,module){var Montage = require("../../core").Montage;
 
 var PropertiesSerializer = Montage.specialize.call(Object, {
     _malker: {value: null},
@@ -15660,7 +15884,7 @@ exports.PropertiesSerializer = PropertiesSerializer;
 }})
 ;
 //*/
-montageDefine("604e6eb","core/serialization/serializer/self-serializer",{dependencies:["../../core"],factory:function(require,exports,module){var Montage = require("../../core").Montage;
+montageDefine("666a351","core/serialization/serializer/self-serializer",{dependencies:["../../core"],factory:function(require,exports,module){var Montage = require("../../core").Montage;
 
 var SelfSerializer = Montage.specialize.call(Object, {
     _malker: {value: null},
@@ -15756,7 +15980,7 @@ exports.SelfSerializer = SelfSerializer;
 }})
 ;
 //*/
-montageDefine("604e6eb","core/serialization/serializer/unit-serializer",{dependencies:["../../core"],factory:function(require,exports,module){var Montage = require("../../core").Montage;
+montageDefine("666a351","core/serialization/serializer/unit-serializer",{dependencies:["../../core"],factory:function(require,exports,module){var Montage = require("../../core").Montage;
 
 function UnitSerializer(visitor, malker, object) {
     this._visitor = visitor;
@@ -15825,11 +16049,10 @@ exports.UnitSerializer = UnitSerializer;
 }})
 ;
 //*/
-montageDefine("604e6eb","ui/loader.reel/loader",{dependencies:["../../core/core","../component","../../core/logger","../../core/event/event-manager"],factory:function(require,exports,module){/**
+montageDefine("666a351","ui/loader.reel/loader",{dependencies:["../component","../../core/logger","../../core/event/event-manager"],factory:function(require,exports,module){/**
  * @module "montage/ui/loader.reel"
  */
-var Montage = require("../../core/core").Montage,
-    Component = require("../component").Component,
+var Component = require("../component").Component,
     logger = require("../../core/logger").logger("loader"),
     defaultEventManager = require("../../core/event/event-manager").defaultEventManager,
     bootstrappingTimeoutPropertyName = "_montageStartBootstrappingTimeout",
@@ -16346,7 +16569,7 @@ exports.Loader = Component.specialize( /** @lends Loader.prototype # */ {
 }})
 ;
 //*/
-montageDefine("604e6eb","ui/component",{dependencies:["../core/core","../core/target","../core/template","../core/document-resources","../core/gate","../core/promise","../core/event/event-manager","../core/serialization/alias","../core/logger","collections/set","../core/application"],factory:function(require,exports,module){/*global Element */
+montageDefine("666a351","ui/component",{dependencies:["../core/core","../core/target","../core/template","../core/document-resources","../core/gate","../core/promise","../core/event/event-manager","../core/serialization/alias","../core/logger","collections/set","../core/application"],factory:function(require,exports,module){/*global Element */
 /**
  * @module montage/ui/component
  * @requires montage
@@ -16426,10 +16649,26 @@ var Component = exports.Component = Target.specialize( /** @lends Component.prot
      * @property {object} value
      * @default null
      */
-    templateObjects: {
-        serializable: false,
-        value: null
-    },
+     _templateObjects: {
+         serializable: false,
+         value: null
+     },
+     templateObjects: {
+         serializable: false,
+         get: function() {
+             if(!this._templateObjects) {
+                 this._templateObjects = Object.create(null);
+             }
+             if(!this._setupTemplateObjectsCompleted && this._templateDocumentPart) {
+                  this._setupTemplateObjects(this._templateDocumentPart.objects);
+             }
+             return this._templateObjects;
+             // return this._templateObjects || (this._templateDocumentPart ? this._setupTemplateObjects(this._templateDocumentPart.objects) : (this._templateObjects = Object.create(null)));
+         },
+         set: function(value) {
+             this._templateObjects = value;
+         }
+     },
 
     /**
      * @private
@@ -17717,15 +17956,19 @@ var Component = exports.Component = Target.specialize( /** @lends Component.prot
 
     _setupTemplateObjects: {
         value: function (objects) {
-            this.templateObjects = Object.create(null);
+            this._templateObjects = this._templateObjects || Object.create(null);
             this._addTemplateObjects(objects);
+            this._setupTemplateObjectsCompleted = true;
+            return this._templateObjects;
         }
     },
-
+    _setupTemplateObjectsCompleted: {
+        value: false
+    },
     _addTemplateObjects: {
         value: function (objects) {
             var descriptor = this._templateObjectDescriptor,
-                templateObjects = this.templateObjects;
+                templateObjects = this._templateObjects;
 
             for (var label in objects) {
                 var object = objects[label];
@@ -17798,7 +18041,7 @@ var Component = exports.Component = Target.specialize( /** @lends Component.prot
                     console.error("Cannot instantiate template without an element.", self);
                     return Promise.reject(new Error("Cannot instantiate template without an element.", self));
                 }
-                var instances = self.templateObjects,
+                var instances = null,
                     _document = self._element.ownerDocument;
 
                 if (!instances) {
@@ -17813,6 +18056,7 @@ var Component = exports.Component = Target.specialize( /** @lends Component.prot
                     documentPart.parentDocumentPart = self._ownerDocumentPart;
                     self._templateDocumentPart = documentPart;
                     documentPart.fragment = null;
+                    instances = null;
                 })
                 .fail(function (reason) {
                     var message = reason.stack || reason;
@@ -17825,7 +18069,15 @@ var Component = exports.Component = Target.specialize( /** @lends Component.prot
 
     _templateDidLoad: {
         value: function (documentPart) {
-            this._setupTemplateObjects(documentPart.objects);
+            //If templateObjects was used in serialization's bindings, this._templateObjects will be created empty in the getter. We use this a signal that it needs to
+            //be setup
+            //This is call as a delegate by the template before returning the document part from instantiateWithInstances(). Objects in their own templateDidLoad() can
+            //call templateObjects, so this._templateDocumentPart is needed here.
+            //This is just set, again, later to the same value in the then() of template.instantiateWithInstances() inside _instantiateTemplate()
+            this._templateDocumentPart = documentPart;
+            if(this._templateObjects) {
+                this._setupTemplateObjects(documentPart.objects);
+            }
         }
     },
 
@@ -17986,7 +18238,7 @@ var Component = exports.Component = Target.specialize( /** @lends Component.prot
         value: null
     },
 
-    _preparedForActivationEvents: {
+    preparedForActivationEvents: {
         enumerable: false,
         value: false
     },
@@ -18083,17 +18335,19 @@ var Component = exports.Component = Target.specialize( /** @lends Component.prot
 
     _updateComponentDom: {
         value: function () {
-            var component, composer, length, i;
             if (this._firstDraw) {
-
                 this._prepareForDraw();
 
-                // Load any non lazyLoad composers that have been added
-                length = this.composerList.length;
-                for (i = 0; i < length; i++) {
-                    composer = this.composerList[i];
-                    if (!composer.lazyLoad) {
-                        composer._load();
+                if (this._composerList) {
+                    var composer;
+
+                    // Load any non lazyLoad composers that have been added
+                    for (var i = 0, length = this._composerList.length; i < length; i++) {
+                        composer = this._composerList[i];
+
+                        if (!composer.lazyLoad) {
+                            this.loadComposer(composer);
+                        }
                     }
                 }
 
@@ -18401,16 +18655,23 @@ var Component = exports.Component = Target.specialize( /** @lends Component.prot
      */
     _prepareForActivationEvents: {
         value: function () {
-            var i = this.composerList.length, composer;
-            for (i = 0; i < this.composerList.length; i++) {
-                composer = this.composerList[i];
-                if (composer.lazyLoad) {
-                    composer._load();
-                }
-            }
             if (typeof this.prepareForActivationEvents === "function") {
                 this.prepareForActivationEvents();
             }
+
+            if (this._composerList) {
+                var composer;
+
+                for (var i = 0, length = this._composerList.length; i < length; i++) {
+                    composer = this._composerList[i];
+
+                    if (composer.lazyLoad) {
+                        this.loadComposer(composer);
+                    }
+                }
+            }
+
+            this.preparedForActivationEvents = true;
         }
     },
 
@@ -18667,9 +18928,19 @@ var Component = exports.Component = Target.specialize( /** @lends Component.prot
      * Variable to track this component's associated composers
      * @private
      */
+    _composerList: {
+        value: null,
+        serializable: false
+    },
+
     composerList: {
-        value: [],
-        distinct: true,
+        get: function () {
+            if (!this._composerList) {
+                this._composerList = [];
+            }
+
+            return this._composerList;
+        },
         serializable: false
     },
 
@@ -18699,10 +18970,36 @@ var Component = exports.Component = Target.specialize( /** @lends Component.prot
 
             if (!this._firstDraw) {  // prepareForDraw has already happened so do the loading here
                 if (!composer.lazyLoad) {
-                    composer._load();
-                } else if (this._preparedForActivationEvents) { // even though it's lazyLoad prepareForActivationEvents has already happened
-                    composer._load();
+                    this.loadComposer(composer);
+                } else if (this.preparedForActivationEvents) { // even though it's lazyLoad prepareForActivationEvents has already happened
+                    this.loadComposer(composer);
                 }
+            }
+        }
+    },
+
+    /**
+     * Load a Composer
+     * @function
+     * @param {Composer} composer
+     */
+    loadComposer: {
+        value: function (composer) {
+            if (this._composerList && this._composerList.indexOf(composer) > -1) {
+                Target.prototype.loadComposer.call(this, composer);
+            }
+        }
+    },
+
+    /**
+     * Unload a Composer
+     * @function
+     * @param {Composer} composer
+     */
+    unloadComposer: {
+        value: function (composer) {
+            if (this._composerList && this._composerList.indexOf(composer) > -1) {
+                Target.prototype.unloadComposer.call(this, composer);
             }
         }
     },
@@ -18728,13 +19025,13 @@ var Component = exports.Component = Target.specialize( /** @lends Component.prot
      */
     removeComposer: {
         value: function (composer) {
-            var i, length;
-            length = this.composerList.length;
-            for (i = 0; i < length; i++) {
-                if (this.composerList[i].uuid === composer.uuid) {
-                    this.composerList[i].unload();
-                    this.composerList.splice(i, 1);
-                    break;
+            if (this._composerList) {
+                for (var i = 0, length = this._composerList.length; i < length; i++) {
+                    if (this._composerList[i].uuid === composer.uuid) {
+                        this.unloadComposer(this._composerList[i]);
+                        this._composerList.splice(i, 1);
+                        break;
+                    }
                 }
             }
         }
@@ -18747,12 +19044,16 @@ var Component = exports.Component = Target.specialize( /** @lends Component.prot
      */
     clearAllComposers: {
         value: function () {
-            var i, length, composerList = this.composerList;
-            length = composerList.length;
-            for (i = 0; i < length; i++) {
-                composerList[i].unload();
+            if (this._composerList) {
+                var composerList = this._composerList;
+
+                for (var i = 0, length = composerList.length; i < length; i++) {
+                    this.unloadComposer(composerList[i]);
+
+                }
+
+                composerList.length = 0;
             }
-            composerList.length = 0;
         }
     },
 
@@ -18876,102 +19177,6 @@ var Component = exports.Component = Target.specialize( /** @lends Component.prot
                 }
             }
             return attributeDescriptor;
-        }
-    },
-
-    /**
-     * Adds a property to the component with the specified name.
-     * This method is used internally by the framework convert a DOM element's
-     * standard attributes into bindable properties.
-     * It creates an accessor property (getter/setter) with the same name as
-     * the specified property, as well as a "backing" data property whose name
-     * is prepended with an underscore (_).
-     * The backing variable is assigned the value from the property descriptor.
-     * For example, if the name "title" is passed as the first parameter, a
-     * "title" accessor property is created as well a data property named
-     * "_title".
-     * @function
-     * @param {string} name The property name to add.
-     * @param {Object} descriptor An object that specifies the new properties default attributes such as configurable and enumerable.
-     * @private
-     */
-    defineAttribute: {
-        value: function (name, descriptor) {
-            descriptor = descriptor || {};
-            var _name = '_' + name;
-
-
-            var newDescriptor = {
-                configurable: (typeof descriptor.configurable === 'undefined') ? true: descriptor.configurable,
-                enumerable: (typeof descriptor.enumerable === 'undefined') ?  true: descriptor.enumerable,
-                set: (function (name, attributeName) {
-                    return function (value) {
-                        var descriptor = this._getElementAttributeDescriptor(name, this);
-
-                        // if requested dataType is boolean (eg: checked, readonly etc)
-                        // coerce the value to boolean
-                        if(descriptor && "boolean" === descriptor.dataType) {
-                            value = ( (value || value === "") ? true : false);
-                        }
-
-                        // If the set value is different to the current one,
-                        // update it here, and set it to be updated on the
-                        // element in the next draw cycle.
-                        if((typeof value !== 'undefined') && this[attributeName] !== value) {
-                            this[attributeName] = value;
-                            // at this point we know that we will need it so create it once.
-                            if(this._elementAttributeValues === null) {
-                                this._elementAttributeValues = {};
-                            }
-                            this._elementAttributeValues[name] = value;
-                            this.needsDraw = true;
-                        }
-                    };
-                }(name, _name)),
-                get: (function (name, attributeName) {
-                    return function () {
-                        return this[attributeName];
-                    };
-                }(name, _name))
-            };
-
-            // Define _ property
-            // TODO this.constructor.defineProperty
-            Montage.defineProperty(this.prototype, _name, {value: null});
-            // Define property getter and setter
-            Montage.defineProperty(this.prototype, name, newDescriptor);
-        }
-    },
-
-    /**
-     * Add the specified properties as properties of this component.
-     * @function
-     * @param {object} properties An object that contains the properties you want to add.
-     * @private
-     */
-    addAttributes: {
-        value: function (properties) {
-            var i, descriptor, property, object;
-            this.prototype._elementAttributeDescriptors = properties;
-
-            for(property in properties) {
-                if(properties.hasOwnProperty(property)) {
-                    object = properties[property];
-                    // Make sure that the descriptor is of the correct form.
-                    if(object === null || typeof object === "string") {
-                        descriptor = {value: object, dataType: "string"};
-                        properties[property] = descriptor;
-                    } else {
-                        descriptor = object;
-                    }
-
-                    // Only add the internal property, and getter and setter if
-                    // they don't already exist.
-                    if(typeof this[property] === 'undefined') {
-                        this.defineAttribute(property, descriptor);
-                    }
-                }
-            }
         }
     },
 
@@ -19211,6 +19416,101 @@ var Component = exports.Component = Target.specialize( /** @lends Component.prot
             });
         }
     }
+},{
+    /**
+     * Add the specified properties as properties of this component.
+     * @function
+     * @param {object} properties An object that contains the properties you want to add.
+     * @private
+     */
+    addAttributes: {
+        value: function (properties) {
+            var i, descriptor, property, object;
+            this.prototype._elementAttributeDescriptors = properties;
+
+            for(property in properties) {
+                if(properties.hasOwnProperty(property)) {
+                    object = properties[property];
+                    // Make sure that the descriptor is of the correct form.
+                    if(object === null || typeof object === "string") {
+                        descriptor = {value: object, dataType: "string"};
+                        properties[property] = descriptor;
+                    } else {
+                        descriptor = object;
+                    }
+
+                    // Only add the internal property, and getter and setter if
+                    // they don't already exist.
+                    if(typeof this[property] === 'undefined') {
+                        this.defineAttribute(property, descriptor);
+                    }
+                }
+            }
+        }
+    },
+    /**
+     * Adds a property to the component with the specified name.
+     * This method is used internally by the framework convert a DOM element's
+     * standard attributes into bindable properties.
+     * It creates an accessor property (getter/setter) with the same name as
+     * the specified property, as well as a "backing" data property whose name
+     * is prepended with an underscore (_).
+     * The backing variable is assigned the value from the property descriptor.
+     * For example, if the name "title" is passed as the first parameter, a
+     * "title" accessor property is created as well a data property named
+     * "_title".
+     * @function
+     * @param {string} name The property name to add.
+     * @param {Object} descriptor An object that specifies the new properties default attributes such as configurable and enumerable.
+     * @private
+     */
+    defineAttribute: {
+        value: function (name, descriptor) {
+            descriptor = descriptor || {};
+            var _name = '_' + name;
+
+
+            var newDescriptor = {
+                configurable: (typeof descriptor.configurable === 'undefined') ? true: descriptor.configurable,
+                enumerable: (typeof descriptor.enumerable === 'undefined') ?  true: descriptor.enumerable,
+                set: (function (name, attributeName) {
+                    return function (value) {
+                        var descriptor = this._getElementAttributeDescriptor(name, this);
+
+                        // if requested dataType is boolean (eg: checked, readonly etc)
+                        // coerce the value to boolean
+                        if(descriptor && "boolean" === descriptor.dataType) {
+                            value = ( (value || value === "") ? true : false);
+                        }
+
+                        // If the set value is different to the current one,
+                        // update it here, and set it to be updated on the
+                        // element in the next draw cycle.
+                        if((typeof value !== 'undefined') && this[attributeName] !== value) {
+                            this[attributeName] = value;
+                            // at this point we know that we will need it so create it once.
+                            if(this._elementAttributeValues === null) {
+                                this._elementAttributeValues = {};
+                            }
+                            this._elementAttributeValues[name] = value;
+                            this.needsDraw = true;
+                        }
+                    };
+                }(name, _name)),
+                get: (function (name, attributeName) {
+                    return function () {
+                        return this[attributeName];
+                    };
+                }(name, _name))
+            };
+
+            // Define _ property
+            // TODO this.constructor.defineProperty
+            Montage.defineProperty(this.prototype, _name, {value: null});
+            // Define property getter and setter
+            Montage.defineProperty(this.prototype, name, newDescriptor);
+        }
+    }
 });
 
 
@@ -19419,6 +19719,7 @@ var RootComponent = Component.specialize( /** @lends RootComponent.prototype # *
     addToComposerList: {
         value: function (composer) {
             this.composerList.push(composer);
+
             if (drawLogger.isDebug) {
                 drawLogger.debug(this, composer, "Added to composer list");
             }
@@ -19432,8 +19733,17 @@ var RootComponent = Component.specialize( /** @lends RootComponent.prototype # *
 
     // Create a second composer list so that the lists can be swapped during a draw instead of creating a new array every time
     composerListSwap: {
-        value: [],
-        distinct: true
+        get: function () {
+            if (!this._composerListSwap) {
+                this._composerListSwap = [];
+            }
+
+            return this._composerListSwap;
+        }
+    },
+
+    _composerListSwap: {
+        value: null
     },
 
     /*
@@ -19774,22 +20084,24 @@ var RootComponent = Component.specialize( /** @lends RootComponent.prototype # *
     drawIfNeeded:{
         value: function drawIfNeeded() {
             var needsDrawList = this._readyToDrawList, component, i, j, start = 0, firstDrawEvent,
-                composerList = this.composerList, composer, composerListLength;
+                composerList = this._composerList, composer, composerListLength;
+
             needsDrawList.length = 0;
-            composerListLength = composerList.length;
             this._readyToDrawListIndex.clear();
 
             // Process the composers first so that any components that need to be newly drawn due to composer changes
             // get added in this cycle
-            if (composerListLength > 0) {
-                this.composerList = this.composerListSwap; // Swap between two arrays instead of creating a new array each draw cycle
+            if (composerList && (composerListLength = composerList.length) > 0) {
+                this._composerList = this.composerListSwap; // Swap between two arrays instead of creating a new array each draw cycle
+
                 for (i = 0; i < composerListLength; i++) {
                     composer = composerList[i];
                     composer.needsFrame = false;
                     composer.frame(this._frameTime);
                 }
+
                 composerList.length = 0;
-                this.composerListSwap = composerList;
+                this._composerListSwap = composerList;
             }
 
             this._drawIfNeeded(0);
@@ -19901,10 +20213,111 @@ function loggerToString (object) {
     //jshint +W106
 }
 
+//http://www.w3.org/TR/html5/elements.html#global-attributes
+Component.addAttributes( /** @lends module:montage/ui/control.Control# */ {
+
+/**
+    Specifies the shortcut key(s) that gives focuses to or activates the element.
+    @see {@link http://www.w3.org/TR/html5/editing.html#the-accesskey-attribute}
+    @type {string}
+    @default null
+*/
+    accesskey: null,
+
+/**
+    Specifies if the content is editable or not. Valid values are "true", "false", and "inherit".
+    @see {@link http://www.w3.org/TR/html5/editing.html#contenteditable}
+    @type {string}
+    @default null
+
+*/
+    contenteditable: null,
+
+/**
+    Specifies the ID of a <code>menu</code> element in the DOM to use as the element's context menu.
+    @see  {@link http://www.w3.org/TR/html5/interactive-elements.html#attr-contextmenu}
+    @type {string}
+    @default null
+*/
+    contextmenu: null,
+
+/**
+    Specifies the elements element's text directionality. Valid values are "ltr", "rtl", and "auto".
+    @see {@link http://www.w3.org/TR/html5/elements.html#the-dir-attribute}
+    @type {string}
+    @default null
+*/
+    dir: null,
+
+/**
+    Specifies if the element is draggable. Valid values are "true", "false", and "auto".
+    @type {string}
+    @default null
+    @see {@link http://www.w3.org/TR/html5/dnd.html#the-draggable-attribute}
+*/
+    draggable: null,
+
+/**
+    Specifies the behavior that's taken when an item is dropped on the element. Valid values are "copy", "move", and "link".
+    @type {string}
+    @see {@link http://www.w3.org/TR/html5/dnd.html#the-dropzone-attribute}
+*/
+    dropzone: null,
+
+/**
+    When specified on an element, it indicates that the element should not be displayed.
+    @type {boolean}
+    @default false
+*/
+    hidden: {dataType: 'boolean'},
+    //id: null,
+
+/**
+    Specifies the primary language for the element's contents and for any of the element's attributes that contain text.
+    @type {string}
+    @default null
+    @see {@link http://www.w3.org/TR/html5/elements.html#attr-lang}
+*/
+    lang: null,
+
+/**
+    Specifies if element should have its spelling and grammar checked by the browser. Valid values are "true", "false".
+    @type {string}
+    @default null
+    @see {@link http://www.w3.org/TR/html5/editing.html#attr-spellcheck}
+*/
+    spellcheck: null,
+
+// /**
+//     The CSS styling attribute.
+//     @type {string}
+//     @default null
+//     @see {@link http://www.w3.org/TR/html5/elements.html#the-style-attribute}
+// */
+//     style: null,
+
+/**
+     Specifies the relative order of the element for the purposes of sequential focus navigation.
+     @type {number}
+     @default null
+     @see {@link http://www.w3.org/TR/html5/editing.html#attr-tabindex}
+*/
+    tabindex: null,
+
+/**
+    Specifies advisory information about the element, used as a tooltip when hovering over the element, and other purposes.
+    @type {string}
+    @default null
+    @see {@link http://www.w3.org/TR/html5/elements.html#the-title-attribute}
+*/
+    title: null
+});
+
+
 }})
 ;
 //*/
-montageDefine("604e6eb","core/target",{dependencies:["./core","./event/event-manager","./event/mutable-event"],factory:function(require,exports,module){var Montage = require("./core").Montage,
+montageDefine("666a351","core/target",{dependencies:["./core","./event/event-manager","./event/mutable-event"],factory:function(require,exports,module){var Montage = require("./core").Montage,
     defaultEventManager = require("./event/event-manager").defaultEventManager,
     MutableEvent = require("./event/mutable-event").MutableEvent;
 
@@ -20064,14 +20477,44 @@ exports.Target = Montage.specialize( /** @lends Target.prototype # */ {
                 defaultEventManager.unregisterEventListener(this, type, listener, useCapture);
             }
         }
+    },
+
+    /**
+     * Load a Composer
+     * @function
+     * @param {Composer} composer
+     */
+    loadComposer: {
+        value: function (composer) {
+            if (composer && !composer._isLoaded) {
+                composer._resolveDefaults();
+                composer.load();
+                composer._isLoaded = true;
+            }
+        }
+    },
+
+    /**
+     * Unload a Composer
+     * @function
+     * @param {Composer} composer
+     */
+    unloadComposer: {
+        value: function (composer) {
+            if (composer && composer._isLoaded) {
+                composer.unload();
+                composer._isLoaded = false;
+            }
+        }
     }
+
 });
 
 
 }})
 ;
 //*/
-montageDefine("604e6eb","core/template",{dependencies:["./core","core/serialization/deserializer/montage-deserializer","./document-part","./document-resources","./serialization/serialization","./serialization/serializer/montage-labeler","./promise","./mini-url","./logger","./event/event-manager","./application"],factory:function(require,exports,module){var Montage = require("./core").Montage,
+montageDefine("666a351","core/template",{dependencies:["./core","core/serialization/deserializer/montage-deserializer","./document-part","./document-resources","./serialization/serialization","./serialization/serializer/montage-labeler","./promise","./mini-url","./logger","./event/event-manager","./application"],factory:function(require,exports,module){var Montage = require("./core").Montage,
     Deserializer = require("core/serialization/deserializer/montage-deserializer").MontageDeserializer,
     DocumentPart = require("./document-part").DocumentPart,
     DocumentResources = require("./document-resources").DocumentResources,
@@ -20288,8 +20731,6 @@ var Template = Montage.specialize( /** @lends Template# */ {
      */
     initWithObjectsAndDocumentFragment: {
         value: function (objects, documentFragment, _require) {
-            var self = this;
-
             this._require = _require;
             this.document = this.createHtmlDocumentWithHtml("");
             this.document.body.appendChild(
@@ -20484,8 +20925,7 @@ var Template = Montage.specialize( /** @lends Template# */ {
 
     _instantiateObjects: {
         value: function (instances, fragment) {
-            var self = this,
-                deserializer = this._deserializer,
+            var deserializer = this._deserializer,
                 optimizationPromise;
 
             optimizationPromise = this._optimizeObjectsInstantiation();
@@ -20726,10 +21166,9 @@ var Template = Montage.specialize( /** @lends Template# */ {
      *                    document.
      */
     setDocument: {
-        value: function (_document) {
-            var html = _document.documentElement.innerHTML;
+        value: function(_document) {
+            this.document = this.cloneHtmlDocument(_document);
 
-            this.document = this.createHtmlDocumentWithHtml(html, _document.baseURI);
             this.clearTemplateFromElementContentsCache();
         }
     },
@@ -20835,6 +21274,37 @@ var Template = Montage.specialize( /** @lends Template# */ {
         }
     },
 
+    cloneHtmlDocument: {
+        value: function (htmlDocument) {
+            /*
+             * Temporary fix for the function createHtmlDocumentWithHtml.
+             *
+             * Indeed, innerHTML does not allow us to have a document with some invalid HTML code,
+             * that could belong to an iteration's template for example.
+             *
+             * Such as:
+             *  <body><tr></tr></body> --> <body></body>
+             *
+             * Todo Plus, The DOMImplementation.createHTMLDocument() method has a parameter optional `title`
+             * https://dom.spec.whatwg.org/#domimplementation
+             *
+             * Removing it will improve the performance, but it is not optional for IE.
+             *
+             */
+            var clonedDocument = document.implementation.createHTMLDocument(""),
+                baseURI = htmlDocument.baseURI || htmlDocument.URL;
+
+            clonedDocument.replaceChild(
+                clonedDocument.importNode(htmlDocument.documentElement, true),
+                clonedDocument.documentElement
+            );
+
+            this.normalizeRelativeUrls(clonedDocument, baseURI);
+
+            return clonedDocument;
+        }
+    },
+
     createHtmlDocumentWithModuleId: {
         value: function (moduleId, _require) {
             var self = this;
@@ -20856,8 +21326,7 @@ var Template = Montage.specialize( /** @lends Template# */ {
      */
     _removeObjects: {
         value: function (doc) {
-            var elements,
-                selector = "script[type='" + this._SERIALIZATON_SCRIPT_TYPE + "'], link[rel='serialization']";
+            var selector = "script[type='" + this._SERIALIZATON_SCRIPT_TYPE + "'], link[rel='serialization']";
 
             Array.prototype.forEach.call(
                 doc.querySelectorAll(selector),
@@ -21188,8 +21657,7 @@ var Template = Montage.specialize( /** @lends Template# */ {
             var selector = "*[" + this._ELEMENT_ID_ATTRIBUTE + "]",
                 elements,
                 result = {},
-                elementId,
-                nodes;
+                elementId;
 
             elements = rootNode.querySelectorAll(selector);
 
@@ -21440,7 +21908,6 @@ var TemplateResources = Montage.specialize( /** @lends TemplateResources# */ {
         value: function () {
             var scripts = this._resources.scripts,
                 script,
-                type,
                 template,
                 templateScripts;
 
@@ -21482,8 +21949,7 @@ var TemplateResources = Montage.specialize( /** @lends TemplateResources# */ {
 
     loadScript: {
         value: function (script, targetDocument) {
-            var url,
-                documentResources,
+            var documentResources,
                 newScript;
 
             documentResources = DocumentResources.getInstanceForDocument(targetDocument);
@@ -21585,8 +22051,7 @@ var TemplateResources = Montage.specialize( /** @lends TemplateResources# */ {
 
 // Used to create a DocumentPart from a document without a Template
 function instantiateDocument(_document, _require, instances) {
-    var self = this,
-        template = new Template(),
+    var template = new Template(),
         html = _document.documentElement.outerHTML,
         part = new DocumentPart(),
         clonedDocument,
@@ -21619,10 +22084,11 @@ var TemplateArgumentProvider = Montage.specialize({
      * This function asks the provider to return the element that corresponds
      * to the argument with the same name. This element will be used to replace
      * the corresponding element with data-param of the template being expanded.
+     * @param argumentName
      * @private
      */
     getTemplateArgumentElement: {
-        value: function (argumentName) {}
+        value: Function.noop
     },
 
     /**
@@ -21630,10 +22096,11 @@ var TemplateArgumentProvider = Montage.specialize({
      * that refer to the given element ids.
      * The serialization returned will be merged with the serialization of the
      * template being expanded.
+     * @param elementIds
      * @private
      */
     getTemplateArgumentSerialization: {
-        value: function (elementIds) {}
+        value: Function.noop
     },
 
     /**
@@ -21643,10 +22110,11 @@ var TemplateArgumentProvider = Montage.specialize({
      * access to the template where the argument comes from and where the
      * aliases are defined in the serialization block (e.g: ":cell": {alias:
      * "@repetition:iteration"}).
+     * @param templatePropertyLabel
      * @private
      */
     resolveTemplateArgumentTemplateProperty: {
-        value: function (templatePropertyLabel) {}
+        value: Function.noop
     }
 });
 
@@ -21658,7 +22126,7 @@ exports.instantiateDocument = instantiateDocument;
 }})
 ;
 //*/
-montageDefine("604e6eb","core/document-resources",{dependencies:["./core","./promise","./mini-url"],factory:function(require,exports,module){var Montage = require("./core").Montage,
+montageDefine("666a351","core/document-resources",{dependencies:["./core","./promise","./mini-url"],factory:function(require,exports,module){var Montage = require("./core").Montage,
     Promise = require("./promise").Promise,
     URL = require("./mini-url");
 
@@ -21674,6 +22142,43 @@ var DocumentResources = Montage.specialize({
         value: function DocumentResources() {
             this.super();
             this._expectedStyles = [];
+            this._isPollingDocumentStyleSheets = !this._isLinkLoadEventAvailable();
+        }
+    },
+
+    /**
+     * Returns major webkit version or null if not webkit
+     */
+    _webkitVersion: {
+        value: function () {
+            var version = /AppleWebKit\/([\d.]+)/.exec(navigator.userAgent);
+
+            if (version) {
+                return parseInt(version[1]);
+            }
+            return null;
+        }
+    },
+
+    /**
+     * Returns if the load event is available for link elements
+     */
+    _isLinkLoadEventAvailable: {
+        value: function () {
+            var link = document.createElement("link"),
+                webkitVersion = this._webkitVersion();
+
+            if ("onload" in link) {
+
+                // In webkits below version 535, onload is in link but
+                // the event doesn't fire when the file has been loaded
+
+                if ((webkitVersion !== null) && (webkitVersion < 535)) {
+                    return false;
+                }
+                return true;
+            }
+            return false;
         }
     },
 
@@ -21800,8 +22305,8 @@ var DocumentResources = Montage.specialize({
                     //if (event.type === "load") {
                     self.setResourcePreloaded(url);
                     //}
-                    script.removeEventListener("load", scriptLoaded);
-                    script.removeEventListener("error", scriptLoaded);
+                    script.removeEventListener("load", scriptLoaded, false);
+                    script.removeEventListener("error", scriptLoaded, false);
 
                     clearTimeout(loadingTimeout);
                     deferred.resolve();
@@ -21837,21 +22342,45 @@ var DocumentResources = Montage.specialize({
         }
     },
 
+    handleEvent: {
+        value: function (event) {
+            var target = event.target,
+                index;
+
+            if (target.tagName === "LINK") {
+                index = this._expectedStyles.indexOf(target.href);
+                if (index >= 0) {
+                    this._expectedStyles.splice(index, 1);
+                }
+                target.removeEventListener("load", this, false);
+                target.removeEventListener("error", this, false);
+            }
+        }
+    },
+
     addStyle: {
         value: function (element) {
             var url = element.getAttribute("href"),
-                documentHead;
+                documentHead,
+                loadHandler,
+                self = this;
 
             if (url) {
                 url = this.normalizeUrl(url);
                 if (this.hasResource(url)) {
                     return;
-                } else {
-                    this._addResource(url);
                 }
+                this._addResource(url);
                 this._expectedStyles.push(url);
+                if (!this._isPollingDocumentStyleSheets) {
+                    // fixme: Quick workaround for IE 11. Need a better patch.
+                    // -> link DOM elements are loaded before they are attached to the DOM
+                    element.setAttribute("href", url);
+                    
+                    element.addEventListener("load", this, false);
+                    element.addEventListener("error", this, false);
+                }
             }
-
             documentHead = this._document.head;
             documentHead.insertBefore(element, documentHead.firstChild);
         }
@@ -21943,12 +22472,14 @@ var DocumentResources = Montage.specialize({
             var styleSheets,
                 ix;
 
-            if (this._expectedStyles.length > 0) {
-                styleSheets = this._document.styleSheets;
-                for (var i = 0, styleSheet; styleSheet = styleSheets[i]; i++) {
-                    ix = this._expectedStyles.indexOf(styleSheet.href);
-                    if (ix >= 0) {
-                        this._expectedStyles.splice(ix, 1);
+            if (this._isPollingDocumentStyleSheets) {
+                if (this._expectedStyles.length > 0) {
+                    styleSheets = this._document.styleSheets;
+                    for (var i = 0, styleSheet; styleSheet = styleSheets[i]; i++) {
+                        ix = this._expectedStyles.indexOf(styleSheet.href);
+                        if (ix >= 0) {
+                            this._expectedStyles.splice(ix, 1);
+                        }
                     }
                 }
             }
@@ -21981,7 +22512,7 @@ exports.DocumentResources = DocumentResources;
 }})
 ;
 //*/
-montageDefine("604e6eb","core/gate",{dependencies:["./core","./logger"],factory:function(require,exports,module){
+montageDefine("666a351","core/gate",{dependencies:["./core","./logger"],factory:function(require,exports,module){
 /**
  * @module montage/core/gate
  * @requires montage/core/core
@@ -22195,7 +22726,7 @@ var Gate = exports.Gate = Montage.specialize(/** @lends Gate.prototype # */ {
 }})
 ;
 //*/
-montageDefine("604e6eb","core/application",{dependencies:["./core","./target","../window-loader/montage-window","./dom","./template"],factory:function(require,exports,module){/**
+montageDefine("666a351","core/application",{dependencies:["./core","./target","../window-loader/montage-window","./dom","./template"],factory:function(require,exports,module){/**
  * @module core/application
  * @requires event/event-manager
  * @requires template
@@ -22313,8 +22844,6 @@ var Application = exports.Application = Target.specialize( /** @lends Applicatio
      */
     windows: {
         get: function () {
-            var theWindow;
-
             if (this.parentApplication == null) {
                 if (!this._windows) {
                     var theWindow = new MontageWindow();
@@ -22683,7 +23212,7 @@ var Application = exports.Application = Target.specialize( /** @lends Applicatio
             .then(function (exports) {
                 Slot = Slot || exports.Slot;
                 type = type || "custom";
-                var isSystemPopup = self._isSystemPopup(type), zIndex, slotEl, popupSlot;
+                var isSystemPopup = self._isSystemPopup(type), zIndex, popupSlot;
                 self.popupSlots = self.popupSlots || {};
 
                 if(isSystemPopup) {
@@ -22745,7 +23274,7 @@ var Application = exports.Application = Target.specialize( /** @lends Applicatio
             if(this.popupSlots) {
                 var keys = Object.keys(this.popupSlots);
                 if(keys && keys.length > 0) {
-                    var i=0, len = keys.length, slot;
+                    var i, len = keys.length, slot;
                     for(i=0; i< len; i++) {
                         slot = this.popupSlots[keys[i]];
                         if(slot && slot.content !== null) {
@@ -22764,7 +23293,7 @@ var Application = exports.Application = Target.specialize( /** @lends Applicatio
 }})
 ;
 //*/
-montageDefine("604e6eb","core/document-part",{dependencies:["./core","./logger","./promise","./event/event-manager"],factory:function(require,exports,module){var Montage = require("./core").Montage,
+montageDefine("666a351","core/document-part",{dependencies:["./core","./logger","./promise","./event/event-manager"],factory:function(require,exports,module){var Montage = require("./core").Montage,
     logger = require("./logger").logger("document-part"),
     Promise = require("./promise").Promise,
     defaultEventManager = require("./event/event-manager").defaultEventManager;
@@ -22833,7 +23362,7 @@ var DocumentPart = Montage.specialize({
     },
 
     _addToDrawList: {
-        value: function () {}
+        value: Function.noop
     },
 
     _componentTreeLoadedDeferred: {value: null},
@@ -22868,7 +23397,7 @@ exports.DocumentPart = DocumentPart;
 }})
 ;
 //*/
-montageDefine("604e6eb","core/serialization/serialization",{dependencies:["../core","./serializer/montage-labeler","./deserializer/montage-reviver","frb/parse","frb/stringify"],factory:function(require,exports,module){/**
+montageDefine("666a351","core/serialization/serialization",{dependencies:["../core","./serializer/montage-labeler","./deserializer/montage-reviver","frb/parse","frb/stringify"],factory:function(require,exports,module){/**
  * @module montage/serialization/serialization
  * @requires montage/core
  */
@@ -23773,7 +24302,7 @@ exports.SerializationExtractor = SerializationExtractor;
 }})
 ;
 //*/
-montageDefine("604e6eb","window-loader/montage-window",{dependencies:["../core/core"],factory:function(require,exports,module){/**
+montageDefine("666a351","window-loader/montage-window",{dependencies:["../core/core"],factory:function(require,exports,module){/**
  * @module montage/ui/window
  * @requires montage/core/core
  */
@@ -24044,7 +24573,7 @@ var MontageWindow = exports.MontageWindow = Montage.specialize( /** @lends Monta
 }})
 ;
 //*/
-montageDefine("604e6eb","core/dom",{dependencies:["./geometry/point"],factory:function(require,exports,module){/*global Node,Element,WebKitPoint,webkitConvertPointFromNodeToPage,webkitConvertPointFromPageToNode */
+montageDefine("666a351","core/dom",{dependencies:["./geometry/point"],factory:function(require,exports,module){/*global Node,Element,WebKitPoint,webkitConvertPointFromNodeToPage,webkitConvertPointFromPageToNode */
 
 /**
  * @module montage/core/dom
@@ -24322,7 +24851,7 @@ if (typeof WebKitPoint !== "undefined") {
 }})
 ;
 //*/
-montageDefine("604e6eb","core/geometry/point",{dependencies:["../core"],factory:function(require,exports,module){/**
+montageDefine("666a351","core/geometry/point",{dependencies:["../core"],factory:function(require,exports,module){/**
  * @module montage/core/geometry/point
  * @requires montage/core/core
  */
@@ -24395,7 +24924,7 @@ exports.Point = Montage.specialize( /** @lends Point# */ {
 }})
 ;
 //*/
-montageDefine("80b78ab","deserialization/reviver",{dependencies:["q"],factory:function(require,exports,module){(function(ns) {
+montageDefine("0064e12","deserialization/reviver",{dependencies:["q"],factory:function(require,exports,module){(function(ns) {
     var global = (function() { return this; })(),
         Promise = require("q");
 
@@ -24681,7 +25210,7 @@ if (!Array.isArray) {
 }})
 ;
 //*/
-montageDefine("80b78ab","serialization/malker",{dependencies:[],factory:function(require,exports,module){(function(ns) {
+montageDefine("0064e12","serialization/malker",{dependencies:[],factory:function(require,exports,module){(function(ns) {
     
     /**
      * A Tree/Graph Walker which visits nodes  
@@ -24927,7 +25456,7 @@ montageDefine("80b78ab","serialization/malker",{dependencies:[],factory:function
 }})
 ;
 //*/
-montageDefine("80b78ab","serialization/serializer",{dependencies:["./malker","./builder","./labeler","./visitor"],factory:function(require,exports,module){(function(ns) {
+montageDefine("0064e12","serialization/serializer",{dependencies:["./malker","./builder","./labeler","./visitor"],factory:function(require,exports,module){(function(ns) {
     var Malker = require("./malker").Malker,
         Builder = require("./builder").Builder,
         Labeler = require("./labeler").Labeler,
@@ -25026,32 +25555,7 @@ montageDefine("80b78ab","serialization/serializer",{dependencies:["./malker","./
 }})
 ;
 //*/
-montageDefine("80b78ab","deserialization/interpreter",{dependencies:["./reviver","./context"],factory:function(require,exports,module){(function(ns) {
-    var Reviver = require("./reviver").Reviver,
-        Context = require("./context").Context;
-
-    function Interpreter() {
-
-    }
-
-    Object.defineProperties(Interpreter.prototype, {
-        instantiate: {
-            value: function(serialization, objects) {
-                var reviver = new Reviver(),
-                    context = new Context(serialization, reviver, objects);
-
-                return context.getObjects();
-            }
-        }
-    });
-
-    ns.Interpreter = Interpreter;
-})(exports);
-
-}})
-;
-//*/
-montageDefine("80b78ab","deserialization/deserializer",{dependencies:["q","./interpreter"],factory:function(require,exports,module){(function(ns) {
+montageDefine("0064e12","deserialization/deserializer",{dependencies:["q","./interpreter"],factory:function(require,exports,module){(function(ns) {
     var Promise = require("q"),
         Interpreter = require("./interpreter").Interpreter;
 
@@ -25097,7 +25601,7 @@ montageDefine("80b78ab","deserialization/deserializer",{dependencies:["q","./int
 }})
 ;
 //*/
-montageDefine("80b78ab","serialization/builder",{dependencies:["./ast"],factory:function(require,exports,module){(function(ns) {
+montageDefine("0064e12","serialization/builder",{dependencies:["./ast"],factory:function(require,exports,module){(function(ns) {
     var ast = require("./ast");
 
     function Builder() {
@@ -25307,7 +25811,7 @@ montageDefine("80b78ab","serialization/builder",{dependencies:["./ast"],factory:
 }})
 ;
 //*/
-montageDefine("80b78ab","serialization/labeler",{dependencies:[],factory:function(require,exports,module){(function(ns) {
+montageDefine("0064e12","serialization/labeler",{dependencies:[],factory:function(require,exports,module){(function(ns) {
     function Labeler() {
         this._labels = Object.create(null);
         this._objectsLabels = Object.create(null);
@@ -25464,7 +25968,7 @@ montageDefine("80b78ab","serialization/labeler",{dependencies:[],factory:functio
 }})
 ;
 //*/
-montageDefine("80b78ab","serialization/visitor",{dependencies:["collections/shim-object"],factory:function(require,exports,module){(function(ns) {
+montageDefine("0064e12","serialization/visitor",{dependencies:["collections/shim-object"],factory:function(require,exports,module){(function(ns) {
     // Provides Object.hash
     require("collections/shim-object");
 
@@ -25678,7 +26182,7 @@ montageDefine("80b78ab","serialization/visitor",{dependencies:["collections/shim
 }})
 ;
 //*/
-montageDefine("80b78ab","deserialization/context",{dependencies:["q"],factory:function(require,exports,module){var Promise = require("q");
+montageDefine("0064e12","deserialization/context",{dependencies:["q"],factory:function(require,exports,module){var Promise = require("q");
 
 (function(ns) {
     function Context(serialization, reviver, objects) {
@@ -25807,7 +26311,32 @@ montageDefine("80b78ab","deserialization/context",{dependencies:["q"],factory:fu
 }})
 ;
 //*/
-montageDefine("80b78ab","serialization/ast",{dependencies:[],factory:function(require,exports,module){/**
+montageDefine("0064e12","deserialization/interpreter",{dependencies:["./reviver","./context"],factory:function(require,exports,module){(function(ns) {
+    var Reviver = require("./reviver").Reviver,
+        Context = require("./context").Context;
+
+    function Interpreter() {
+
+    }
+
+    Object.defineProperties(Interpreter.prototype, {
+        instantiate: {
+            value: function(serialization, objects) {
+                var reviver = new Reviver(),
+                    context = new Context(serialization, reviver, objects);
+
+                return context.getObjects();
+            }
+        }
+    });
+
+    ns.Interpreter = Interpreter;
+})(exports);
+
+}})
+;
+//*/
+montageDefine("0064e12","serialization/ast",{dependencies:[],factory:function(require,exports,module){/**
  * Node Hierarchy:
  *
  * +-Root
@@ -26107,7 +26636,7 @@ montageDefine("80b78ab","serialization/ast",{dependencies:[],factory:function(re
 }})
 ;
 //*/
-montageDefine("e3166d5","shim",{dependencies:["./shim-array","./shim-object","./shim-function","./shim-regexp"],factory:function(require,exports,module){
+montageDefine("6cdbef7","shim",{dependencies:["./shim-array","./shim-object","./shim-function","./shim-regexp"],factory:function(require,exports,module){
 var Array = require("./shim-array");
 var Object = require("./shim-object");
 var Function = require("./shim-function");
@@ -26117,7 +26646,7 @@ var RegExp = require("./shim-regexp");
 }})
 ;
 //*/
-montageDefine("e3166d5","listen/property-changes",{dependencies:["../shim"],factory:function(require,exports,module){/*
+montageDefine("6cdbef7","listen/property-changes",{dependencies:["../shim"],factory:function(require,exports,module){/*
     Based in part on observable arrays from Motorola Mobility’s Montage
     Copyright (c) 2012, Motorola Mobility LLC. All Rights Reserved.
     3-Clause BSD License
@@ -26133,7 +26662,11 @@ montageDefine("e3166d5","listen/property-changes",{dependencies:["../shim"],fact
 
 require("../shim");
 
-var object_owns = Object.prototype.hasOwnProperty;
+// objectHasOwnProperty.call(myObject, key) will be used instead of
+// myObject.hasOwnProperty(key) to allow myObject have defined
+// a own property called "hasOwnProperty".
+
+var objectHasOwnProperty = Object.prototype.hasOwnProperty;
 
 // Object property descriptors carry information necessary for adding,
 // removing, dispatching, and shorting events to listeners for property changes
@@ -26189,8 +26722,9 @@ PropertyChanges.prototype.getOwnPropertyChangeDescriptor = function (key) {
         });
     }
     var objectPropertyChangeDescriptors = this.__propertyChangeListeners__;
-    if (!object_owns.call(objectPropertyChangeDescriptors, key)) {
+    if (!objectHasOwnProperty.call(objectPropertyChangeDescriptors, key)) {
         var propertyName = String(key);
+
         propertyName = propertyName && propertyName[0].toUpperCase() + propertyName.slice(1);
         objectPropertyChangeDescriptors[key] = {
             willChangeListeners: {
@@ -26218,7 +26752,7 @@ PropertyChanges.prototype.hasOwnPropertyChangeDescriptor = function (key) {
         return true;
     }
     var objectPropertyChangeDescriptors = this.__propertyChangeListeners__;
-    if (!object_owns.call(objectPropertyChangeDescriptors, key)) {
+    if (!objectHasOwnProperty.call(objectPropertyChangeDescriptors, key)) {
         return false;
     }
     return true;
@@ -26241,7 +26775,7 @@ PropertyChanges.prototype.addOwnPropertyChangeListener = function (key, listener
 
     var self = this;
     return function cancelOwnPropertyChangeListener() {
-        PropertyChanges.removeOwnPropertyChangeListener(self, key, listeners.current, beforeChange);
+        PropertyChanges.removeOwnPropertyChangeListener(self, key, listener, beforeChange);
         self = null;
     };
 };
@@ -26272,55 +26806,52 @@ PropertyChanges.prototype.removeBeforeOwnPropertyChangeListener = function (key,
 };
 
 PropertyChanges.prototype.dispatchOwnPropertyChange = function (key, value, beforeChange) {
-    var descriptor = PropertyChanges.getOwnPropertyChangeDescriptor(this, key);
+    var descriptor = PropertyChanges.getOwnPropertyChangeDescriptor(this, key),
+        listeners;
 
-    if (descriptor.isActive) {
-        return;
-    }
-    descriptor.isActive = true;
-
-    var listeners;
-    if (beforeChange) {
-        listeners = descriptor.willChangeListeners;
-    } else {
-        listeners = descriptor.changeListeners;
-    }
-
-	if (listeners.length === 0) return;
-
-    try {
-        // dispatch to each listener
-        dispatchEach.call(this, listeners, key, value);
-    } finally {
-        descriptor.isActive = false;
+    if (!descriptor.isActive) {
+        descriptor.isActive = true;
+        if (beforeChange) {
+            listeners = descriptor.willChangeListeners;
+        } else {
+            listeners = descriptor.changeListeners;
+        }
+        try {
+            dispatchEach(listeners, key, value, this);
+        } finally {
+            descriptor.isActive = false;
+        }
     }
 };
 
-// Factored out of parent to avoid try/catch deoptimization
-function dispatchEach(listeners, key, value) {
+function dispatchEach(listeners, key, value, object) {
     // copy snapshot of current listeners to active listeners
     var active = listeners.active;
     var current = listeners.current;
-    var index = active.length = current.length;
+    var index = current.length;
+    var listener, length = index, i, thisp;
+
+    if (active.length > index) {
+        active.length = index;
+    }
     while (index--) {
         active[index] = current[index];
     }
-    for (var i = 0, length = active.length; i < length; i++) {
-        var listener = active[i];
-        if (current.indexOf(listener) < 0) {
-			//This is fixing the issue causing a regression in Montage's repetition
-            continue;
+    for (i = 0; i < length; i++) {
+        thisp = active[i];
+        //This is fixing the issue causing a regression in Montage's repetition
+        if (!i || current.indexOf(thisp) >= 0) {
+            listener = (
+                thisp[listeners.specificHandlerMethodName] ||
+                thisp[listeners.genericHandlerMethodName] ||
+                thisp
+            );
+            if (!listener.call) {
+                throw new Error("No event listener for " + listeners.specificHandlerName + " or " + listeners.genericHandlerName + " or call on " + listener);
+            }
+            listener.call(thisp, value, key, object);
         }
-        var thisp = listener;
-        listener = (
-            listener[listeners.specificHandlerMethodName] ||
-            listener[listeners.genericHandlerMethodName] ||
-            listener
-        );
-        if (!listener.call) {
-            throw new Error("No event listener for " + listeners.specificHandlerName + " or " + listeners.genericHandlerName + " or call on " + listener);
-        }
-        listener.call(thisp, value, key, this);
+
     }
 }
 
@@ -26333,31 +26864,18 @@ PropertyChanges.prototype.makePropertyObservable = function (key) {
     // on an array.  instead, call .set(index, value).  this is observable.
     // 'length' property is observable for all mutating methods because
     // our overrides explicitly dispatch that change.
-    if (Array.isArray(this)) {
-        return;
-    }
 
-    if (!Object.isExtensible(this)) {
-        throw new Error("Can't make property " + JSON.stringify(key) + " observable on " + this + " because object is not extensible");
-    }
 
-    var state;
-    if (typeof this.__state__ === "object") {
-        state = this.__state__;
-    } else {
-        state = {};
-        if (Object.isExtensible(this)) {
-            Object.defineProperty(this, "__state__", {
-                value: state,
-                writable: true,
-                enumerable: false
-            });
-        }
-    }
-    state[key] = this[key];
+    var overriddenPropertyDescriptors = this.__overriddenPropertyDescriptors__;
 
     // memoize overridden property descriptor table
-    if (!this.__overriddenPropertyDescriptors__) {
+    if (!overriddenPropertyDescriptors) {
+        if (Array.isArray(this)) {
+            return;
+        }
+        if (!Object.isExtensible(this)) {
+            throw new Error("Can't make property " + JSON.stringify(key) + " observable on " + this + " because object is not extensible");
+        }
         overriddenPropertyDescriptors = {};
         Object.defineProperty(this, "__overriddenPropertyDescriptors__", {
             value: overriddenPropertyDescriptors,
@@ -26365,14 +26883,28 @@ PropertyChanges.prototype.makePropertyObservable = function (key) {
             writable: true,
             configurable: true
         });
+    } else {
+        if (objectHasOwnProperty.call(overriddenPropertyDescriptors, key)) {
+            // if we have already recorded an overridden property descriptor,
+            // we have already installed the observer, so short-here
+            return;
+        }
     }
-    var overriddenPropertyDescriptors = this.__overriddenPropertyDescriptors__;
 
-    if (object_owns.call(overriddenPropertyDescriptors, key)) {
-        // if we have already recorded an overridden property descriptor,
-        // we have already installed the observer, so short-here
-        return;
+    var state;
+    if (typeof this.__state__ === "object") {
+        state = this.__state__;
+    } else {
+        state = {};
+        Object.defineProperty(this, "__state__", {
+            value: state,
+            writable: true,
+            enumerable: false
+        });
     }
+    state[key] = this[key];
+
+
 
     // walk up the prototype chain to find a property descriptor for
     // the property name
@@ -26386,29 +26918,26 @@ PropertyChanges.prototype.makePropertyObservable = function (key) {
         attached = Object.getPrototypeOf(attached);
     } while (attached);
     // or default to an undefined value
-    overriddenDescriptor = overriddenDescriptor || {
-        value: undefined,
-        enumerable: true,
-        writable: true,
-        configurable: true
-    };
-
-    if (!overriddenDescriptor.configurable) {
-        return;
+    if (!overriddenDescriptor) {
+        overriddenDescriptor = {
+            value: undefined,
+            enumerable: true,
+            writable: true,
+            configurable: true
+        };
+    } else {
+        if (!overriddenDescriptor.configurable) {
+            return;
+        }
+        if (!overriddenDescriptor.writable && !overriddenDescriptor.set) {
+            return;
+        }
     }
 
     // memoize the descriptor so we know not to install another layer,
     // and so we can reuse the overridden descriptor when uninstalling
     overriddenPropertyDescriptors[key] = overriddenDescriptor;
 
-    // give up *after* storing the overridden property descriptor so it
-    // can be restored by uninstall.  Unwritable properties are
-    // silently not overriden.  Since success is indistinguishable from
-    // failure, we let it pass but don't waste time on intercepting
-    // get/set.
-    if (!overriddenDescriptor.writable && !overriddenDescriptor.set) {
-        return;
-    }
 
     // TODO reflect current value on a displayed property
 
@@ -26422,55 +26951,63 @@ PropertyChanges.prototype.makePropertyObservable = function (key) {
     if ('value' in overriddenDescriptor) {
         propertyListener = {
             get: function () {
-                return overriddenDescriptor.value
+                return overriddenDescriptor.value;
             },
             set: function (value) {
-                if (value === overriddenDescriptor.value) {
-                    return value;
+                var descriptor,
+                    isActive;
+
+                if (value !== overriddenDescriptor.value) {
+                    descriptor = this.__propertyChangeListeners__[key];
+                    isActive = descriptor.isActive;
+                    if (!isActive) {
+                        descriptor.isActive = true;
+                        try {
+                            dispatchEach(descriptor.willChangeListeners, key, overriddenDescriptor.value, this);
+                        } finally {}
+                    }
+                    overriddenDescriptor.value = value;
+                    state[key] = value;
+                    if (!isActive) {
+                        try {
+                            dispatchEach(descriptor.changeListeners, key, value, this);
+                        } finally {
+                            descriptor.isActive = false;
+                        }
+                    }
                 }
-                PropertyChanges.dispatchBeforeOwnPropertyChange(this, key, overriddenDescriptor.value);
-                overriddenDescriptor.value = value;
-                state[key] = value;
-                PropertyChanges.dispatchOwnPropertyChange(this, key, value);
-                return value;
             },
             enumerable: overriddenDescriptor.enumerable,
             configurable: true
         };
     } else { // 'get' or 'set', but not necessarily both
         propertyListener = {
-            get: function () {
-                if (overriddenDescriptor.get) {
-                    return overriddenDescriptor.get.apply(this, arguments);
-                }
-            },
+            get: overriddenDescriptor.get,
             set: function (value) {
-                var formerValue;
+                var formerValue = this[key],
+                    descriptor,
+                    isActive;
 
-                // get the actual former value if possible
-                if (overriddenDescriptor.get) {
-                    formerValue = overriddenDescriptor.get.apply(this, arguments);
-                }
-                // call through to actual setter
-                if (overriddenDescriptor.set) {
-                    overriddenDescriptor.set.apply(this, arguments)
-                }
-                // use getter, if possible, to discover whether the set
-                // was successful
-                if (overriddenDescriptor.get) {
-                    value = overriddenDescriptor.get.apply(this, arguments);
+                overriddenDescriptor.set.call(this, value);
+                value = this[key];
+                if (value !== formerValue) {
+                    descriptor = this.__propertyChangeListeners__[key];
+                    isActive = descriptor.isActive;
+                    if (!isActive) {
+                        descriptor.isActive = true;
+                        try {
+                            dispatchEach(descriptor.willChangeListeners, key, formerValue, this);
+                        } finally {}
+                    }
                     state[key] = value;
+                    if (!isActive) {
+                        try {
+                            dispatchEach(descriptor.changeListeners, key, value, this);
+                        } finally {
+                            descriptor.isActive = false;
+                        }
+                    }
                 }
-                // if it has not changed, suppress a notification
-                if (value === formerValue) {
-                    return value;
-                }
-                PropertyChanges.dispatchBeforeOwnPropertyChange(this, key, formerValue);
-
-                // dispatch the new value: the given value if there is
-                // no getter, or the actual value if there is one
-                PropertyChanges.dispatchOwnPropertyChange(this, key, value);
-                return value;
             },
             enumerable: overriddenDescriptor.enumerable,
             configurable: true
@@ -26545,11 +27082,10 @@ PropertyChanges.makePropertyObservable = function (object, key) {
     }
 };
 
-
 }})
 ;
 //*/
-montageDefine("e3166d5","map",{dependencies:["./shim","./set","./generic-collection","./generic-map","./listen/property-changes","map"],factory:function(require,exports,module){"use strict";
+montageDefine("6cdbef7","map",{dependencies:["./shim","./set","./generic-collection","./generic-map","./listen/property-changes","map"],factory:function(require,exports,module){"use strict";
 
 var Shim = require("./shim");
 var Set = require("./set");
@@ -26613,7 +27149,7 @@ Map.prototype.logNode = function (node, log) {
 }})
 ;
 //*/
-montageDefine("e3166d5","shim-array",{dependencies:["./shim-function","./generic-collection","./generic-order","weak-map"],factory:function(require,exports,module){"use strict";
+montageDefine("6cdbef7","shim-array",{dependencies:["./shim-function","./generic-collection","./generic-order","weak-map"],factory:function(require,exports,module){"use strict";
 
 /*
     Based in part on extras from Motorola Mobility’s Montage
@@ -26970,7 +27506,7 @@ ArrayIterator.prototype.next = function () {
 }})
 ;
 //*/
-montageDefine("e3166d5","shim-object",{dependencies:["weak-map"],factory:function(require,exports,module){"use strict";
+montageDefine("6cdbef7","shim-object",{dependencies:["weak-map"],factory:function(require,exports,module){"use strict";
 
 var WeakMap = require("weak-map");
 
@@ -27494,7 +28030,7 @@ Object.clear = function (object) {
 }})
 ;
 //*/
-montageDefine("e3166d5","shim-function",{dependencies:[],factory:function(require,exports,module){
+montageDefine("6cdbef7","shim-function",{dependencies:[],factory:function(require,exports,module){
 module.exports = Function;
 
 /**
@@ -27557,7 +28093,7 @@ Function.get = function (key) {
 }})
 ;
 //*/
-montageDefine("e3166d5","shim-regexp",{dependencies:[],factory:function(require,exports,module){
+montageDefine("6cdbef7","shim-regexp",{dependencies:[],factory:function(require,exports,module){
 /**
     accepts a string; returns the string with regex metacharacters escaped.
     the returned string can safely be used within a regex to match a literal
@@ -27575,7 +28111,7 @@ if (!RegExp.escape) {
 }})
 ;
 //*/
-montageDefine("e3166d5","set",{dependencies:["./shim","./list","./fast-set","./generic-collection","./generic-set","./listen/property-changes","./listen/range-changes","set"],factory:function(require,exports,module){"use strict";
+montageDefine("6cdbef7","set",{dependencies:["./shim","./list","./fast-set","./generic-collection","./generic-set","./listen/property-changes","./listen/range-changes","set"],factory:function(require,exports,module){"use strict";
 
 var Shim = require("./shim");
 var List = require("./list");
@@ -27758,7 +28294,7 @@ Set.prototype.makeObservable = function () {
 }})
 ;
 //*/
-montageDefine("e3166d5","generic-collection",{dependencies:["./shim-array"],factory:function(require,exports,module){"use strict";
+montageDefine("6cdbef7","generic-collection",{dependencies:["./shim-array"],factory:function(require,exports,module){"use strict";
 
 module.exports = GenericCollection;
 function GenericCollection() {
@@ -28035,7 +28571,7 @@ require("./shim-array");
 }})
 ;
 //*/
-montageDefine("e3166d5","generic-map",{dependencies:["./shim-object","./listen/map-changes","./listen/property-changes"],factory:function(require,exports,module){"use strict";
+montageDefine("6cdbef7","generic-map",{dependencies:["./shim-object","./listen/map-changes","./listen/property-changes"],factory:function(require,exports,module){"use strict";
 
 var Object = require("./shim-object");
 var MapChanges = require("./listen/map-changes");
@@ -28240,7 +28776,7 @@ Item.prototype.compare = function (that) {
 }})
 ;
 //*/
-montageDefine("e3166d5","listen/array-changes",{dependencies:["../shim","../list","./property-changes","./range-changes","./map-changes"],factory:function(require,exports,module){/*
+montageDefine("6cdbef7","listen/array-changes",{dependencies:["../shim","../list","./property-changes","./range-changes","./map-changes"],factory:function(require,exports,module){/*
  Based in part on observable arrays from Motorola Mobility’s Montage
  Copyright (c) 2012, Motorola Mobility LLC. All Rights Reserved.
  3-Clause BSD License
@@ -28570,7 +29106,7 @@ exports.observableArrayProperties = observableArrayProperties;
 }})
 ;
 //*/
-montageDefine("e3166d5","sorted-array",{dependencies:["./shim","./generic-collection","./listen/property-changes","./listen/range-changes","sorted-array"],factory:function(require,exports,module){"use strict";
+montageDefine("6cdbef7","sorted-array",{dependencies:["./shim","./generic-collection","./listen/property-changes","./listen/range-changes","sorted-array"],factory:function(require,exports,module){"use strict";
 
 module.exports = SortedArray;
 
@@ -28907,7 +29443,7 @@ SortedArray.prototype.Iterator = Array.prototype.Iterator;
 }})
 ;
 //*/
-montageDefine("e3166d5","sorted-set",{dependencies:["./shim","./generic-collection","./generic-set","./listen/property-changes","./listen/range-changes","./tree-log","sorted-set"],factory:function(require,exports,module){"use strict";
+montageDefine("6cdbef7","sorted-set",{dependencies:["./shim","./generic-collection","./generic-set","./listen/property-changes","./listen/range-changes","./tree-log","sorted-set"],factory:function(require,exports,module){"use strict";
 
 module.exports = SortedSet;
 
@@ -29676,7 +30212,7 @@ Iterator.prototype.next = function () {
 }})
 ;
 //*/
-montageDefine("e3166d5","heap",{dependencies:["./listen/array-changes","./shim","./generic-collection","./listen/map-changes","./listen/range-changes","./listen/property-changes","heap"],factory:function(require,exports,module){
+montageDefine("6cdbef7","heap",{dependencies:["./listen/array-changes","./shim","./generic-collection","./listen/map-changes","./listen/range-changes","./listen/property-changes","heap"],factory:function(require,exports,module){
 // Adapted from Eloquent JavaScript by Marijn Haverbeke
 // http://eloquentjavascript.net/appendix2.html
 
@@ -29924,7 +30460,7 @@ Heap.prototype.handleContentMapWillChange = function (value, key) {
 }})
 ;
 //*/
-montageDefine("e3166d5","generic-order",{dependencies:["./shim-object"],factory:function(require,exports,module){
+montageDefine("6cdbef7","generic-order",{dependencies:["./shim-object"],factory:function(require,exports,module){
 var Object = require("./shim-object");
 
 module.exports = GenericOrder;
@@ -29986,7 +30522,7 @@ GenericOrder.prototype.toJSON = function () {
 }})
 ;
 //*/
-montageDefine("e3166d5","list",{dependencies:["./shim","./generic-collection","./generic-order","./listen/property-changes","./listen/range-changes","list"],factory:function(require,exports,module){"use strict";
+montageDefine("6cdbef7","list",{dependencies:["./shim","./generic-collection","./generic-order","./listen/property-changes","./listen/range-changes","list"],factory:function(require,exports,module){"use strict";
 
 module.exports = List;
 
@@ -30449,7 +30985,7 @@ Node.prototype.addAfter = function (node) {
 }})
 ;
 //*/
-montageDefine("e3166d5","fast-set",{dependencies:["./shim","./dict","./list","./generic-collection","./generic-set","./tree-log","./listen/property-changes","fast-set"],factory:function(require,exports,module){"use strict";
+montageDefine("6cdbef7","fast-set",{dependencies:["./shim","./dict","./list","./generic-collection","./generic-set","./tree-log","./listen/property-changes","fast-set"],factory:function(require,exports,module){"use strict";
 
 var Shim = require("./shim");
 var Dict = require("./dict");
@@ -30645,7 +31181,7 @@ FastSet.prototype.logNode = function (node, write) {
 }})
 ;
 //*/
-montageDefine("e3166d5","generic-set",{dependencies:[],factory:function(require,exports,module){
+montageDefine("6cdbef7","generic-set",{dependencies:[],factory:function(require,exports,module){
 module.exports = GenericSet;
 function GenericSet() {
     throw new Error("Can't construct. GenericSet is a mixin.");
@@ -30721,7 +31257,7 @@ GenericSet.prototype.toggle = function (value) {
 }})
 ;
 //*/
-montageDefine("e3166d5","listen/range-changes",{dependencies:["weak-map","../dict"],factory:function(require,exports,module){"use strict";
+montageDefine("6cdbef7","listen/range-changes",{dependencies:["weak-map","../dict"],factory:function(require,exports,module){"use strict";
 
 var WeakMap = require("weak-map");
 var Dict = require("../dict");
@@ -30867,7 +31403,7 @@ RangeChanges.prototype.dispatchBeforeRangeChange = function (plus, minus, index)
 }})
 ;
 //*/
-montageDefine("e3166d5","listen/map-changes",{dependencies:["weak-map","../list","../dict"],factory:function(require,exports,module){"use strict";
+montageDefine("6cdbef7","listen/map-changes",{dependencies:["weak-map","../list","../dict"],factory:function(require,exports,module){"use strict";
 
 var WeakMap = require("weak-map");
 var List = require("../list");
@@ -30892,10 +31428,13 @@ var object_owns = Object.prototype.hasOwnProperty;
 */
 
 var mapChangeDescriptors = new WeakMap();
+var Dict = null;
 
 MapChanges.prototype.getAllMapChangeDescriptors = function () {
-    var Dict = require("../dict");
     if (!mapChangeDescriptors.has(this)) {
+        if (!Dict) {
+            Dict = require("../dict");
+        }
         mapChangeDescriptors.set(this, Dict());
     }
     return mapChangeDescriptors.get(this);
@@ -31018,7 +31557,7 @@ MapChanges.prototype.dispatchBeforeMapChange = function (key, value) {
 }})
 ;
 //*/
-montageDefine("e3166d5","tree-log",{dependencies:[],factory:function(require,exports,module){"use strict";
+montageDefine("6cdbef7","tree-log",{dependencies:[],factory:function(require,exports,module){"use strict";
 
 module.exports = TreeLog;
 
@@ -31062,7 +31601,7 @@ TreeLog.unicodeSharp = {
 }})
 ;
 //*/
-montageDefine("e3166d5","dict",{dependencies:["./shim","./generic-collection","./generic-map","./listen/property-changes","dict"],factory:function(require,exports,module){"use strict";
+montageDefine("6cdbef7","dict",{dependencies:["./shim","./generic-collection","./generic-map","./listen/property-changes","dict"],factory:function(require,exports,module){"use strict";
 
 var Shim = require("./shim");
 var GenericCollection = require("./generic-collection");
@@ -31078,23 +31617,12 @@ function Dict(values, getDefault) {
     }
     getDefault = getDefault || Function.noop;
     this.getDefault = getDefault;
-    this.store = {};
+    this.store = Object.create(null);
     this.length = 0;
     this.addEach(values);
 }
 
 Dict.Dict = Dict; // hack so require("dict").Dict will work in MontageJS.
-
-function mangle(key) {
-    // Use "$" as the mangle prefix so dictionaries of valid identifiers can
-    // take advantage of optimizations for objects containing only valid
-    // identifiers. I have not verified that this makes a difference.
-    return "$" + key;
-}
-
-function unmangle(mangled) {
-    return mangled.slice(1);
-}
 
 Object.addEach(Dict.prototype, GenericCollection.prototype);
 Object.addEach(Dict.prototype, GenericMap.prototype);
@@ -31110,26 +31638,56 @@ Dict.prototype.assertString = function (key) {
     }
 }
 
+Object.defineProperty(Dict.prototype,"$__proto__",{writable:true});
+Object.defineProperty(Dict.prototype,"_hasProto",{
+    get:function() {
+        return this.hasOwnProperty("$__proto__") && typeof this._protoValue !== "undefined";
+    }
+});
+Object.defineProperty(Dict.prototype,"_protoValue",{
+    get:function() {
+        return this["$__proto__"];
+    },
+    set: function(value) {
+        this["$__proto__"] = value;
+    }
+});
+
 Dict.prototype.get = function (key, defaultValue) {
     this.assertString(key);
-    var mangled = mangle(key);
-    if (mangled in this.store) {
-        return this.store[mangled];
-    } else if (arguments.length > 1) {
-        return defaultValue;
-    } else {
-        return this.getDefault(key);
+    if (key === "__proto__") {
+        if (this._hasProto) {
+            return this._protoValue;
+        } else if (arguments.length > 1) {
+            return defaultValue;
+        } else {
+            return this.getDefault(key);
+        }
+    }
+    else {
+        if (key in this.store) {
+            return this.store[key];
+        } else if (arguments.length > 1) {
+            return defaultValue;
+        } else {
+            return this.getDefault(key);
+        }
     }
 };
 
 Dict.prototype.set = function (key, value) {
     this.assertString(key);
-    var mangled = mangle(key);
-    if (mangled in this.store) { // update
+    var isProtoKey = (key === "__proto__");
+    
+    if (isProtoKey ? this._hasProto : key in this.store) { // update
         if (this.dispatchesMapChanges) {
-            this.dispatchBeforeMapChange(key, this.store[mangled]);
+            this.dispatchBeforeMapChange(key, isProtoKey ? this._protoValue : this.store[key]);
         }
-        this.store[mangled] = value;
+        
+        isProtoKey
+            ? this._protoValue = value
+            : this.store[key] = value;
+        
         if (this.dispatchesMapChanges) {
             this.dispatchMapChange(key, value);
         }
@@ -31139,7 +31697,11 @@ Dict.prototype.set = function (key, value) {
             this.dispatchBeforeMapChange(key, undefined);
         }
         this.length++;
-        this.store[mangled] = value;
+
+        isProtoKey
+            ? this._protoValue = value
+            : this.store[key] = value;
+
         if (this.dispatchesMapChanges) {
             this.dispatchMapChange(key, value);
         }
@@ -31149,35 +31711,57 @@ Dict.prototype.set = function (key, value) {
 
 Dict.prototype.has = function (key) {
     this.assertString(key);
-    var mangled = mangle(key);
-    return mangled in this.store;
+    return key === "__proto__" ? this._hasProto : key in this.store;
 };
 
 Dict.prototype["delete"] = function (key) {
     this.assertString(key);
-    var mangled = mangle(key);
-    if (mangled in this.store) {
-        if (this.dispatchesMapChanges) {
-            this.dispatchBeforeMapChange(key, this.store[mangled]);
+    if (key === "__proto__") {
+        if (this._hasProto) {
+            if (this.dispatchesMapChanges) {
+                this.dispatchBeforeMapChange(key, this._protoValue);
+            }
+            this._protoValue = undefined;
+            this.length--;
+            if (this.dispatchesMapChanges) {
+                this.dispatchMapChange(key, undefined);
+            }
+            return true;
         }
-        delete this.store[mangle(key)];
-        this.length--;
-        if (this.dispatchesMapChanges) {
-            this.dispatchMapChange(key, undefined);
-        }
-        return true;
+        return false;
     }
-    return false;
+    else {
+        if (key in this.store) {
+            if (this.dispatchesMapChanges) {
+                this.dispatchBeforeMapChange(key, this.store[key]);
+            }
+            delete this.store[key];
+            this.length--;
+            if (this.dispatchesMapChanges) {
+                this.dispatchMapChange(key, undefined);
+            }
+            return true;
+        }
+        return false;
+    }
 };
 
 Dict.prototype.clear = function () {
-    var key, mangled;
-    for (mangled in this.store) {
-        key = unmangle(mangled);
+    var key;
+    if (this._hasProto) {
         if (this.dispatchesMapChanges) {
-            this.dispatchBeforeMapChange(key, this.store[mangled]);
+            this.dispatchBeforeMapChange("__proto__", this._protoValue);
         }
-        delete this.store[mangled];
+        this._protoValue = undefined;
+        if (this.dispatchesMapChanges) {
+            this.dispatchMapChange("__proto__", undefined);
+        }
+    }
+    for (key in this.store) {
+        if (this.dispatchesMapChanges) {
+            this.dispatchBeforeMapChange(key, this.store[key]);
+        }
+        delete this.store[key];
         if (this.dispatchesMapChanges) {
             this.dispatchMapChange(key, undefined);
         }
@@ -31186,8 +31770,12 @@ Dict.prototype.clear = function () {
 };
 
 Dict.prototype.reduce = function (callback, basis, thisp) {
-    for (var mangled in this.store) {
-        basis = callback.call(thisp, basis, this.store[mangled], unmangle(mangled), this);
+    if(this._hasProto) {
+        basis = callback.call(thisp, basis, "$__proto__", "__proto__", this);
+    }
+    var store = this.store;
+    for (var key in this.store) {
+        basis = callback.call(thisp, basis, store[key], key, this);
     }
     return basis;
 };
@@ -31195,9 +31783,14 @@ Dict.prototype.reduce = function (callback, basis, thisp) {
 Dict.prototype.reduceRight = function (callback, basis, thisp) {
     var self = this;
     var store = this.store;
-    return Object.keys(this.store).reduceRight(function (basis, mangled) {
-        return callback.call(thisp, basis, store[mangled], unmangle(mangled), self);
+    basis = Object.keys(this.store).reduceRight(function (basis, key) {
+        return callback.call(thisp, basis, store[key], key, self);
     }, basis);
+    
+    if(this._hasProto) {
+        return callback.call(thisp, basis, this._protoValue, "__proto__", self);
+    }
+    return basis;
 };
 
 Dict.prototype.one = function () {
@@ -31205,6 +31798,7 @@ Dict.prototype.one = function () {
     for (key in this.store) {
         return this.store[key];
     }
+    return this._protoValue;
 };
 
 Dict.prototype.toJSON = function () {
@@ -31214,11 +31808,11 @@ Dict.prototype.toJSON = function () {
 }})
 ;
 //*/
-montageDefine("e5fc713","parse",{dependencies:["collections/shim","./grammar"],factory:function(require,exports,module){
+montageDefine("09f0f3b","parse",{dependencies:["collections/shim","./grammar"],factory:function(require,exports,module){
 require("collections/shim");
 var grammar = require("./grammar");
 
-var memo = Object.create(null); // could be Dict
+var memo = {}; // could be Dict
 
 module.exports = parse;
 function parse(text, options) {
@@ -31229,7 +31823,7 @@ function parse(text, options) {
                 return parse(text, options);
             })
         };
-    } else if (!options && (text in memo)) {
+    } else if (!options && Object.prototype.hasOwnProperty.call(memo, text)) {
         return memo[text];
     } else {
         try {
@@ -31252,7 +31846,7 @@ function parse(text, options) {
 }})
 ;
 //*/
-montageDefine("e5fc713","evaluate",{dependencies:["./parse","./compile-evaluator","./scope"],factory:function(require,exports,module){
+montageDefine("09f0f3b","evaluate",{dependencies:["./parse","./compile-evaluator","./scope"],factory:function(require,exports,module){
 var parse = require("./parse");
 var compile = require("./compile-evaluator");
 var Scope = require("./scope");
@@ -31278,7 +31872,7 @@ function evaluate(path, value, parameters, document, components) {
 }})
 ;
 //*/
-montageDefine("e5fc713","assign",{dependencies:["./parse","./compile-assigner","./scope"],factory:function(require,exports,module){
+montageDefine("09f0f3b","assign",{dependencies:["./parse","./compile-assigner","./scope"],factory:function(require,exports,module){
 var parse = require("./parse");
 var compile = require("./compile-assigner");
 var Scope = require("./scope");
@@ -31305,67 +31899,7 @@ function assign(target, path, value, parameters, document, components) {
 }})
 ;
 //*/
-montageDefine("e5fc713","observe",{dependencies:["./parse","./compile-observer","./observers","./scope"],factory:function(require,exports,module){
-var parse = require("./parse");
-var compile = require("./compile-observer");
-var Observers = require("./observers");
-var autoCancelPrevious = Observers.autoCancelPrevious;
-var Scope = require("./scope");
-
-module.exports = observe;
-function observe(source, expression, descriptorOrFunction) {
-    var descriptor;
-    if (typeof descriptorOrFunction === "function") {
-        descriptor = {change: descriptorOrFunction};
-    } else {
-        descriptor = descriptorOrFunction;
-    }
-
-    descriptor = descriptor || empty;
-    descriptor.source = source;
-    descriptor.sourcePath = expression;
-    var parameters = descriptor.parameters = descriptor.parameters || source;
-    var document = descriptor.document;
-    var components = descriptor.components;
-    var beforeChange = descriptor.beforeChange;
-    var contentChange = descriptor.contentChange;
-
-    // TODO consider the possibility that source has an intrinsic scope
-    // property
-    var sourceScope = new Scope(source);
-    sourceScope.parameters = parameters;
-    sourceScope.document = document;
-    sourceScope.components = components;
-    sourceScope.beforeChange = beforeChange;
-
-    var syntax = parse(expression);
-    var observe = compile(syntax);
-
-    // decorate for content change observations
-    if (contentChange === true) {
-        observe = Observers.makeRangeContentObserver(observe);
-    }
-
-    return observe(autoCancelPrevious(function (value) {
-        if (!value) {
-        } else if (typeof contentChange !== "function") {
-            return descriptor.change.apply(source, arguments);
-        } else if (typeof contentChange === "function") {
-            value.addRangeChangeListener(contentChange);
-            return function () {
-                value.removeRangeChangeListener(contentChange);
-            };
-        }
-    }), sourceScope);
-}
-
-var empty = {};
-
-
-}})
-;
-//*/
-montageDefine("e5fc713","bind",{dependencies:["./parse","./algebra","./stringify","./compile-observer","./compile-binder","./compile-assigner","./observers","./binders","./scope"],factory:function(require,exports,module){
+montageDefine("09f0f3b","bind",{dependencies:["./parse","./algebra","./stringify","./compile-observer","./compile-binder","./compile-assigner","./observers","./binders","./scope"],factory:function(require,exports,module){
 var parse = require("./parse");
 var solve = require("./algebra");
 var stringify = require("./stringify");
@@ -31387,17 +31921,23 @@ function bind(target, targetPath, descriptor) {
     var sourcePath = descriptor["<-"] || descriptor["<->"] || "";
     var twoWay = descriptor.twoWay = "<->" in descriptor;
     descriptor.sourcePath = sourcePath;
+    var value = descriptor.value;
+    var parameters = descriptor.parameters = descriptor.parameters || source;
+    var document = descriptor.document;
+    var components = descriptor.components;
     var trace = descriptor.trace;
 
     // TODO: consider the possibility that source and target have intrinsic
     // scope properties
 
     var sourceScope = descriptor.sourceScope = new Scope(source);
+    sourceScope.parameters = parameters;
+    sourceScope.document = document;
+    sourceScope.components = components;
     var targetScope = descriptor.targetScope = new Scope(target);
-
-    sourceScope.parameters = targetScope.parameters = (descriptor.parameters = descriptor.parameters || source);
-    sourceScope.document = targetScope.document = descriptor.document;
-    sourceScope.components = targetScope.components = descriptor.components;
+    targetScope.parameters = parameters;
+    targetScope.document = document;
+    targetScope.components = components;
 
     // promote convert and revert from a converter object up to the descriptor
     if (descriptor.converter) {
@@ -31482,6 +32022,7 @@ function bind(target, targetPath, descriptor) {
         cancelSourceToTarget();
         cancelTargetToSource();
     };
+
 }
 
 function bindOneWay(
@@ -31640,7 +32181,7 @@ function bindRangeContent(
 }})
 ;
 //*/
-montageDefine("e5fc713","compile-observer",{dependencies:["./observers","./operators"],factory:function(require,exports,module){
+montageDefine("09f0f3b","compile-observer",{dependencies:["./observers","./operators"],factory:function(require,exports,module){
 var Observers = require("./observers");
 var Operators = require("./operators");
 
@@ -31735,12 +32276,11 @@ var semantics = compile.semantics = {
 };
 
 var compilers = semantics.compilers;
-var operators = Object.keys(Operators);
-for(var i=0, name;(name = operators[i]); i++) {
+Object.keys(Operators).forEach(function (name) {
     if (!compilers[name]) {
         compilers[name] = Observers.makeOperatorObserverMaker(Operators[name]);
     }
-}
+});
 
 // a special Hell for non-enumerable inheritance
 compilers.toString = Observers.makeOperatorObserverMaker(Operators.toString);
@@ -31749,24 +32289,12 @@ compilers.toString = Observers.makeOperatorObserverMaker(Operators.toString);
 }})
 ;
 //*/
-montageDefine("e5fc713","scope",{dependencies:[],factory:function(require,exports,module){
+montageDefine("09f0f3b","scope",{dependencies:[],factory:function(require,exports,module){
 module.exports = Scope;
 function Scope(value) {
     this.parent = null;
     this.value = value;
 }
-
-Object.defineProperties(Scope.prototype, {
-	parent: {
-		value:null,
-		writable: true
-	},
-	value: {
-		value:null,
-		writable: true
-	}
-});
-
 
 Scope.prototype.nest = function (value) {
     var child = Object.create(this);
@@ -31779,7 +32307,7 @@ Scope.prototype.nest = function (value) {
 }})
 ;
 //*/
-montageDefine("e5fc713","observers",{dependencies:["collections/shim","collections/listen/property-changes","collections/listen/array-changes","collections/sorted-array","collections/sorted-set","collections/map","collections/set","collections/heap","./scope","./operators","./parse","./compile-observer","./merge"],factory:function(require,exports,module){
+montageDefine("09f0f3b","observers",{dependencies:["collections/shim","collections/listen/property-changes","collections/listen/array-changes","collections/sorted-array","collections/sorted-set","collections/map","collections/set","collections/heap","./scope","./operators","./parse","./compile-observer","./merge"],factory:function(require,exports,module){
 require("collections/shim"); // Function.noop
 var PropertyChanges = require("collections/listen/property-changes");
 require("collections/listen/array-changes");
@@ -33503,7 +34031,108 @@ function swap(array, start, minusLength, plus) {
 }})
 ;
 //*/
-montageDefine("e5fc713","stringify",{dependencies:["./parse","./language"],factory:function(require,exports,module){"use strict";
+montageDefine("09f0f3b","bindings",{dependencies:["collections/map","./bind","./compute","./observe","./stringify"],factory:function(require,exports,module){
+var Map = require("collections/map");
+var bind = require("./bind");
+var compute = require("./compute");
+var observe = require("./observe");
+var stringify = require("./stringify");
+
+var bindingsForObject = new Map();
+var owns = Object.prototype.hasOwnProperty;
+
+exports.count = 0;
+exports.bindings = bindingsForObject;
+
+exports.defineBindings = defineBindings;
+function defineBindings(object, descriptors, commonDescriptor) {
+    if (descriptors) {
+        for (var name in descriptors) {
+            defineBinding(object, name, descriptors[name], commonDescriptor);
+        }
+    }
+    return object;
+}
+
+exports.defineBinding = defineBinding;
+function defineBinding(object, name, descriptor, commonDescriptor) {
+    commonDescriptor = commonDescriptor || Object.empty;
+    var bindingsForName = getBindings(object);
+    if (owns.call(bindingsForName, name)) {
+        throw new Error("Can't bind to already bound target, " + JSON.stringify(name));
+    }
+    if ("<-" in descriptor || "<->" in descriptor || "compute" in descriptor) {
+        descriptor.target = object;
+        descriptor.parameters = descriptor.parameters || commonDescriptor.parameters;
+        descriptor.document = descriptor.document || commonDescriptor.document;
+        descriptor.components = descriptor.components || commonDescriptor.components;
+        if ("compute" in descriptor) {
+            descriptor.cancel = compute(object, name, descriptor);
+        } else {
+            descriptor.cancel = bind(object, name, descriptor);
+        }
+        bindingsForName[name] = descriptor;
+        exports.count++;
+    } else {
+        if (!("get" in descriptor) && !("set" in descriptor) && !("writable" in descriptor)) {
+            descriptor.writable = true;
+        }
+        if (!("configurable" in descriptor)) {
+            descriptor.configurable = true;
+        }
+        if (!("enumerable" in descriptor)) {
+            descriptor.enumerable = true;
+        }
+        Object.defineProperty(object, name, descriptor);
+    }
+    return object;
+}
+
+exports.getBindings = getBindings;
+function getBindings(object) {
+    if (!bindingsForObject.has(object)) {
+        bindingsForObject.set(object, {});
+    }
+    return bindingsForObject.get(object);
+}
+
+exports.getBinding = getBinding;
+function getBinding(object, name) {
+    var bindingsForName = getBindings(object);
+    return bindingsForName[name];
+}
+
+exports.cancelBindings = cancelBindings;
+function cancelBindings(object) {
+    var bindings = getBindings(object);
+    for (var name in bindings) {
+        cancelBinding(object, name);
+    }
+}
+
+exports.cancelBinding = cancelBinding;
+function cancelBinding(object, name) {
+    var bindings = getBindings(object);
+    if (!bindings[name]) {
+        throw new Error("Can't cancel non-existent binding to " + JSON.stringify(name));
+    }
+    var binding = bindings[name];
+    if (binding && binding.cancel) {
+        binding.cancel();
+        delete bindings[name];
+        exports.count--;
+        for (var name in bindings) {
+            return; // if there are any remaining bindings, short-circuit
+        }
+        bindingsForObject["delete"](object);
+    }
+}
+
+
+}})
+;
+//*/
+montageDefine("09f0f3b","stringify",{dependencies:["./parse","./language"],factory:function(require,exports,module){"use strict";
 
 var parse = require("./parse");
 var precedence = require("./language").precedence;
@@ -33788,9 +34417,10 @@ typeToToken.forEach(function (token, type) {
 }})
 ;
 //*/
-montageDefine("e5fc713","expand",{dependencies:["collections/set","collections/map"],factory:function(require,exports,module){
+montageDefine("09f0f3b","expand",{dependencies:["collections/set","collections/map","./operators"],factory:function(require,exports,module){
 var Set = require("collections/set");
 var Map = require("collections/map");
+var Operators = require("./operators");
 
 module.exports = expand;
 function expand(syntax, scope) {
@@ -33866,103 +34496,524 @@ expand.semantics = {
 }})
 ;
 //*/
-montageDefine("e5fc713","bindings",{dependencies:["./bind","./compute","./observe","./stringify"],factory:function(require,exports,module){
-var bind = require("./bind");
-var compute = require("./compute");
-var observe = require("./observe");
-var stringify = require("./stringify");
+montageDefine("09f0f3b","compile-evaluator",{dependencies:["collections/shim-object","collections/map","collections/sorted-set","./operators","./scope","./parse"],factory:function(require,exports,module){
+var Object = require("collections/shim-object");
+var Map = require("collections/map");
+var SortedSet = require("collections/sorted-set");
+var Operators = require("./operators");
+var Scope = require("./scope");
 
-var bindingsForObject = {};
-var owns = Object.prototype.hasOwnProperty;
-
-exports.count = 0;
-exports.bindings = bindingsForObject;
-
-exports.defineBindings = defineBindings;
-function defineBindings(object, descriptors, commonDescriptor) {
-    if (descriptors) {
-        for (var name in descriptors) {
-            defineBinding(object, name, descriptors[name], commonDescriptor);
-        }
-    }
-    return object;
+module.exports = compile;
+function compile(syntax) {
+    return compile.semantics.compile(syntax);
 }
 
-exports.defineBinding = defineBinding;
-function defineBinding(object, name, descriptor, commonDescriptor) {
-    commonDescriptor = commonDescriptor || Object.empty;
-    var bindingsForName = getBindings(object);
-    if (owns.call(bindingsForName, name)) {
-        throw new Error("Can't bind to already bound target, " + JSON.stringify(name));
+var compilers = {
+
+    literal: function (syntax) {
+        return function () {
+            return syntax.value;
+        };
+    },
+
+    value: function (syntax) {
+        return function (scope) {
+            return scope.value;
+        };
+    },
+
+    parameters: function (syntax) {
+        return function (scope) {
+            return scope.parameters;
+        };
+    },
+
+    element: function (syntax) {
+        return function (scope) {
+            return scope.document.getElementById(syntax.id);
+        };
+    },
+
+    component: function (syntax) {
+        return function (scope) {
+            return scope.components.getObjectByLabel(syntax.label);
+        };
+    },
+
+    tuple: function (syntax) {
+        var argEvaluators = syntax.args.map(this.compile, this);
+        return function (scope) {
+            return argEvaluators.map(function (evaluateArg) {
+                return evaluateArg(scope);
+            });
+        };
+    },
+
+    record: function (syntax) {
+        var args = syntax.args;
+        var argEvaluators = {};
+        for (var name in args) {
+            argEvaluators[name] = this.compile(args[name]);
+        }
+        return function (scope) {
+            var object = {};
+            for (var name in argEvaluators) {
+                object[name] = argEvaluators[name](scope);
+            }
+            return object;
+        };
     }
-    if ("<-" in descriptor || "<->" in descriptor || "compute" in descriptor) {
-        descriptor.target = object;
-        descriptor.parameters = descriptor.parameters || commonDescriptor.parameters;
-        descriptor.document = descriptor.document || commonDescriptor.document;
-        descriptor.components = descriptor.components || commonDescriptor.components;
-        if ("compute" in descriptor) {
-            descriptor.cancel = compute(object, name, descriptor);
+
+};
+
+var argCompilers = {
+
+    mapBlock: function (evaluateCollection, evaluateRelation) {
+        return function (scope) {
+            return evaluateCollection(scope)
+            .map(function (value) {
+                return evaluateRelation(scope.nest(value));
+            });
+        };
+    },
+
+    filterBlock: function (evaluateCollection, evaluatePredicate) {
+        return function (scope) {
+            return evaluateCollection(scope)
+            .filter(function (value) {
+                return evaluatePredicate(scope.nest(value));
+            });
+        };
+    },
+
+    someBlock: function (evaluateCollection, evaluatePredicate) {
+        return function (scope) {
+            return evaluateCollection(scope)
+            .some(function (value) {
+                return evaluatePredicate(scope.nest(value));
+            });
+        };
+    },
+
+    everyBlock: function (evaluateCollection, evaluatePredicate) {
+        return function (scope) {
+            return evaluateCollection(scope)
+            .every(function (value) {
+                return evaluatePredicate(scope.nest(value));
+            });
+        };
+    },
+
+    sortedBlock: function (evaluateCollection, evaluateRelation) {
+        return function (scope) {
+            return evaluateCollection(scope)
+            .sorted(Function.by(function (value) {
+                return evaluateRelation(scope.nest(value));
+            }));
+        };
+    },
+
+    sortedSetBlock: function (evaluateCollection, evaluateRelation) {
+        return function (scope) {
+            function map(x) {
+                return evaluateRelation(scope.nest(x));
+            }
+            function contentCompare(x, y) {
+                return Object.compare(map(x), map(y));
+            }
+            function contentEquals(x, y) {
+                return Object.equals(map(x), map(y));
+            }
+            return new SortedSet(
+                evaluateCollection(scope),
+                contentEquals,
+                contentCompare
+            );
+        };
+    },
+
+    groupBlock: function (evaluateCollection, evaluateRelation) {
+        return function (scope) {
+            return evaluateCollection(scope)
+            .group(function (value) {
+                return evaluateRelation(scope.nest(value));
+            });
+        };
+    },
+
+    groupMapBlock: function (evaluateCollection, evaluateRelation) {
+        return function (scope) {
+            return new Map(evaluateCollection(scope)
+            .group(function (value) {
+                return evaluateRelation(scope.nest(value));
+            }));
+        };
+    },
+
+    minBlock: function (evaluateCollection, evaluateRelation) {
+        return function (scope) {
+            return evaluateCollection(scope)
+            .min(Function.by(function (value) {
+                return evaluateRelation(scope.nest(value));
+            }))
+        };
+    },
+
+    maxBlock: function (evaluateCollection, evaluateRelation) {
+        return function (scope) {
+            return evaluateCollection(scope)
+            .max(Function.by(function (value) {
+                return evaluateRelation(scope.nest(value));
+            }))
+        };
+    },
+
+    parent: function (evaluateExpression) {
+        return function (scope) {
+            return evaluateExpression(scope.parent);
+        };
+    },
+
+    "with": function (evaluateContext, evaluateExpression) {
+        return function (scope) {
+            return evaluateExpression(scope.nest(evaluateContext(scope)));
+        };
+    },
+
+    "if": function (evaluateCondition, evaluateConsequent, evaluateAlternate) {
+        return function (scope) {
+            var condition = evaluateCondition(scope);
+            if (condition == null) return;
+            if (condition) {
+                return evaluateConsequent(scope);
+            } else {
+                return evaluateAlternate(scope);
+            }
+        }
+    },
+
+    not: function (evaluateValue) {
+        return function (scope) {
+            return !evaluateValue(scope);
+        };
+    },
+
+    and: function (evaluateLeft, evaluateRight) {
+        return function (scope) {
+            return evaluateLeft(scope) && evaluateRight(scope);
+        };
+    },
+
+    or: function (evaluateLeft, evaluateRight) {
+        return function (scope) {
+            return evaluateLeft(scope) || evaluateRight(scope);
+        };
+    },
+
+    "default": function (evaluateLeft, evaluateRight) {
+        return function (scope) {
+            var result = evaluateLeft(scope);
+            if (result == null) { // implies "iff === null or undefined"
+                result = evaluateRight(scope);
+            }
+            return result;
+        }
+    },
+
+    defined: function (evaluate) {
+        return function (scope) {
+            var value = evaluate(scope);
+            return value != null; // implies exactly !== null or undefined
+        };
+    },
+
+    // TODO rename to evaluate
+    path: function (evaluateObject, evaluatePath) {
+        return function (scope) {
+            var value = evaluateObject(scope);
+            var path = evaluatePath(scope);
+            var parse = require("./parse");
+            try {
+                var syntax = parse(path);
+                var evaluate = compile(syntax);
+                return evaluate(scope.nest(value));
+            } catch (exception) {
+            }
+        }
+    }
+
+};
+
+var operators = Object.clone(Operators, 1);
+
+Object.addEach(operators, {
+
+    property: function (object, key) {
+        return object[key];
+    },
+
+    get: function (collection, key) {
+        return collection.get(key);
+    },
+
+    mapContent: Function.identity,
+
+    rangeContent: Function.identity,
+
+    view: function (collection, start, length) {
+        return collection.slice(start, start + length);
+    }
+
+});
+
+var semantics = compile.semantics = {
+
+    compilers: compilers,
+    argCompilers: argCompilers,
+    operators: operators,
+
+    compile: function (syntax) {
+        var compilers = this.compilers;
+        var argCompilers = this.argCompilers;
+        var operators = this.operators;
+        if (compilers.hasOwnProperty(syntax.type)) {
+            return compilers[syntax.type].call(this, syntax);
+        } else if (argCompilers.hasOwnProperty(syntax.type)) {
+            var argEvaluators = syntax.args.map(this.compile, this);
+            return argCompilers[syntax.type].apply(null, argEvaluators);
         } else {
-            descriptor.cancel = bind(object, name, descriptor);
+            if (!operators.hasOwnProperty(syntax.type)) {
+                operators[syntax.type] = function (object) {
+                    var args = Array.prototype.slice.call(arguments, 1);
+                    if (!object[syntax.type])
+                        throw new TypeError("Can't call " + JSON.stringify(syntax.type) + " of " + object);
+                    return object[syntax.type].apply(object, args);
+                };
+            }
+            var operator = operators[syntax.type];
+            var argEvaluators = syntax.args.map(this.compile, this);
+            return function (scope) {
+                var args = argEvaluators.map(function (evaluateArg) {
+                    return evaluateArg(scope);
+                });
+                if (!args.every(Operators.defined))
+                    return;
+                return operator.apply(null, args);
+            };
         }
-        bindingsForName[name] = descriptor;
-        exports.count++;
-    } else {
-        if (!("get" in descriptor) && !("set" in descriptor) && !("writable" in descriptor)) {
-            descriptor.writable = true;
-        }
-        if (!("configurable" in descriptor)) {
-            descriptor.configurable = true;
-        }
-        if (!("enumerable" in descriptor)) {
-            descriptor.enumerable = true;
-        }
-        Object.defineProperty(object, name, descriptor);
+
     }
-    return object;
+
+};
+
+
+}})
+;
+//*/
+montageDefine("09f0f3b","compile-assigner",{dependencies:["./compile-evaluator","./algebra","./scope"],factory:function(require,exports,module){
+var compileEvaluator = require("./compile-evaluator");
+var solve = require("./algebra");
+var Scope = require("./scope");
+var valueSyntax = {type: "value"};
+var trueScope = {type: "literal", value: true};
+var falseScope = {type: "literal", value: false};
+
+module.exports = compile;
+function compile(syntax) {
+    return compile.semantics.compile(syntax);
 }
 
-exports.getBindings = getBindings;
-function getBindings(object) {
-    return object.__bindingDescriptors__ || (object.__bindingDescriptors__ = {});
-}
+compile.semantics = {
 
-exports.getBinding = getBinding;
-function getBinding(object, name) {
-    var bindingsForName = getBindings(object);
-    return bindingsForName[name];
-}
-
-exports.cancelBindings = cancelBindings;
-function cancelBindings(object) {
-    var bindings = getBindings(object);
-    for (var name in bindings) {
-        cancelBinding(object, name);
-    }
-}
-
-exports.cancelBinding = cancelBinding;
-function cancelBinding(object, name) {
-    var bindings = getBindings(object);
-    if (!bindings[name]) {
-        throw new Error("Can't cancel non-existent binding to " + JSON.stringify(name));
-    }
-    var binding = bindings[name];
-    if (binding && binding.cancel) {
-        binding.cancel();
-        delete bindings[name];
-        exports.count--;
-        for (var name in bindings) {
-            return; // if there are any remaining bindings, short-circuit
+    compile: function (syntax) {
+        var compilers = this.compilers;
+        if (syntax.type === "equals") {
+            var assignLeft = this.compile(syntax.args[0]);
+            var evaluateRight = this.compileEvaluator(syntax.args[1]);
+            return compilers.equals(assignLeft, evaluateRight);
+        } else if (syntax.type === "if") {
+            var evaluateCondition = this.compileEvaluator(syntax.args[0]);
+            var assignConsequent = this.compile(syntax.args[1]);
+            var assignAlternate = this.compile(syntax.args[2]);
+            return compilers["if"](evaluateCondition, assignConsequent, assignAlternate);
+        } else if (syntax.type === "and" || syntax.type === "or") {
+            var leftArgs = solve(syntax.args[0], valueSyntax);
+            var rightArgs = solve(syntax.args[1], valueSyntax);
+            var evaluateLeft = this.compileEvaluator(syntax.args[0]);
+            var evaluateRight = this.compileEvaluator(syntax.args[1]);
+            var evaluateLeftAssign = this.compileEvaluator(leftArgs[1]);
+            var evaluateRightAssign = this.compileEvaluator(rightArgs[1]);
+            var assignLeft = this.compile(leftArgs[0]);
+            var assignRight = this.compile(rightArgs[0]);
+            return compilers[syntax.type](
+                assignLeft,
+                assignRight,
+                evaluateLeft,
+                evaluateRight,
+                evaluateLeftAssign,
+                evaluateRightAssign
+            );
+        } else if (syntax.type === "everyBlock") {
+            var evaluateCollection = this.compileEvaluator(syntax.args[0]);
+            var args = solve(syntax.args[1], {type: "literal", value: true});
+            var assignCondition = this.compile(args[0]);
+            var evaluateValue = this.compileEvaluator(args[1]);
+            return compilers["everyBlock"](evaluateCollection, assignCondition, evaluateValue);
+        } else if (syntax.type === "parent") {
+            var assignParent = this.compile(syntax.args[0]);
+            return function (value, scope) {
+                return assignParent(value, scope.parent);
+            };
+        } else if (compilers.hasOwnProperty(syntax.type)) {
+            var argEvaluators = syntax.args.map(this.compileEvaluator, this.compileEvaluator.semantics);
+            return compilers[syntax.type].apply(null, argEvaluators);
+        } else {
+            throw new Error("Can't compile assigner for " + JSON.stringify(syntax.type));
         }
+    },
+
+    compileEvaluator: compileEvaluator,
+
+    compilers: {
+
+        property: function (evaluateObject, evaluateKey) {
+            return function (value, scope) {
+                var object = evaluateObject(scope);
+                if (!object) return;
+                var key = evaluateKey(scope);
+                if (key == null) return;
+                if (Array.isArray(object)) {
+                    object.set(key, value);
+                } else {
+                    object[key] = value;
+                }
+            };
+        },
+
+        get: function (evaluateCollection, evaluateKey) {
+            return function (value, scope) {
+                var collection = evaluateCollection(scope);
+                if (!collection) return;
+                var key = evaluateKey(scope);
+                if (key == null) return;
+                collection.set(key, value);
+            };
+        },
+
+        has: function (evaluateCollection, evaluateValue) {
+            return function (has, scope) {
+                var collection = evaluateCollection(scope);
+                if (!collection) return;
+                var value = evaluateValue(scope);
+                if (has == null) return;
+                if (has) {
+                    if (!(collection.has || collection.contains).call(collection, value)) {
+                        collection.add(value);
+                    }
+                } else {
+                    if ((collection.has || collection.contains).call(collection, value)) {
+                        (collection.remove || collection["delete"]).call(collection, value);
+                    }
+                }
+            };
+        },
+
+        equals: function (assignLeft, evaluateRight) {
+            return function (value, scope) {
+                if (value) {
+                    return assignLeft(evaluateRight(scope), scope);
+                }
+            };
+        },
+
+        "if": function (evaluateCondition, assignConsequent, assignAlternate) {
+            return function (value, scope) {
+                var condition = evaluateCondition(scope);
+                if (condition == null) return;
+                if (condition) {
+                    return assignConsequent(value, scope);
+                } else {
+                    return assignAlternate(value, scope);
+                }
+            };
+        },
+
+        and: function (assignLeft, assignRight, evaluateLeft, evaluateRight, evaluateLeftAssign, evaluateRightAssign) {
+            return function (value, scope) {
+                if (value == null) return;
+                if (value) {
+                    assignLeft(evaluateLeftAssign(trueScope), scope);
+                    assignRight(evaluateRightAssign(trueScope), scope);
+                } else {
+                    assignLeft(evaluateLeft(scope) && !evaluateRight(scope), scope);
+                }
+            }
+        },
+
+        or: function (assignLeft, assignRight, evaluateLeft, evaluateRight, evaluateLeftAssign, evaluateRightAssign) {
+            return function (value, scope) {
+                if (value == null) return;
+                if (!value) {
+                    assignLeft(evaluateLeftAssign(falseScope), scope);
+                    assignRight(evaluateRightAssign(falseScope), scope);
+                } else {
+                    assignLeft(evaluateLeft(scope) || !evaluateRight(scope), scope);
+                }
+            }
+        },
+
+        rangeContent: function (evaluateTarget) {
+            return function (value, scope) {
+                var target = evaluateTarget(scope);
+                if (!target) return;
+                if (!value) {
+                    target.clear();
+                } else {
+                    target.swap(0, target.length, value);
+                }
+            };
+        },
+
+        mapContent: function (evaluateTarget) {
+            return function (value, scope) {
+                var target = evaluateTarget(scope);
+                if (!target) return;
+                target.clear();
+                if (scope.value) {
+                    target.addEach(value);
+                }
+            };
+        },
+
+        reversed: function (evaluateTarget) {
+            return function (value, scope) {
+                var target = evaluateTarget(scope);
+                if (!target) return;
+                target.swap(0, target.length, value.reversed());
+            };
+        },
+
+        everyBlock: function (evaluateCollection, assignCondition, evaluateEffect) {
+            return function (value, scope) {
+                if (value) {
+                    var collection = evaluateCollection(scope);
+                    var effect = evaluateEffect(scope);
+                    collection.forEach(function (content) {
+                        assignCondition(effect, scope.nest(content));
+                    });
+                }
+            };
+        }
+
     }
+
 }
 
 
 }})
 ;
 //*/
-montageDefine("e5fc713","grammar",{dependencies:[],factory:function(require,exports,module){module.exports = (function() {
+montageDefine("09f0f3b","grammar",{dependencies:[],factory:function(require,exports,module){module.exports = (function() {
   /*
    * Generated by PEG.js 0.7.0.
    *
@@ -38742,524 +39793,7 @@ montageDefine("e5fc713","grammar",{dependencies:[],factory:function(require,expo
 }})
 ;
 //*/
-montageDefine("e5fc713","compile-evaluator",{dependencies:["collections/shim-object","collections/map","collections/sorted-set","./operators","./scope","./parse"],factory:function(require,exports,module){
-var Object = require("collections/shim-object");
-var Map = require("collections/map");
-var SortedSet = require("collections/sorted-set");
-var Operators = require("./operators");
-var Scope = require("./scope");
-
-module.exports = compile;
-function compile(syntax) {
-    return compile.semantics.compile(syntax);
-}
-
-var compilers = {
-
-    literal: function (syntax) {
-        return function () {
-            return syntax.value;
-        };
-    },
-
-    value: function (syntax) {
-        return function (scope) {
-            return scope.value;
-        };
-    },
-
-    parameters: function (syntax) {
-        return function (scope) {
-            return scope.parameters;
-        };
-    },
-
-    element: function (syntax) {
-        return function (scope) {
-            return scope.document.getElementById(syntax.id);
-        };
-    },
-
-    component: function (syntax) {
-        return function (scope) {
-            return scope.components.getObjectByLabel(syntax.label);
-        };
-    },
-
-    tuple: function (syntax) {
-        var argEvaluators = syntax.args.map(this.compile, this);
-        return function (scope) {
-            return argEvaluators.map(function (evaluateArg) {
-                return evaluateArg(scope);
-            });
-        };
-    },
-
-    record: function (syntax) {
-        var args = syntax.args;
-        var argEvaluators = {};
-        for (var name in args) {
-            argEvaluators[name] = this.compile(args[name]);
-        }
-        return function (scope) {
-            var object = {};
-            for (var name in argEvaluators) {
-                object[name] = argEvaluators[name](scope);
-            }
-            return object;
-        };
-    }
-
-};
-
-var argCompilers = {
-
-    mapBlock: function (evaluateCollection, evaluateRelation) {
-        return function (scope) {
-            return evaluateCollection(scope)
-            .map(function (value) {
-                return evaluateRelation(scope.nest(value));
-            });
-        };
-    },
-
-    filterBlock: function (evaluateCollection, evaluatePredicate) {
-        return function (scope) {
-            return evaluateCollection(scope)
-            .filter(function (value) {
-                return evaluatePredicate(scope.nest(value));
-            });
-        };
-    },
-
-    someBlock: function (evaluateCollection, evaluatePredicate) {
-        return function (scope) {
-            return evaluateCollection(scope)
-            .some(function (value) {
-                return evaluatePredicate(scope.nest(value));
-            });
-        };
-    },
-
-    everyBlock: function (evaluateCollection, evaluatePredicate) {
-        return function (scope) {
-            return evaluateCollection(scope)
-            .every(function (value) {
-                return evaluatePredicate(scope.nest(value));
-            });
-        };
-    },
-
-    sortedBlock: function (evaluateCollection, evaluateRelation) {
-        return function (scope) {
-            return evaluateCollection(scope)
-            .sorted(Function.by(function (value) {
-                return evaluateRelation(scope.nest(value));
-            }));
-        };
-    },
-
-    sortedSetBlock: function (evaluateCollection, evaluateRelation) {
-        return function (scope) {
-            function map(x) {
-                return evaluateRelation(scope.nest(x));
-            }
-            function contentCompare(x, y) {
-                return Object.compare(map(x), map(y));
-            }
-            function contentEquals(x, y) {
-                return Object.equals(map(x), map(y));
-            }
-            return new SortedSet(
-                evaluateCollection(scope),
-                contentEquals,
-                contentCompare
-            );
-        };
-    },
-
-    groupBlock: function (evaluateCollection, evaluateRelation) {
-        return function (scope) {
-            return evaluateCollection(scope)
-            .group(function (value) {
-                return evaluateRelation(scope.nest(value));
-            });
-        };
-    },
-
-    groupMapBlock: function (evaluateCollection, evaluateRelation) {
-        return function (scope) {
-            return new Map(evaluateCollection(scope)
-            .group(function (value) {
-                return evaluateRelation(scope.nest(value));
-            }));
-        };
-    },
-
-    minBlock: function (evaluateCollection, evaluateRelation) {
-        return function (scope) {
-            return evaluateCollection(scope)
-            .min(Function.by(function (value) {
-                return evaluateRelation(scope.nest(value));
-            }))
-        };
-    },
-
-    maxBlock: function (evaluateCollection, evaluateRelation) {
-        return function (scope) {
-            return evaluateCollection(scope)
-            .max(Function.by(function (value) {
-                return evaluateRelation(scope.nest(value));
-            }))
-        };
-    },
-
-    parent: function (evaluateExpression) {
-        return function (scope) {
-            return evaluateExpression(scope.parent);
-        };
-    },
-
-    "with": function (evaluateContext, evaluateExpression) {
-        return function (scope) {
-            return evaluateExpression(scope.nest(evaluateContext(scope)));
-        };
-    },
-
-    "if": function (evaluateCondition, evaluateConsequent, evaluateAlternate) {
-        return function (scope) {
-            var condition = evaluateCondition(scope);
-            if (condition == null) return;
-            if (condition) {
-                return evaluateConsequent(scope);
-            } else {
-                return evaluateAlternate(scope);
-            }
-        }
-    },
-
-    not: function (evaluateValue) {
-        return function (scope) {
-            return !evaluateValue(scope);
-        };
-    },
-
-    and: function (evaluateLeft, evaluateRight) {
-        return function (scope) {
-            return evaluateLeft(scope) && evaluateRight(scope);
-        };
-    },
-
-    or: function (evaluateLeft, evaluateRight) {
-        return function (scope) {
-            return evaluateLeft(scope) || evaluateRight(scope);
-        };
-    },
-
-    "default": function (evaluateLeft, evaluateRight) {
-        return function (scope) {
-            var result = evaluateLeft(scope);
-            if (result == null) { // implies "iff === null or undefined"
-                result = evaluateRight(scope);
-            }
-            return result;
-        }
-    },
-
-    defined: function (evaluate) {
-        return function (scope) {
-            var value = evaluate(scope);
-            return value != null; // implies exactly !== null or undefined
-        };
-    },
-
-    // TODO rename to evaluate
-    path: function (evaluateObject, evaluatePath) {
-        return function (scope) {
-            var value = evaluateObject(scope);
-            var path = evaluatePath(scope);
-            var parse = require("./parse");
-            try {
-                var syntax = parse(path);
-                var evaluate = compile(syntax);
-                return evaluate(scope.nest(value));
-            } catch (exception) {
-            }
-        }
-    }
-
-};
-
-var operators = Object.clone(Operators, 1);
-
-Object.addEach(operators, {
-
-    property: function (object, key) {
-        return object[key];
-    },
-
-    get: function (collection, key) {
-        return collection.get(key);
-    },
-
-    mapContent: Function.identity,
-
-    rangeContent: Function.identity,
-
-    view: function (collection, start, length) {
-        return collection.slice(start, start + length);
-    }
-
-});
-
-var semantics = compile.semantics = {
-
-    compilers: compilers,
-    argCompilers: argCompilers,
-    operators: operators,
-
-    compile: function (syntax) {
-        var compilers = this.compilers;
-        var argCompilers = this.argCompilers;
-        var operators = this.operators;
-        if (compilers.hasOwnProperty(syntax.type)) {
-            return compilers[syntax.type].call(this, syntax);
-        } else if (argCompilers.hasOwnProperty(syntax.type)) {
-            var argEvaluators = syntax.args.map(this.compile, this);
-            return argCompilers[syntax.type].apply(null, argEvaluators);
-        } else {
-            if (!operators.hasOwnProperty(syntax.type)) {
-                operators[syntax.type] = function (object) {
-                    var args = Array.prototype.slice.call(arguments, 1);
-                    if (!object[syntax.type])
-                        throw new TypeError("Can't call " + JSON.stringify(syntax.type) + " of " + object);
-                    return object[syntax.type].apply(object, args);
-                };
-            }
-            var operator = operators[syntax.type];
-            var argEvaluators = syntax.args.map(this.compile, this);
-            return function (scope) {
-                var args = argEvaluators.map(function (evaluateArg) {
-                    return evaluateArg(scope);
-                });
-                if (!args.every(Operators.defined))
-                    return;
-                return operator.apply(null, args);
-            };
-        }
-
-    }
-
-};
-
-
-}})
-;
-//*/
-montageDefine("e5fc713","compile-assigner",{dependencies:["./compile-evaluator","./algebra","./scope"],factory:function(require,exports,module){
-var compileEvaluator = require("./compile-evaluator");
-var solve = require("./algebra");
-var Scope = require("./scope");
-var valueSyntax = {type: "value"};
-var trueScope = {type: "literal", value: true};
-var falseScope = {type: "literal", value: false};
-
-module.exports = compile;
-function compile(syntax) {
-    return compile.semantics.compile(syntax);
-}
-
-compile.semantics = {
-
-    compile: function (syntax) {
-        var compilers = this.compilers;
-        if (syntax.type === "equals") {
-            var assignLeft = this.compile(syntax.args[0]);
-            var evaluateRight = this.compileEvaluator(syntax.args[1]);
-            return compilers.equals(assignLeft, evaluateRight);
-        } else if (syntax.type === "if") {
-            var evaluateCondition = this.compileEvaluator(syntax.args[0]);
-            var assignConsequent = this.compile(syntax.args[1]);
-            var assignAlternate = this.compile(syntax.args[2]);
-            return compilers["if"](evaluateCondition, assignConsequent, assignAlternate);
-        } else if (syntax.type === "and" || syntax.type === "or") {
-            var leftArgs = solve(syntax.args[0], valueSyntax);
-            var rightArgs = solve(syntax.args[1], valueSyntax);
-            var evaluateLeft = this.compileEvaluator(syntax.args[0]);
-            var evaluateRight = this.compileEvaluator(syntax.args[1]);
-            var evaluateLeftAssign = this.compileEvaluator(leftArgs[1]);
-            var evaluateRightAssign = this.compileEvaluator(rightArgs[1]);
-            var assignLeft = this.compile(leftArgs[0]);
-            var assignRight = this.compile(rightArgs[0]);
-            return compilers[syntax.type](
-                assignLeft,
-                assignRight,
-                evaluateLeft,
-                evaluateRight,
-                evaluateLeftAssign,
-                evaluateRightAssign
-            );
-        } else if (syntax.type === "everyBlock") {
-            var evaluateCollection = this.compileEvaluator(syntax.args[0]);
-            var args = solve(syntax.args[1], {type: "literal", value: true});
-            var assignCondition = this.compile(args[0]);
-            var evaluateValue = this.compileEvaluator(args[1]);
-            return compilers["everyBlock"](evaluateCollection, assignCondition, evaluateValue);
-        } else if (syntax.type === "parent") {
-            var assignParent = this.compile(syntax.args[0]);
-            return function (value, scope) {
-                return assignParent(value, scope.parent);
-            };
-        } else if (compilers.hasOwnProperty(syntax.type)) {
-            var argEvaluators = syntax.args.map(this.compileEvaluator, this.compileEvaluator.semantics);
-            return compilers[syntax.type].apply(null, argEvaluators);
-        } else {
-            throw new Error("Can't compile assigner for " + JSON.stringify(syntax.type));
-        }
-    },
-
-    compileEvaluator: compileEvaluator,
-
-    compilers: {
-
-        property: function (evaluateObject, evaluateKey) {
-            return function (value, scope) {
-                var object = evaluateObject(scope);
-                if (!object) return;
-                var key = evaluateKey(scope);
-                if (key == null) return;
-                if (Array.isArray(object)) {
-                    object.set(key, value);
-                } else {
-                    object[key] = value;
-                }
-            };
-        },
-
-        get: function (evaluateCollection, evaluateKey) {
-            return function (value, scope) {
-                var collection = evaluateCollection(scope);
-                if (!collection) return;
-                var key = evaluateKey(scope);
-                if (key == null) return;
-                collection.set(key, value);
-            };
-        },
-
-        has: function (evaluateCollection, evaluateValue) {
-            return function (has, scope) {
-                var collection = evaluateCollection(scope);
-                if (!collection) return;
-                var value = evaluateValue(scope);
-                if (has == null) return;
-                if (has) {
-                    if (!(collection.has || collection.contains).call(collection, value)) {
-                        collection.add(value);
-                    }
-                } else {
-                    if ((collection.has || collection.contains).call(collection, value)) {
-                        (collection.remove || collection["delete"]).call(collection, value);
-                    }
-                }
-            };
-        },
-
-        equals: function (assignLeft, evaluateRight) {
-            return function (value, scope) {
-                if (value) {
-                    return assignLeft(evaluateRight(scope), scope);
-                }
-            };
-        },
-
-        "if": function (evaluateCondition, assignConsequent, assignAlternate) {
-            return function (value, scope) {
-                var condition = evaluateCondition(scope);
-                if (condition == null) return;
-                if (condition) {
-                    return assignConsequent(value, scope);
-                } else {
-                    return assignAlternate(value, scope);
-                }
-            };
-        },
-
-        and: function (assignLeft, assignRight, evaluateLeft, evaluateRight, evaluateLeftAssign, evaluateRightAssign) {
-            return function (value, scope) {
-                if (value == null) return;
-                if (value) {
-                    assignLeft(evaluateLeftAssign(trueScope), scope);
-                    assignRight(evaluateRightAssign(trueScope), scope);
-                } else {
-                    assignLeft(evaluateLeft(scope) && !evaluateRight(scope), scope);
-                }
-            }
-        },
-
-        or: function (assignLeft, assignRight, evaluateLeft, evaluateRight, evaluateLeftAssign, evaluateRightAssign) {
-            return function (value, scope) {
-                if (value == null) return;
-                if (!value) {
-                    assignLeft(evaluateLeftAssign(falseScope), scope);
-                    assignRight(evaluateRightAssign(falseScope), scope);
-                } else {
-                    assignLeft(evaluateLeft(scope) || !evaluateRight(scope), scope);
-                }
-            }
-        },
-
-        rangeContent: function (evaluateTarget) {
-            return function (value, scope) {
-                var target = evaluateTarget(scope);
-                if (!target) return;
-                if (!value) {
-                    target.clear();
-                } else {
-                    target.swap(0, target.length, value);
-                }
-            };
-        },
-
-        mapContent: function (evaluateTarget) {
-            return function (value, scope) {
-                var target = evaluateTarget(scope);
-                if (!target) return;
-                target.clear();
-                if (scope.value) {
-                    target.addEach(value);
-                }
-            };
-        },
-
-        reversed: function (evaluateTarget) {
-            return function (value, scope) {
-                var target = evaluateTarget(scope);
-                if (!target) return;
-                target.swap(0, target.length, value.reversed());
-            };
-        },
-
-        everyBlock: function (evaluateCollection, assignCondition, evaluateEffect) {
-            return function (value, scope) {
-                if (value) {
-                    var collection = evaluateCollection(scope);
-                    var effect = evaluateEffect(scope);
-                    collection.forEach(function (content) {
-                        assignCondition(effect, scope.nest(content));
-                    });
-                }
-            };
-        }
-
-    }
-
-}
-
-
-}})
-;
-//*/
-montageDefine("e5fc713","algebra",{dependencies:[],factory:function(require,exports,module){
+montageDefine("09f0f3b","algebra",{dependencies:[],factory:function(require,exports,module){
 // TODO commute literals on the left side of a target operand, when possible
 
 module.exports = solve;
@@ -39407,7 +39941,7 @@ solve.semantics = {
 }})
 ;
 //*/
-montageDefine("e5fc713","compile-binder",{dependencies:["./compile-observer","./observers","./binders","./algebra"],factory:function(require,exports,module){
+montageDefine("09f0f3b","compile-binder",{dependencies:["./compile-observer","./observers","./binders","./algebra"],factory:function(require,exports,module){
 var compileObserver = require("./compile-observer");
 var Observers = require("./observers");
 var Binders = require("./binders");
@@ -39511,7 +40045,7 @@ compile.semantics = {
 }})
 ;
 //*/
-montageDefine("e5fc713","binders",{dependencies:["./scope","./observers"],factory:function(require,exports,module){
+montageDefine("09f0f3b","binders",{dependencies:["./scope","./observers"],factory:function(require,exports,module){
 var Scope = require("./scope");
 var Observers = require("./observers");
 var autoCancelPrevious = Observers.autoCancelPrevious;
@@ -39954,7 +40488,7 @@ function isActive(target) {
 }})
 ;
 //*/
-montageDefine("e5fc713","operators",{dependencies:["collections/shim-object","collections/shim-regexp","collections/map","collections/set"],factory:function(require,exports,module){
+montageDefine("09f0f3b","operators",{dependencies:["collections/shim-object","collections/shim-regexp","collections/map","collections/set"],factory:function(require,exports,module){
 require("collections/shim-object"); // equals, compare
 require("collections/shim-regexp"); // escape
 var Map = require("collections/map");
@@ -40113,7 +40647,7 @@ exports.last = function (collection) {
 }})
 ;
 //*/
-montageDefine("e5fc713","merge",{dependencies:["collections/shim"],factory:function(require,exports,module){"use strict";
+montageDefine("09f0f3b","merge",{dependencies:["collections/shim"],factory:function(require,exports,module){"use strict";
 
 require("collections/shim");
 
@@ -40304,7 +40838,129 @@ function merge(target, source) {
 }})
 ;
 //*/
-montageDefine("e5fc713","language",{dependencies:["collections/set","collections/dict"],factory:function(require,exports,module){
+montageDefine("09f0f3b","compute",{dependencies:["./parse","./compile-observer","./compile-binder","./observers","./scope"],factory:function(require,exports,module){
+var parse = require("./parse");
+var compileObserver = require("./compile-observer");
+var compileBinder = require("./compile-binder");
+var Observers = require("./observers");
+var Scope = require("./scope");
+
+module.exports = compute;
+function compute(target, targetPath, descriptor) {
+    descriptor.target = target;
+    descriptor.targetPath = targetPath;
+    var source = descriptor.source = descriptor.source || target;
+    var args = descriptor.args;
+    var compute = descriptor.compute;
+    var parameters = descriptor.parameters = descriptor.parameters || source;
+    var document = descriptor.document;
+    var components = descriptor.components;
+    var trace = descriptor.trace;
+
+    // TODO consider the possibility that source and target have intrinsic
+    // scope properties
+    //
+    var sourceScope = descriptor.sourceScope = new Scope(source);
+    sourceScope.parameters = parameters;
+    sourceScope.document = document;
+    sourceScope.components = components;
+    var targetScope = descriptor.targetScope = new Scope(target);
+    targetScope.parameters = parameters;
+    targetScope.document = document;
+    targetScope.components = components;
+
+    var argObservers = args.map(function (arg) {
+        return parse(arg);
+    }).map(function (argSyntax) {
+        if (argSyntax.type === "rangeContent") {
+            var observeArg = compileObserver(argSyntax.args[0]);
+            return Observers.makeRangeContentObserver(observeArg);
+        } else if (argSyntax.type === "mapContent") {
+            var observeArg = compileObserver(argSyntax.args[0]);
+            return Observers.makeMapContentObserver(observeArg);
+        } else {
+            return compileObserver(argSyntax);
+        }
+    });
+    var argsObserver = Observers.makeRangeContentObserver(
+        Observers.makeObserversObserver(argObservers)
+    );
+    var observeSource = Observers.makeComputerObserver(argsObserver, compute, target);
+
+    var targetSyntax = parse(targetPath);
+    var bindTarget = compileBinder(targetSyntax);
+
+    return bindTarget(observeSource, sourceScope, targetScope, descriptor, trace ? {
+        sourcePath: args.join(", "),
+        targetPath: targetPath
+    }: undefined);
+}
+
+
+}})
+;
+//*/
+montageDefine("09f0f3b","observe",{dependencies:["./parse","./compile-observer","./observers","./scope"],factory:function(require,exports,module){
+var parse = require("./parse");
+var compile = require("./compile-observer");
+var Observers = require("./observers");
+var autoCancelPrevious = Observers.autoCancelPrevious;
+var Scope = require("./scope");
+
+module.exports = observe;
+function observe(source, expression, descriptorOrFunction) {
+    var descriptor;
+    if (typeof descriptorOrFunction === "function") {
+        descriptor = {change: descriptorOrFunction};
+    } else {
+        descriptor = descriptorOrFunction;
+    }
+
+    descriptor = descriptor || empty;
+    descriptor.source = source;
+    descriptor.sourcePath = expression;
+    var parameters = descriptor.parameters = descriptor.parameters || source;
+    var document = descriptor.document;
+    var components = descriptor.components;
+    var beforeChange = descriptor.beforeChange;
+    var contentChange = descriptor.contentChange;
+
+    // TODO consider the possibility that source has an intrinsic scope
+    // property
+    var sourceScope = new Scope(source);
+    sourceScope.parameters = parameters;
+    sourceScope.document = document;
+    sourceScope.components = components;
+    sourceScope.beforeChange = beforeChange;
+
+    var syntax = parse(expression);
+    var observe = compile(syntax);
+
+    // decorate for content change observations
+    if (contentChange === true) {
+        observe = Observers.makeRangeContentObserver(observe);
+    }
+
+    return observe(autoCancelPrevious(function (value) {
+        if (!value) {
+        } else if (typeof contentChange !== "function") {
+            return descriptor.change.apply(source, arguments);
+        } else if (typeof contentChange === "function") {
+            value.addRangeChangeListener(contentChange);
+            return function () {
+                value.removeRangeChangeListener(contentChange);
+            };
+        }
+    }), sourceScope);
+}
+
+var empty = {};
+
+
+}})
+;
+//*/
+montageDefine("09f0f3b","language",{dependencies:["collections/set","collections/dict"],factory:function(require,exports,module){
 var Set = require("collections/set");
 var Dict = require("collections/dict");
 
@@ -40376,69 +41032,7 @@ exports.operatorTypes = Dict(operatorTokens.map(function (type, token) {
 }})
 ;
 //*/
-montageDefine("e5fc713","compute",{dependencies:["./parse","./compile-observer","./compile-binder","./observers","./scope"],factory:function(require,exports,module){
-var parse = require("./parse");
-var compileObserver = require("./compile-observer");
-var compileBinder = require("./compile-binder");
-var Observers = require("./observers");
-var Scope = require("./scope");
-
-module.exports = compute;
-function compute(target, targetPath, descriptor) {
-    descriptor.target = target;
-    descriptor.targetPath = targetPath;
-    var source = descriptor.source = descriptor.source || target;
-    var args = descriptor.args;
-    var compute = descriptor.compute;
-    var parameters = descriptor.parameters = descriptor.parameters || source;
-    var document = descriptor.document;
-    var components = descriptor.components;
-    var trace = descriptor.trace;
-
-    // TODO consider the possibility that source and target have intrinsic
-    // scope properties
-    //
-    var sourceScope = descriptor.sourceScope = new Scope(source);
-    sourceScope.parameters = parameters;
-    sourceScope.document = document;
-    sourceScope.components = components;
-    var targetScope = descriptor.targetScope = new Scope(target);
-    targetScope.parameters = parameters;
-    targetScope.document = document;
-    targetScope.components = components;
-
-    var argObservers = args.map(function (arg) {
-        return parse(arg);
-    }).map(function (argSyntax) {
-        if (argSyntax.type === "rangeContent") {
-            var observeArg = compileObserver(argSyntax.args[0]);
-            return Observers.makeRangeContentObserver(observeArg);
-        } else if (argSyntax.type === "mapContent") {
-            var observeArg = compileObserver(argSyntax.args[0]);
-            return Observers.makeMapContentObserver(observeArg);
-        } else {
-            return compileObserver(argSyntax);
-        }
-    });
-    var argsObserver = Observers.makeRangeContentObserver(
-        Observers.makeObserversObserver(argObservers)
-    );
-    var observeSource = Observers.makeComputerObserver(argsObserver, compute, target);
-
-    var targetSyntax = parse(targetPath);
-    var bindTarget = compileBinder(targetSyntax);
-
-    return bindTarget(observeSource, sourceScope, targetScope, descriptor, trace ? {
-        sourcePath: args.join(", "),
-        targetPath: targetPath
-    }: undefined);
-}
-
-
-}})
-;
-//*/
-montageDefine("3fafb55","weak-map",{dependencies:[],factory:function(require,exports,module){// Copyright (C) 2011 Google Inc.
+montageDefine("a17c146","weak-map",{dependencies:[],factory:function(require,exports,module){// Copyright (C) 2011 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.

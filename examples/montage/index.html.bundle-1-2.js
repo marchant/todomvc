@@ -1,4 +1,4 @@
-montageDefine("604e6eb","core/range-controller",{dependencies:["./core","collections/generic-collection","collections/listen/array-changes"],factory:function(require,exports,module){/**
+montageDefine("666a351","core/range-controller",{dependencies:["./core","collections/generic-collection","collections/listen/array-changes"],factory:function(require,exports,module){/**
  * @module montage/core/range-controller
  */
 var Montage = require("./core").Montage;
@@ -46,7 +46,7 @@ var _RangeSelection = function(content, rangeController) {
     //Moved to RangeSelection.prototype for optimization
     //self.makeObservable();
     self.__proto__ = _RangeSelection.prototype;
-    
+
     self.rangeController = rangeController;
     self.contentEquals = content && content.contentEquals || Object.is;
 
@@ -94,11 +94,11 @@ Object.defineProperty(_RangeSelection.prototype, "push", {
           while (++i < l) {
             x[i] = arguments[i];
           }
-        
+
         this.swap_or_push(this.length, 0, x);
     }
 });
-    
+
 /**
  * A custom version of swap to ensure that changes obey the RangeController
  * invariants:
@@ -256,23 +256,26 @@ var RangeController = exports.RangeController = Montage.specialize( /** @lends R
             // The filterPath,
             // sortedPath, reversed, and visibleIndexes are all optional stages
             // in that pipeline and used if non-null and in that order.
-            // The _orderedContent variable is a necessary intermediate stage
-            // From which visibleIndexes plucks visible values.
+            // The _filteredContent, _sortedContent and _reversedContent variables
+            // are intermediate stages from which visibleIndexes plucks visible values.
             this.organizedContent = [];
             // dispatches handleOrganizedContentRangeChange
             this.organizedContent.addRangeChangeListener(this, "organizedContent");
-            this.defineBinding("_orderedContent", {
-                "<-": "content" +
-                    ".($filterPath.defined() ? filter{path($filterPath)} : ())" +
-                    ".($sortPath.defined() ? sorted{path($sortPath)} : ())" +
-                    ".($reversed ?? 0 ? reversed() : ())"
+            this.defineBinding("_filteredContent", {
+                "<-": "$filterPath.defined() ? content.filter{path($filterPath)} : content"
+            });
+            this.defineBinding("_sortedContent", {
+                "<-": "$sortPath.defined() ? _filteredContent.sorted{path($sortPath)} : _filteredContent"
+            });
+            this.defineBinding("_reversedContent", {
+                "<-": "$reversed ?? 0 ? _sortedContent.reversed() : _sortedContent"
             });
             this.defineBinding("organizedContent.rangeContent()", {
-                "<-": "_orderedContent.(" +
+                "<-": "_reversedContent.(" +
                     "$visibleIndexes.defined() ?" +
                     "$visibleIndexes" +
-                        ".filter{<$_orderedContent.length}" +
-                        ".map{$_orderedContent[()]}" +
+                        ".filter{<$_reversedContent.length}" +
+                        ".map{$_reversedContent[()]}" +
                     " : ()" +
                 ").(" +
                     "$start.defined() && $length.defined() ?" +
@@ -418,14 +421,6 @@ var RangeController = exports.RangeController = Montage.specialize( /** @lends R
 
     // Properties managed by the controller
     // ------------------------------------
-
-    /**
-     * The content after it has been sorted, reversed, and filtered, suitable
-     * for plucking visible indexes and/or then the sliding window.
-     *
-     * @private
-     */
-    _orderedContent: {value: null},
 
     /**
      * An array incrementally projected from `content` through sort,
@@ -896,7 +891,7 @@ var RangeController = exports.RangeController = Montage.specialize( /** @lends R
 }})
 ;
 //*/
-montageDefine("184f06d","ui/main.reel/main",{dependencies:["montage/ui/component","montage/core/range-controller","core/todo","montage/core/serialization/serializer/montage-serializer","montage/core/serialization/deserializer/montage-deserializer"],factory:function(require,exports,module){var Component = require('montage/ui/component').Component;
+montageDefine("94d26d8","ui/main.reel/main",{dependencies:["montage/ui/component","montage/core/range-controller","core/todo","montage/core/serialization/serializer/montage-serializer","montage/core/serialization/deserializer/montage-deserializer"],factory:function(require,exports,module){var Component = require('montage/ui/component').Component;
 var RangeController = require('montage/core/range-controller').RangeController;
 var Todo = require('core/todo').Todo;
 var Serializer = require('montage/core/serialization/serializer/montage-serializer').MontageSerializer;
@@ -1078,62 +1073,171 @@ exports.Main = Component.specialize({
 }})
 ;
 //*/
-montageDefine("184f06d","ui/todo-view.reel/todo-view.html",{text:'<!DOCTYPE html><html><head>\n        <meta charset=utf-8>\n        <title>TodoView</title>\n\n        <script type=text/montage-serialization>\n        {\n            "owner": {\n                "properties": {\n                    "element": {"#": "todoView"},\n                    "editInput": {"@": "editInput"}\n                }\n            },\n\n            "todoTitle": {\n                "prototype": "montage/ui/text.reel",\n                "properties": {\n                    "element": {"#": "todoTitle"}\n                },\n                "bindings": {\n                    "value": {"<-": "@owner.todo.title"}\n                }\n            },\n\n            "todoCompletedCheckbox": {\n                "prototype": "native/ui/input-checkbox.reel",\n                "properties": {\n                    "element": {"#": "todoCompletedCheckbox"}\n                },\n                "bindings": {\n                    "checked": {"<->": "@owner.todo.completed"}\n                }\n            },\n\n            "destroyButton": {\n                "prototype": "native/ui/button.reel",\n                "properties": {\n                    "element": {"#": "destroyButton"}\n                },\n                "listeners": [\n                    {\n                        "type": "action",\n                        "listener": {"@": "owner"},\n                        "capture": true\n                    }\n                ]\n            },\n\n            "editInput": {\n                "prototype": "native/ui/input-text.reel",\n                "properties": {\n                    "element": {"#": "edit-input"}\n                },\n                "bindings": {\n                    "value": {"<-": "@owner.todo.title"}\n                }\n            }\n        }\n        </script>\n    </head>\n    <body>\n        <li data-montage-id=todoView>\n            <div class=view>\n                <input data-montage-id=todoCompletedCheckbox class=toggle type=checkbox>\n                <label data-montage-id=todoTitle></label>\n                <button data-montage-id=destroyButton class=destroy></button>\n            </div>\n            <form data-montage-id=edit>\n                <input data-montage-id=edit-input class=edit value="Rule the web">\n            </form>\n        </li>\n    \n\n</body></html>'});
-;
-//*/
-montageDefine("2e7d2a9","package.json",{exports: {"name":"native","version":"0.1.3","repository":{"type":"git","url":"https://github.com/montagejs/native.git"},"dependencies":{"montage":"~0.13.0"},"devDependencies":{"montage-testing":"~0.2.0"},"exclude":["overview.html","overview","run-tests.html","test"],"_id":"native@0.1.3","description":"montage-native ==============","dist":{"shasum":"d2681d0415ec6e2839d30fe2753d215bf406b686","tarball":"http://registry.npmjs.org/native/-/native-0.1.3.tgz"},"_from":"native@~0.1.2","_npmVersion":"1.2.9","_npmUser":{"name":"montage-bot","email":"francoisfrisch@gmail.com"},"maintainers":[{"name":"francoisfrisch","email":"francoisfrisch@gmail.com"},{"name":"montage-bot","email":"francoisfrisch@gmail.com"}],"directories":{},"_shasum":"d2681d0415ec6e2839d30fe2753d215bf406b686","_resolved":"https://registry.npmjs.org/native/-/native-0.1.3.tgz","bugs":{"url":"https://github.com/montagejs/native/issues"},"homepage":"https://github.com/montagejs/native","hash":"2e7d2a9","mappings":{"montage":{"name":"montage","hash":"604e6eb","location":"../montage@604e6eb/"}},"production":true,"useScriptInjection":true}})
-;
-//*/
-montageDefine("2e7d2a9","ui/input-text.reel/input-text",{dependencies:["ui/text-input"],factory:function(require,exports,module){/**
-    @module "montage/ui/native/input-text.reel"
-*/
-var TextInput = require("ui/text-input").TextInput;
-/**
- * Wraps the a &lt;input type="text"> element with binding support for the element's standard attributes.
-   @class module:"montage/ui/native/input-text.reel".InputText
-   @extends module:montage/ui/text-input.TextInput
-
+montageDefine("666a351","ui/text.reel/text",{dependencies:["../component"],factory:function(require,exports,module){/**
+ * @module "montage/ui/text.reel"
  */
-exports.InputText = TextInput.specialize({
+var Component = require("../component").Component;
 
-    select: {
-        value: function() {
-            this._element.select();
-        }
-    }
-
-});
-
-
-}})
-;
-//*/
-montageDefine("184f06d","core/todo",{dependencies:["montage"],factory:function(require,exports,module){var Montage = require('montage').Montage;
-
-exports.Todo = Montage.specialize({
-
+/**
+ * A Text component shows plain text. Any text can be safely displayed without
+ * escaping, but the browser will treat all sequences of white space as a
+ * single space.
+ *
+ * The text component replaces the inner DOM of its element with a TextNode and
+ * it renders the [value]{@link Text#value} string in it.
+ *
+ * @class Text
+ * @classdesc A component that displays a string of plain text.
+ * @extends Component
+ */
+exports.Text = Component.specialize( /** @lends Text.prototype # */ {
+    /**
+     * @constructs Text
+     */
     constructor: {
-        value: function Todo() {
+        value: function Text() {
             this.super();
         }
     },
 
-    initWithTitle: {
-        value: function (title) {
-            this.title = title;
-            return this;
-        }
+    hasTemplate: {
+        value: false
     },
 
-    title: {
+    _value: {
         value: null
     },
 
-    completed: {
-        value: false
+    /**
+     * The string to be displayed. `null` is equivalent to the empty string.
+     * @type {string}
+     * @default null
+     */
+    value: {
+        get: function () {
+            return this._value;
+        },
+        set: function (value) {
+            if (this._value !== value) {
+                this._value = value;
+                this.needsDraw = true;
+            }
+        }
+    },
+
+    /**
+     * An optional converter for transforming the `value` into the
+     * corresponding rendered text.
+     * Converters are called at time of draw.
+     * @type {?Converter}
+     * @default null
+    */
+    converter: {
+        value: null
+    },
+
+    /**
+     * The default string value assigned to the Text instance.
+     * @type {string}
+     * @default "" empty string
+     */
+    defaultValue: {
+        value: ""
+    },
+
+    _valueNode: {
+        value: null
+    },
+
+    _RANGE: {
+        value: document.createRange()
+    },
+
+    enterDocument: {
+        value: function (firstTime) {
+            if (firstTime) {
+                var range = this._RANGE;
+                range.selectNodeContents(this.element);
+                range.deleteContents();
+                this._valueNode = document.createTextNode("");
+                range.insertNode(this._valueNode);
+                this.element.classList.add("montage-Text");
+            }
+        }
+    },
+
+    draw: {
+        value: function () {
+            // get correct value
+            var value = this._value, displayValue = (value || 0 === value ) ? value : this.defaultValue;
+
+            if (this.converter) {
+                displayValue = this.converter.convert(displayValue);
+            }
+
+            //push to DOM
+            this._valueNode.data = displayValue;
+        }
+    }
+
+});
+
+
+}})
+;
+//*/
+montageDefine("666a351","core/browser",{dependencies:["montage"],factory:function(require,exports,module){/*global navigator*/
+var Montage = require("montage").Montage;
+
+var regExAppleWebKit = new RegExp(/AppleWebKit\/([\d.]+)/);
+
+var Browser = Montage.specialize({
+    constructor: {
+        value: function Browser(userAgent) {
+            this.super();
+            this._userAgent = userAgent;
+            this._analyze(userAgent);
+        }
+    },
+
+    _analyze: {
+        value: function (userAgent) {
+            if (/*isAndroidMobile*/ userAgent.indexOf("Android") > -1 && userAgent.indexOf("Mozilla/5.0") > -1 && userAgent.indexOf("AppleWebKit") > -1) {
+                this.android = {};
+                var resultAppleWebKitRegEx = regExAppleWebKit.exec(userAgent);
+                var appleWebKitVersion = (resultAppleWebKitRegEx === null ? null : parseFloat(regExAppleWebKit.exec(userAgent)[1]));
+                this.android.androidBrowser = appleWebKitVersion !== null && appleWebKitVersion < 537;
+            }
+        }
+    },
+
+    _userAgent: {
+        value: null
+    }
+
+});
+
+var _browser = null;
+
+Montage.defineProperties(exports, {
+
+    browser: {
+        get: function () {
+            if(_browser === null) {
+                _browser = new Browser(navigator.userAgent);
+            }
+            return _browser;
+        }
+    },
+
+    Browser: {
+        value: Browser
     }
 
 });
 
 }})
+;
+//*/
+montageDefine("e396087","package.json",{exports: {"name":"native","version":"0.1.3","repository":{"type":"git","url":"git+https://github.com/montagejs/native.git"},"dependencies":{"montage":"~0.13.0"},"devDependencies":{"montage-testing":"~0.2.0"},"exclude":["overview.html","overview","run-tests.html","test"],"_id":"native@0.1.3","description":"montage-native ==============","dist":{"shasum":"d2681d0415ec6e2839d30fe2753d215bf406b686","tarball":"http://registry.npmjs.org/native/-/native-0.1.3.tgz"},"_from":"native@>=0.1.2 <0.2.0","_npmVersion":"1.2.9","_npmUser":{"name":"montage-bot","email":"francoisfrisch@gmail.com"},"maintainers":[{"name":"francoisfrisch","email":"francoisfrisch@gmail.com"},{"name":"montage-bot","email":"francoisfrisch@gmail.com"}],"directories":{},"_shasum":"d2681d0415ec6e2839d30fe2753d215bf406b686","_resolved":"https://registry.npmjs.org/native/-/native-0.1.3.tgz","bugs":{"url":"https://github.com/montagejs/native/issues"},"homepage":"https://github.com/montagejs/native#readme","hash":"e396087","mappings":{"montage":{"name":"montage","hash":"666a351","location":"../montage@666a351/"}},"production":true,"useScriptInjection":true}})
 bundleLoaded("index.html.bundle-1-2.js")

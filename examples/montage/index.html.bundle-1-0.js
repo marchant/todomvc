@@ -1,559 +1,824 @@
-montageDefine("604e6eb","composer/press-composer",{dependencies:["../core/core","./composer","../core/event/mutable-event"],factory:function(require,exports,module){/*global require, exports*/
+montageDefine("e396087","ui/button.reel/button",{dependencies:["ui/native-control","montage/composer/press-composer","montage/collections/dict"],factory:function(require,exports,module){ /*global require, exports*/
 
 /**
- * @module montage/composer/press-composer
- * @requires montage/core/core
- * @requires montage/composer/composer
- * @requires montage/core/event/mutable-event
- */
-var Montage = require("../core/core").Montage,
-    Composer = require("./composer").Composer,
-    MutableEvent = require("../core/event/mutable-event").MutableEvent;
+    @module "montage/ui/native/button.reel"
+*/
+var NativeControl = require("ui/native-control").NativeControl,
+    PressComposer = require("montage/composer/press-composer").PressComposer,
+    Dict = require("montage/collections/dict");
+
+// TODO migrate away from using undefinedGet and undefinedSet
 
 /**
- * @class PressComposer
- * @classdesc The `PressComposer` abstracts away handling mouse and touch
- * events that represent presses, allowing generic detection of presses, long
- * presses, and cancelled presses.
- *
- * @extends Composer
- * @fires pressStart
- * @fires press
- * @fires longPress
- * @fires pressCancel
- */
-var PressComposer = exports.PressComposer = Composer.specialize(/** @lends PressComposer.prototype # */ {
-
-    /**
-     * Dispatched when a press begins. It is ended by either a {@link press} or
-     * {@link pressCancel} event.
-     *
-     * @event pressStart
-     * @memberof PressComposer
-     * @param {PressEvent} event
-     */
-
-    /**
-     * Dispatched when a press is complete.
-     *
-     * @event press
-     * @memberof PressComposer
-     * @param {PressEvent} event
-     */
-
-    /**
-     * Dispatched when a press lasts for longer than (@link longPressThreshold}
-     * On a long press, the sequence of events will be:
-     * - pressStart: as soon as the composer recognizes it is a press.
-     * - longPress: `longPressThreshold` after the pressStart, if the press has
-     *   not yet ended.
-     * - press: when the press ends, if it isn't cancelled.
-     *
-     * Handlers of the `longPress` event can call `cancelPress` to prevent
-     * `press` being triggered.
-     *
-     * @event longPress
-     * @memberof PressComposer
-     * @param {PressEvent} event
-     */
-
-    /**
-     * Dispatched when a press is canceled. This could be because the pointer
-     * left the element, was claimed by another component or maybe a phone call
-     * came in.
-     *
-     * @event pressCancel
-     * @memberof PressComposer
-     * @param {PressEvent} event
-     */
-
-    // Load/unload
-
-    load: {
-        value: function () {
-            if (window.Touch) {
-                this._element.addEventListener("touchstart", this, true);
-            } else {
-                this._element.addEventListener("mousedown", this, true);
+    Wraps a native <code>&lt;button></code> or <code>&lt;input[type="button"]></code> HTML element. The element's standard attributes are exposed as bindable properties.
+    @class module:"montage/ui/native/button.reel".Button
+    @extends module:montage/ui/native-control.NativeControl
+    @fires action
+    @fires hold
+    @example
+<caption>JavaScript example</caption>
+var b1 = new Button();
+b1.element = document.querySelector("btnElement");
+b1.addEventListener("action", function(event) {
+    console.log("Got event 'action' event");
+});
+    @example
+<caption>Serialized example</caption>
+{
+    "aButton": {
+        "prototype": "montage/ui/native/button.reel",
+        "properties": {
+            "element": {"#": "btnElement"}
+        },
+        "listeners": [
+            {
+                "type": "action",
+                "listener": {"@": "appListener"}
             }
-        }
+        ]
     },
-
-    unload: {
-        value: function () {
-            if (window.Touch) {
-                this._element.removeEventListener("touchstart", this, true);
-            } else {
-                this._element.removeEventListener("mousedown", this, true);
-            }
-        }
-    },
+    "listener": {
+        "prototype": "appListener"
+    }
+}
+&lt;button data-montage-id="btnElement"></button>
+*/
+var Button = exports.Button = NativeControl.specialize(/** @lends module:"montage/ui/native/button.reel".Button# */ {
 
     /**
-     * Delegate that implements `surrenderPointer`. See Component for
-     * explanation of what this method should do.
-     *
-     * @type {Object}
-     * @default null
-     */
-    delegate: {
-        value: null
-    },
+        Dispatched when the button is activated through a mouse click, finger tap,
+        or when focused and the spacebar is pressed.
 
+        @event action
+        @memberof module:"montage/ui/native/button.reel".Button
+        @param {Event} event
+    */
 
     /**
-     * Cancel the current press.
-     *
-     * Can be used in a "longPress" event handler to prevent the "press" event
-     * being fired.
-     * @returns boolean true if a press was canceled, false if the composer was
-     * already in a unpressed or canceled state.
-     */
-    cancelPress: {
-        value: function () {
-            if (this._state === PressComposer.PRESSED) {
-                this._dispatchPressCancel();
-                this._endInteraction();
-                return true;
-            }
-            return false;
-        }
-    },
+        Dispatched when the button is pressed for a period of time, set by
+        {@link holdThreshold}.
 
-    // Optimisation so that we don't set a timeout if we do not need to
-    addEventListener: {
-        value: function (type, listener, useCapture) {
-            Composer.addEventListener.call(this, type, listener, useCapture);
-            if (type === "longPress") {
-                this._shouldDispatchLongPress = true;
-            }
-        }
-    },
+        @event hold
+        @memberof module:"montage/ui/native/button.reel".Button
+        @param {Event} event
+    */
 
-    UNPRESSED: {
-        value: 0
-    },
-    PRESSED: {
-        value: 1
-    },
-    CANCELLED: {
-        value: 2
-    },
-
-    _state: {
-        enumerable: false,
-        value: 0
-    },
-    state: {
-        get: function () {
-            return this._state;
-        }
-    },
-
-    _shouldDispatchLongPress: {
+    _preventFocus: {
         enumerable: false,
         value: false
     },
 
-    _longPressThreshold: {
-        enumerable: false,
-        value: 1000
-    },
-    /**
-     * How long a press has to last (in milliseconds) for a longPress event to
-     * be dispatched
-     * @type number
-     */
-    longPressThreshold: {
+/**
+    Specifies whether the button should receive focus or not.
+    @type {boolean}
+    @default false
+    @event longpress
+*/
+    preventFocus: {
         get: function () {
-            return this._longPressThreshold;
+            return this._preventFocus;
         },
         set: function (value) {
-            if (this._longPressThreshold !== value) {
-                this._longPressThreshold = value;
+            if (value === true) {
+                this._preventFocus = true;
+            } else {
+                this._preventFocus = false;
             }
         }
     },
 
-    _longPressTimeout: {
+
+/**
+    Enables or disables the Button from user input. When this property is set to <code>false</code>, the "disabled" CSS style is applied to the button's DOM element during the next draw cycle. When set to <code>true</code> the "disabled" CSS class is removed from the element's class list.
+*/
+    //TODO we should prefer positive properties like enabled vs disabled, get rid of disabled
+    enabled: {
+        dependencies: ["disabled"],
+        get: function () {
+            return !this._disabled;
+        },
+        set: function (value) {
+            this.disabled = !value;
+        }
+    },
+
+    /**
+        A Montage converter object used to convert or format the label displayed by the Button instance. When a new value is assigned to <code>label</code>, the converter object's <code>convert()</code> method is invoked, passing it the newly assigned label value.
+        @type {Property}
+        @default null
+    */
+    converter: {
+        value: null
+    },
+
+    /**
+      Stores the node that contains this button's value. Only used for
+      non-`<input>` elements.
+      @private
+    */
+    _labelNode: {value:undefined, enumerable: false},
+
+    _label: { value: undefined, enumerable: false },
+
+    /**
+        The displayed text on the button. In an &lt;input> element this is taken from the element's <code>value</code> attribute. On any other element (including &lt;button>) this is the first child node which is a text node. If one isn't found then it will be created.
+
+        If the button has a non-null <code>converter</code> property, the converter object's <code>convert()</code> method is called on the value before being assigned to the button instance.
+
+        @type {string}
+        @default undefined
+    */
+    label: {
+        get: function() {
+            return this._label;
+        },
+        set: function(value) {
+            if (value && value.length > 0 && this.converter) {
+                try {
+                    value = this.converter.convert(value);
+                    if (this.error) {
+                        this.error = null;
+                    }
+                } catch(e) {
+                    // unable to convert - maybe error
+                    this.error = e;
+                }
+            }
+
+            this._label = value;
+            if (this._isInputElement) {
+                this._value = value;
+            }
+
+            this.needsDraw = true;
+        }
+    },
+
+    setLabelInitialValue: {
+        value: function(value) {
+            if (this._label === undefined) {
+                    this._label = value;
+                }
+        }
+    },
+
+    /**
+        The amount of time in milliseconds the user must press and hold the button a <code>hold</code> event is dispatched. The default is 1 second.
+        @type {number}
+        @default 1000
+    */
+    holdThreshold: {
+        get: function() {
+            return this._pressComposer.longPressThreshold;
+        },
+        set: function(value) {
+            this._pressComposer.longPressThreshold = value;
+        }
+    },
+
+    _pressComposer: {
         enumberable: false,
         value: null
     },
 
-    // Magic
-
-    _observedPointer: {
+    _active: {
         enumerable: false,
-        value: null
-    },
-
-    // TODO: maybe this should be split and moved into handleTouchstart
-    // and handleMousedown
-    _startInteraction: {
-        enumerable: false,
-        value: function (event) {
-            if (
-                ("enabled" in this.component && !this.component.enabled) ||
-                this._observedPointer !== null
-            ) {
-                return false;
-            }
-
-            var i = 0, changedTouchCount;
-
-            if (event.type === "touchstart") {
-
-                changedTouchCount = event.changedTouches.length;
-                if (changedTouchCount === 1) {
-                    this._observedPointer = event.changedTouches[0].identifier;
-                }
-
-                document.addEventListener("touchend", this, false);
-                document.addEventListener("touchcancel", this, false);
-            } else if (event.type === "mousedown") {
-                this._observedPointer = "mouse";
-                // Needed to cancel the press if mouseup'd when not on the
-                // component
-                document.addEventListener("mouseup", this, false);
-                // Needed to preventDefault if another component has claimed
-                // the pointer
-                document.addEventListener("click", this, false);
-            }
-
-            // Needed to cancel the press because once a drag is started
-            // no mouse events are fired
-            // http://www.whatwg.org/specs/web-apps/current-work/multipage/dnd.html#initiate-the-drag-and-drop-operation
-            this._element.addEventListener("dragstart", this, false);
-
-            this.component.eventManager.claimPointer(this._observedPointer, this);
-
-            this._dispatchPressStart(event);
-        }
+        value: false
     },
 
     /**
-     * Decides what should be done based on an interaction.
-     *
-     * @param {Event} event The event that caused this to be called.
-     * @private
-     */
-    _interpretInteraction: {
-        value: function (event) {
-            // TODO maybe the code should be moved out to handleClick and
-            // handleMouseup
-            var isSurrendered, target, isTarget;
-
-            if (this._observedPointer === null) {
-                this._endInteraction(event);
-                return;
-            }
-
-            isSurrendered = !this.component.eventManager.isPointerClaimedByComponent(this._observedPointer, this);
-            target = event.target;
-            while (target !== this._element && target && target.parentNode) {
-                target = target.parentNode;
-            }
-            isTarget = target === this._element;
-
-            if (isSurrendered && event.type === "click") {
-                // Pointer surrendered, so prevent the default action
-                event.preventDefault();
-                // No need to dispatch an event as pressCancel was dispatched
-                // in surrenderPointer, just end the interaction.
-                this._endInteraction(event);
-                return;
-            } else if (event.type === "mouseup") {
-
-                if (!isSurrendered && isTarget) {
-                    this._dispatchPress(event);
-                    this._endInteraction(event);
-                    return;
-                } else if (!isSurrendered && !isTarget) {
-                    this._dispatchPressCancel(event);
-                    this._endInteraction(event);
-                    return;
-                } else {
-                    this._endInteraction(event);
-                }
-            }
+        This property is true when the button is being interacted with, either through mouse click or touch event, otherwise false.
+        @type {boolean}
+        @default false
+    */
+    active: {
+        get: function() {
+            return this._active;
+        },
+        set: function(value) {
+            this._active = value;
+            this.needsDraw = true;
         }
     },
 
-    /**
-     * Remove event listeners after an interaction has finished.
-     * @private
-     */
-    _endInteraction: {
-        value: function (event) {
-            document.removeEventListener("touchend", this);
-            document.removeEventListener("touchcancel", this);
-            document.removeEventListener("click", this);
-            document.removeEventListener("mouseup", this);
+    // HTMLInputElement/HTMLButtonElement methods
 
-            if (this.component.eventManager.isPointerClaimedByComponent(this._observedPointer, this)) {
-                this.component.eventManager.forfeitPointer(this._observedPointer, this);
-            }
-            this._observedPointer = null;
-            this._state = PressComposer.UNPRESSED;
+    blur: { value: function() { this._element.blur(); } },
+    focus: { value: function() { this._element.focus(); } },
+    // click() deliberately omitted (it isn't available on <button> anyways)
+
+    constructor: {
+        value: function NativeButton () {
+            this.super();
+            this._pressComposer = new PressComposer();
+            this._pressComposer.longPressThreshold = this.holdThreshold;
+            this.addComposer(this._pressComposer);
         }
     },
 
-    /**
-     * Checks if we are observing one of the changed touches. Returns the index
-     * of the changed touch if one matches, otherwise returns false. Make sure
-     * to check against `!== false` or `=== false` as the
-     * matching index might be 0.
-     *
-     * @function
-     * @returns {number|boolean} The index of the matching touch, or false
-     * @private
-     */
-    _changedTouchisObserved: {
-        value: function (changedTouches) {
-            if (this._observedPointer === null) {
-                return false;
-            }
-
-            var i = 0, changedTouchCount = changedTouches.length;
-
-            for (; i < changedTouchCount; i++) {
-                if (changedTouches[i].identifier === this._observedPointer) {
-                    return i;
-                }
-            }
-            return false;
+    prepareForActivationEvents: {
+        value: function() {
+            this._pressComposer.addEventListener("pressStart", this, false);
+            this._pressComposer.addEventListener("press", this, false);
+            this._pressComposer.addEventListener("pressCancel", this, false);
         }
     },
 
-    // Surrender pointer
-
-    surrenderPointer: {
-        value: function (pointer, component) {
-            var shouldSurrender = this.callDelegateMethod("surrenderPointer", pointer, component);
-            if (typeof shouldSurrender !== "undefined" && shouldSurrender === false) {
-                return false;
+    // Optimisation
+    addEventListener: {
+        value: function(type, listener, useCapture) {
+            this.super(type, listener, useCapture);
+            if (type === "hold") {
+                this._pressComposer.addEventListener("longPress", this, false);
             }
-
-            this._dispatchPressCancel();
-            return true;
         }
     },
 
     // Handlers
 
-    captureTouchstart: {
-        value: function (event) {
-            this._startInteraction(event);
-        }
-    },
-    handleTouchend: {
-        value: function (event) {
-            if (this._observedPointer === null) {
-                this._endInteraction(event);
-                return;
+    /**
+    Called when the user starts interacting with the component.
+    */
+    handlePressStart: {
+        value: function(event) {
+            this.active = true;
+
+            if (event.touch) {
+                // Prevent default on touchmove so that if we are inside a scroller,
+                // it scrolls and not the webpage
+                document.addEventListener("touchmove", this, false);
             }
 
-            if (this._changedTouchisObserved(event.changedTouches) !== false) {
-                if (this.component.eventManager.isPointerClaimedByComponent(this._observedPointer, this)) {
-                    this._dispatchPress(event);
+            if (!this._preventFocus) {
+                this._element.focus();
+            }
+        }
+    },
+
+    /**
+    Called when the user has interacted with the button.
+    */
+    handlePress: {
+        value: function(event) {
+            this.active = false;
+            this._dispatchActionEvent();
+            document.removeEventListener("touchmove", this, false);
+        }
+    },
+
+    handleKeyup: {
+        value: function(event) {
+            // action event on spacebar
+            if (event.keyCode === 32) {
+                this.active = false;
+                this._dispatchActionEvent();
+            }
+        }
+    },
+
+    handleLongPress: {
+        value: function(event) {
+            // When we fire the "hold" event we don't want to fire the
+            // "action" event as well.
+            this._pressComposer.cancelPress();
+
+            var holdEvent = document.createEvent("CustomEvent");
+            holdEvent.initCustomEvent("hold", true, true, null);
+            this.dispatchEvent(holdEvent);
+        }
+    },
+
+    /**
+    Called when all interaction is over.
+    @private
+    */
+    handlePressCancel: {
+        value: function(event) {
+            this.active = false;
+            document.removeEventListener("touchmove", this, false);
+        }
+    },
+
+    handleTouchmove: {
+        value: function(event) {
+            event.preventDefault();
+        }
+    },
+
+    /**
+    If this is an input element then the label is handled differently.
+    @private
+    */
+    _isInputElement: {
+        value: false,
+        enumerable: false
+    },
+
+    enterDocument: {
+        value: function(firstDraw) {
+            if (NativeControl.enterDocument) {
+                NativeControl.enterDocument.apply(this, arguments);
+            }
+            
+            if(firstDraw) {
+                this._isInputElement = (this.originalElement.tagName === "INPUT");
+                // Only take the value from the element if it hasn't been set
+                // elsewhere (i.e. in the serialization)
+                if (this._isInputElement) {
+                    // NOTE: This might not be the best way to do this
+                    // With an input element value and label are one and the same
+                    Object.defineProperty(this, "value", {
+                        get: function() {
+                            return this._label;
+                        },
+                        set: function(value) {
+                            this.label = value;
+                        }
+                    });
+
+                    if (this._label === undefined) {
+                        this._label = this.originalElement.value;
+                    }
                 } else {
-                    event.preventDefault();
+                    if (!this.originalElement.firstChild) {
+                        this.originalElement.appendChild(document.createTextNode(""));
+                    }
+                    this._labelNode = this.originalElement.firstChild;
+                    this.setLabelInitialValue(this._labelNode.data)
+                    if (this._label === undefined) {
+                        this._label = this._labelNode.data;
+                    }
                 }
-                this._endInteraction(event);
+
+                //this.classList.add("montage-Button");
+                this.element.setAttribute("role", "button");
+                this.element.addEventListener("keyup", this, false);
             }
         }
     },
-    handleTouchcancel: {
-        value: function (event) {
-            if (this._observedPointer === null || this._changedTouchisObserved(event.changedTouches) !== false) {
-                if (this.component.eventManager.isPointerClaimedByComponent(this._observedPointer, this)) {
-                    this._dispatchPressCancel(event);
+
+    /**
+    Draws the label to the DOM.
+    @function
+    @private
+    */
+    _drawLabel: {
+        enumerable: false,
+        value: function(value) {
+            if (this._isInputElement) {
+                this._element.setAttribute("value", value);
+            } else {
+                this._labelNode.data = value;
+            }
+        }
+    },
+
+    draw: {
+        value: function() {
+            this.super();
+
+            if (this._disabled) {
+                this._element.classList.add("disabled");
+            } else {
+                this._element.classList.remove("disabled");
+            }
+
+            if (this._active) {
+                this._element.classList.add("active");
+            } else {
+                this._element.classList.remove("active");
+            }
+
+            this._drawLabel(this.label);
+        }
+    },
+
+    _detail: {
+        value: null
+    },
+
+    /**
+        The data property of the action event.
+        example to toggle the complete class: "detail.selectedItem" : { "<-" : "@repetition.objectAtCurrentIteration"}
+        @type {Property}
+        @default null
+    */
+    detail: {
+        get: function() {
+            if (this._detail === null) {
+                this._detail = new Dict();
+            }
+            return this._detail;
+        }
+    },
+
+    createActionEvent: {
+        value: function() {
+            var actionEvent = document.createEvent("CustomEvent"),
+                eventDetail;
+
+            eventDetail = this._detail;
+            actionEvent.initCustomEvent("action", true, true, eventDetail);
+            return actionEvent;
+        }
+    }
+});
+
+Button.addAttributes( /** @lends module:"montage/ui/native/button.reel".Button# */{
+
+/**
+    Specifies whether the button should be focused as soon as the page is loaded.
+    @type {boolean}
+    @default false
+*/
+    autofocus: {value: false, dataType: 'boolean'},
+
+/**
+    When true, the button is disabled to user input and "disabled" is added to its CSS class list.
+    @type {boolean}
+    @default false
+*/
+    disabled: {value: false, dataType: 'boolean'},
+
+/**
+    The value of the id attribute of the form with which to associate the component's element.
+    @type {string}
+    @default null
+*/
+    form: null,
+
+/**
+    The URL to which the form data will be sumbitted.
+    @type {string}
+    @default null
+*/
+    formaction: null,
+
+/**
+    The content type used to submit the form to the server.
+    @type {string}
+    @default null
+*/
+    formenctype: null,
+
+/**
+    The HTTP method used to submit the form.
+    @type {string}
+    @default null
+*/
+    formmethod: null,
+
+/**
+    Indicates if the form should be validated upon submission.
+    @type {boolean}
+    @default null
+*/
+    formnovalidate: {dataType: 'boolean'},
+
+/**
+    The target frame or window in which the form output should be rendered.
+    @type string}
+    @default null
+*/
+    formtarget: null,
+
+/**
+    A string indicating the input type of the component's element.
+    @type {string}
+    @default "button"
+*/
+    type: {value: 'button'},
+
+/**
+    The name associated with the component's DOM element.
+    @type {string}
+    @default null
+*/
+    name: null,
+
+/**
+    <strong>Use <code>label</code> to set the displayed text on the button</strong>
+    The value associated with the element. This sets the value attribute of
+    the button that gets sent when the form is submitted.
+    @type {string}
+    @default null
+    @see label
+*/
+    value: null
+
+});
+
+}})
+;
+//*/
+montageDefine("e396087","ui/text-input",{dependencies:["ui/native-control"],factory:function(require,exports,module){/**
+    @module montage/ui/text-input
+*/
+var NativeControl = require("ui/native-control").NativeControl;
+
+/**
+    The base class for all text-based input components. You typically won't create instances of this prototype.
+    @class module:montage/ui/text-input.TextInput
+    @extends module:montage/ui/native-control.NativeControl
+    @see {module:"montage/ui/input-date.reel".DateInput}
+    @see module:"montage/ui/input-text.reel".InputText
+    @see module:"montage/ui/input-number.reel".InputNumber
+    @see module:"montage/ui/input-range.reel".RangeInput
+    @see module:"montage/ui/textarea.reel".TextArea
+
+*/
+var TextInput = exports.TextInput =  NativeControl.specialize(/** @lends module:montage/ui/text-input.TextInput# */ {
+
+    _hasFocus: {
+        enumerable: false,
+        value: false
+    },
+
+    _value: {
+        enumerable: false,
+        value: null
+    },
+
+    _valueSyncedWithInputField: {
+        enumerable: false,
+        value: false
+    },
+
+    /**
+        The "typed" data value associated with the input element. When this
+        property is set, if the component's <code>converter</code> property is
+        non-null then its <code>revert()</code> method is invoked, passing it
+        the newly assigned value. The <code>revert()</code> function is
+        responsible for validating and converting the user-supplied value to
+        its typed format. For example, in the case of a DateInput component
+        (which extends TextInput) a user enters a string for the date (for
+        example, "10-12-2005"). A <code>DateConverter</code> object is assigned
+        to the component's <code>converter</code> property.
+
+        If the comopnent doesn't specify a converter object then the raw value
+        is assigned to <code>value</code>.
+
+        @type {string}
+        @default null
+    */
+    value: {
+        get: function() {
+            return this._value;
+        },
+        set: function(value, fromInput) {
+
+            if(value !== this._value) {
+                if(this.converter) {
+                    var convertedValue;
+                    try {
+                        convertedValue = this.converter.revert(value);
+                        this.error = null;
+                        this._value = convertedValue;
+                    } catch(e) {
+                        // unable to convert - maybe error
+                        this._value = value;
+                        this.error = e;
+                    }
+                } else {
+                    this._value = value;
                 }
-                this._endInteraction(event);
+
+                if (fromInput) {
+                    this._valueSyncedWithInputField = true;
+                } else {
+                    this._valueSyncedWithInputField = false;
+                    this.needsDraw = true;
+                }
             }
         }
     },
 
-    captureMousedown: {
-        value: function (event) {
-            this._startInteraction(event);
-        }
-    },
-    handleClick: {
-        value: function (event) {
-            this._interpretInteraction(event);
-        }
-    },
-    handleMouseup: {
-        value: function (event) {
-            this._interpretInteraction(event);
-        }
-    },
-    handleDragstart: {
-        value: function (event) {
-            this._dispatchPressCancel(event);
-            this._endInteraction();
+    // set value from user input
+    /**
+      @private
+    */
+    _setValue: {
+        value: function() {
+            var newValue = this.element.value;
+            Object.getPropertyDescriptor(this, "value").set.call(this, newValue, true);
         }
     },
 
-    // Event dispatch
+/**
+    A reference to a Converter object whose <code>revert()</code> function is invoked when a new value is assigned to the TextInput object's <code>value</code> property. The revert() function attempts to transform the newly assigned value into a "typed" data property. For instance, a DateInput component could assign a DateConverter object to this property to convert a user-supplied date string into a standard date format.
+    @type {Converter}
+    @default null
+    @see {@link module:montage/core/converter.Converter}
+*/
+    converter:{
+        value: null
+    },
 
-    _createPressEvent: {
+    _error: {
+        value: null
+    },
+
+/**
+    If an error is thrown by the converter object during a new value assignment, this property is set to <code>true</code>, and schedules a new draw cycle so the the UI can be updated to indicate the error state. the <code>montage--invalidText</code> CSS class is assigned to the component's DOM element during the next draw cycle.
+    @type {boolean}
+    @default false
+*/
+    error: {
+        get: function() {
+            return this._error;
+        },
+        set: function(v) {
+            this._error = v;
+            this.errorMessage = this._error ? this._error.message : null;
+            this.needsDraw = true;
+        }
+    },
+
+    _errorMessage: {value: null},
+
+/**
+    The message to display when the component is in an error state.
+    @type {string}
+    @default null
+*/
+    errorMessage: {
+        get: function() {
+            return this._errorMessage;
+        },
+        set: function(v) {
+            this._errorMessage = v;
+        }
+    },
+
+    _updateOnInput: {
+        value: true
+    },
+
+/**
+    When this property and the converter's <code>allowPartialConversion</code> are both true, as the user enters text in the input element each new character is added to the component's <code>value</code> property, which triggers the conversion. Depending on the type of input element being used, this behavior may not be desirable. For instance, you likely would not want to convert a date string as a user is entering it, only when they've completed their input.
+    Specifies whether
+    @type {boolean}
+    @default true
+*/
+    updateOnInput: {
+        get: function() {
+            return !!this._updateOnInput;
+        },
+        set: function(v) {
+            this._updateOnInput = v;
+        }
+    },
+
+    // HTMLInputElement methods
+
+    blur: { value: function() { this._element.blur(); } },
+    focus: { value: function() { this._element.focus(); } },
+    // select() defined where it's allowed
+    // click() deliberately omitted, use focus() instead
+
+    // Callbacks
+
+    enterDocument: {
+        value: function(firstTime) {
+            if (firstTime) {
+                var el = this.element;
+                el.addEventListener("focus", this);
+                el.addEventListener('input', this);
+                el.addEventListener('change', this);
+                el.addEventListener('blur', this);
+            }
+        }
+    },
+
+    _setElementValue: {
+        value: function(value) {
+            this.element.value = (value == null ? '' : value);
+        }
+    },
+
+    draw: {
         enumerable: false,
-        value: function (name, event) {
-            var pressEvent, detail, index;
+        value: function() {
+            this.super();
 
-            if (!event) {
-                event = document.createEvent("CustomEvent");
-                event.initCustomEvent(name, true, true, null);
+            var el = this.element;
+
+            if (!this._valueSyncedWithInputField) {
+                this._setElementValue(this.converter ? this.converter.convert(this._value) : this._value);
             }
 
-            pressEvent = new PressEvent();
-            pressEvent.event = event;
-            pressEvent.type = name;
-            pressEvent.pointer = this._observedPointer;
-            pressEvent.targetElement = event.target;
-
-            if (event.changedTouches &&
-                (index = this._changedTouchisObserved(event.changedTouches)) !== false
-            ) {
-                pressEvent.touch = event.changedTouches[index];
-            }
-
-            return pressEvent;
-        }
-    },
-
-    _dispatchPressStart: {
-        enumerable: false,
-        value: function (event) {
-            this._state = PressComposer.PRESSED;
-            this.dispatchEvent(this._createPressEvent("pressStart", event));
-
-            if (this._shouldDispatchLongPress) {
-                var self = this;
-                this._longPressTimeout = setTimeout(function () {
-                    self._dispatchLongPress();
-                }, this._longPressThreshold);
+            if (this.error) {
+                el.classList.add('montage--invalidText');
+                el.title = this.error.message || '';
+            } else {
+                el.classList.remove("montage--invalidText");
+                el.title = '';
             }
         }
     },
 
-    _dispatchPress: {
+    didDraw: {
         enumerable: false,
-        value: function (event) {
-            if (this._shouldDispatchLongPress) {
-                clearTimeout(this._longPressTimeout);
-                this._longPressTimeout = null;
+        value: function() {
+            if (this._hasFocus && this._value != null) {
+                var length = this._value.toString().length;
+                this.element.setSelectionRange(length, length);
             }
-
-            this.dispatchEvent(this._createPressEvent("press", event));
-            this._state = PressComposer.UNPRESSED;
-        }
-    },
-
-    _dispatchLongPress: {
-        enumerable: false,
-        value: function (event) {
-            if (this._shouldDispatchLongPress) {
-                this.dispatchEvent(this._createPressEvent("longPress", event));
-                this._longPressTimeout = null;
+            // The value might have been changed during the draw if bindings
+            // were reified, and another draw will be needed.
+            if (!this.needsDraw) {
+                this._valueSyncedWithInputField = true;
             }
         }
     },
 
-    _dispatchPressCancel: {
-        enumerable: false,
-        value: function (event) {
-            if (this._shouldDispatchLongPress) {
-                clearTimeout(this._longPressTimeout);
-                this._longPressTimeout = null;
-            }
 
-            this._state = PressComposer.CANCELLED;
-            this.dispatchEvent(this._createPressEvent("pressCancel", event));
+    // Event handlers
+
+    handleInput: {
+        enumerable: false,
+        value: function() {
+            if (this.converter) {
+                if (this.converter.allowPartialConversion === true && this.updateOnInput === true) {
+                    this._setValue();
+                }
+            } else {
+                this._setValue();
+            }
+        }
+    },
+/**
+    Description TODO
+    @function
+    @param {Event Handler} event TODO
+    */
+    handleChange: {
+        enumerable: false,
+        value: function(event) {
+            this._setValue();
+            this._hasFocus = false;
+        }
+    },
+/**
+    Description TODO
+    @function
+    @param {Event Handler} event TODO
+    */
+    handleBlur: {
+        enumerable: false,
+        value: function(event) {
+            this._hasFocus = false;
+        }
+    },
+/**
+    Description TODO
+    @function
+    @param {Event Handler} event TODO
+    */
+    handleFocus: {
+        enumerable: false,
+        value: function(event) {
+            this._hasFocus = true;
         }
     }
 
 });
 
-/*
- * @class PressEvent
- * @inherits MutableEvent
- * @classdesc The event dispatched by the `PressComposer`, providing access to
- * the raw DOM event and proxying its properties.
- */
-var PressEvent = (function (){
-    var value, eventProps, typeProps, eventPropDescriptor, typePropDescriptor, i;
+// Standard <input> tag attributes - http://www.w3.org/TR/html5/the-input-element.html#the-input-element
 
-    value = MutableEvent.specialize({
-        type: {
-            value: "press"
-        },
-        _event: {
-            enumerable: false,
-            value: null
-        },
-        event: {
-            get: function () {
-                return this._event;
-            },
-            set: function (value) {
-                this._event = value;
-            }
-        },
-        _touch: {
-            enumerable: false,
-            value: null
-        },
-        touch: {
-            get: function () {
-                return this._touch;
-            },
-            set: function (value) {
-                this._touch = value;
-            }
-        }
-    });
-
-    // These properties are available directly on the event
-    eventProps = ["altKey", "ctrlKey", "metaKey", "shiftKey",
-    "cancelBubble", "currentTarget", "defaultPrevented",
-    "eventPhase", "timeStamp", "preventDefault",
-    "stopImmediatePropagation", "stopPropagation"];
-    // These properties are available on the event in the case of mouse, and
-    // on the _touch in the case of touch
-    typeProps = ["clientX", "clientY", "pageX", "pageY", "screenX", "screenY", "target"];
-
-    eventPropDescriptor = function (prop) {
-        return {
-            get: function () {
-                return this._event[prop];
-            }
-        };
-    };
-    typePropDescriptor = function (prop) {
-        return {
-            get: function () {
-                return (this._touch) ? this._touch[prop] : this._event[prop];
-            }
-        };
-    };
-
-    for (i = eventProps.length - 1; i >= 0; i--) {
-        Montage.defineProperty(value, eventProps[i], eventPropDescriptor(eventProps[i]));
-    }
-    for (i = typeProps.length - 1; i >= 0; i--) {
-        Montage.defineProperty(value, typeProps[i], typePropDescriptor(typeProps[i]));
-    }
-
-    return value;
-}());
+TextInput.addAttributes({
+    accept: null,
+    alt: null,
+    autocomplete: null,
+    autofocus: {dataType: "boolean"},
+    checked: {dataType: "boolean"},
+    dirname: null,
+    disabled: {dataType: 'boolean'},
+    form: null,
+    formaction: null,
+    formenctype: null,
+    formmethod: null,
+    formnovalidate: {dataType: 'boolean'},
+    formtarget: null,
+    height: null,
+    list: null,
+    maxlength: null,
+    multiple: {dataType: 'boolean'},
+    name: null,
+    pattern: null,
+    placeholder: null,
+    readonly: {dataType: 'boolean'},
+    required: {dataType: 'boolean'},
+    size: null,
+    src: null,
+    width: null
+    // "type" is not bindable and "value" is handled as a special attribute
+});
 
 }})
 ;
 //*/
-montageDefine("bae053a","ui/dynamic-element.reel/dynamic-element",{dependencies:["montage/ui/component"],factory:function(require,exports,module){/* <copyright>
+montageDefine("f5e1a7f","ui/dynamic-element.reel/dynamic-element",{dependencies:["montage/ui/component"],factory:function(require,exports,module){/* <copyright>
 Copyright (c) 2012, Motorola Mobility LLC.
 All Rights Reserved.
 
@@ -683,11 +948,6 @@ exports.DynamicElement = Component.specialize(/** @lends module:"matte/ui/dynami
             var displayValue = (this.innerHTML || 0 === this.innerHTML ) ? this.innerHTML : this.defaultHTML,
                 content, allowedTagNames = this.allowedTagNames, range = this._range, elements;
 
-            // If this element is inside a Slot or another component that
-            // manipulates its contents then the range could be selecting
-            // the wrong content. Make sure we have the right stuff:
-            range.selectNodeContents(this.element);
-
             //push to DOM
             if(this._usingInnerHTML) {
                 if (allowedTagNames !== null) {
@@ -737,10 +997,7 @@ exports.DynamicElement = Component.specialize(/** @lends module:"matte/ui/dynami
 }})
 ;
 //*/
-montageDefine("184f06d","ui/main.reel/main.html",{text:'<!DOCTYPE html><html><head>\n        <meta charset=utf-8>\n        <title>Main</title>\n\n        <link rel=stylesheet href=main.css>\n\n        <script type=text/montage-serialization>\n        {\n            "owner": {\n                "properties": {\n                    "element": {"#": "mainComponent"},\n                    "_newTodoForm": {"#": "newTodoForm"},\n                    "_newTodoInput": {"#": "newTodoField"}\n                }\n            },\n\n            "todoRepetition": {\n                "prototype": "montage/ui/repetition.reel",\n                "properties": {\n                    "element": {"#": "todo-list"}\n                },\n                "bindings": {\n                    "contentController": {"<-": "@owner.todoListController"}\n                }\n            },\n\n            "todoView": {\n                "prototype": "ui/todo-view.reel",\n                "properties": {\n                    "element": {"#": "todoView"}\n                },\n                "bindings": {\n                    "todo": {"<-": "@todoRepetition:iteration.object"}\n                }\n            },\n\n            "main": {\n                "prototype": "matte/ui/dynamic-element.reel",\n                "properties": {\n                    "element": {"#": "main"}\n                },\n                "bindings": {\n                    "classList.has(\'visible\')": {\n                        "<-": "@owner.todos.length > 0"\n                    }\n                }\n            },\n\n            "footer": {\n                "prototype": "matte/ui/dynamic-element.reel",\n                "properties": {\n                    "element": {"#": "footer"}\n                },\n                "bindings": {\n                    "classList.has(\'visible\')": {\n                        "<-": "@owner.todos.length > 0"\n                    }\n                }\n            },\n\n            "toggleAllCheckbox": {\n                "prototype": "native/ui/input-checkbox.reel",\n                "properties": {\n                    "element": {"#": "toggle-all"}\n                },\n                "bindings": {\n                    "checked": {"<->": "@owner.allCompleted"}\n                }\n            },\n\n            "todoCount": {\n                "prototype": "montage/ui/text.reel",\n                "properties": {\n                    "element": {"#": "todo-count"}\n                },\n                "bindings": {\n                    "value": {\n                        "<-": "@owner.todosLeft.length"\n                    }\n                }\n            },\n\n            "todoCountWording": {\n                "prototype": "montage/ui/text.reel",\n                "properties": {\n                    "element": {"#": "todo-count-wording"}\n                },\n                "bindings": {\n                    "value": {"<-": "@owner.todosLeft.length == 1 ? \'item\' : \'items\'"}\n                }\n            },\n\n            "completedCount": {\n                "prototype": "montage/ui/text.reel",\n                "properties": {\n                    "element": {"#": "completed-count"}\n                },\n                "bindings": {\n                    "value": {\n                        "<-": "@owner.todosCompleted.length"\n                    }\n                }\n            },\n\n            "clearCompletedContainer": {\n                "prototype": "matte/ui/dynamic-element.reel",\n                "properties": {\n                    "element": {"#": "clear-completed-container"}\n                },\n                "bindings": {\n                    "classList.has(\'visible\')": {\n                        "<-": "@owner.todosCompleted.length"\n                    }\n                }\n            },\n\n            "clearCompletedButton": {\n                "prototype": "native/ui/button.reel",\n                "properties": {\n                    "element": {"#": "clear-completed"}\n                },\n                "listeners": [\n                    {\n                        "type": "action",\n                        "listener": {"@": "owner"},\n                        "capture": false\n                    }\n                ]\n            }\n        }\n        </script>\n    </head>\n    <body>\n        <div data-montage-id=mainComponent>\n\n            <section id=todoapp>\n                    <header id=header>\n                        <h1>todos</h1>\n                        <form data-montage-id=newTodoForm>\n                            <input data-montage-id=newTodoField id=new-todo placeholder="What needs to be done?" autofocus="">\n                        </form>\n                    </header>\n                    <section data-montage-id=main id=main>\n                        <input data-montage-id=toggle-all id=toggle-all type=checkbox>\n                        <label for=toggle-all>Mark all as complete</label>\n                        <ul data-montage-id=todo-list id=todo-list>\n                            <li data-montage-id=todoView></li>\n                        </ul>\n                    </section>\n                    <footer data-montage-id=footer id=footer>\n                        <span id=todo-count><strong data-montage-id=todo-count>0</strong> <span data-montage-id=todo-count-wording>items</span> left</span>\n                        <div data-montage-id=clear-completed-container id=clear-completed-container>\n                            <button data-montage-id=clear-completed id=clear-completed>Clear completed (<span data-montage-id=completed-count>0</span>)</button>\n                        </div>\n                    </footer>\n                </section>\n                <footer id=info>\n                    <p>Double-click to edit a todo</p>\n                    <p>Created with <a href=http://github.com/montagejs/montage>Montage</a> </p>\n                    <p>Source available at <a href=http://github.com/montagejs/todo-mvc>Montage-TodoMVC</a> </p>\n                    <p>Part of <a href=http://todomvc.com>TodoMVC</a></p>\n                </footer>\n        </div>\n    \n\n</body></html>'});
-;
-//*/
-montageDefine("2e7d2a9","ui/native-control",{dependencies:["montage/ui/component"],factory:function(require,exports,module){/**
+montageDefine("e396087","ui/native-control",{dependencies:["montage/ui/component"],factory:function(require,exports,module){/**
     @module montage/ui/native-control
 */
 
@@ -866,150 +1123,128 @@ NativeControl.addAttributes( /** @lends module:montage/ui/native-control.NativeC
 }})
 ;
 //*/
-montageDefine("184f06d","ui/todo-view.reel/todo-view",{dependencies:["montage/ui/component"],factory:function(require,exports,module){var Component = require('montage/ui/component').Component;
+montageDefine("e396087","ui/check-input",{dependencies:["ui/native-control","montage/composer/press-composer"],factory:function(require,exports,module){/*global require, exports */
 
-exports.TodoView = Component.specialize({
+/**
+    @module montage/ui/check-input
+*/
+var NativeControl = require("ui/native-control").NativeControl,
+    PressComposer = require("montage/composer/press-composer").PressComposer;
 
-    todo: {
+/**
+    The base class for the Checkbox component. You will not typically create this class directly but instead use the Checkbox component.
+    @class module:montage/ui/check-input.CheckInput
+    @extends module:montage/ui/native-control.NativeControl
+*/
+exports.CheckInput =  NativeControl.specialize({
+
+    // HTMLInputElement methods
+
+    blur: { value: function() { this._element.blur(); } },
+    focus: { value: function() { this._element.focus(); } },
+    // click() deliberately omitted, use checked = instead
+
+    // Callbacks
+    draw: {
+        value: function() {
+            this.super();
+            this._element.setAttribute("aria-checked", this._checked);
+        }
+    },
+
+    _pressComposer: {
+        enumerable: false,
         value: null
     },
 
-    editInput: {
-        value: null
-    },
-
-    constructor: {
-        value: function TodoView() {
-            this.defineBinding('isCompleted', {
-                '<-': 'todo.completed'
-            });
+    prepareForActivationEvents: {
+        value: function() {
+            var pressComposer = this._pressComposer = new PressComposer();
+            this.addComposer(pressComposer);
+            pressComposer.addEventListener("pressStart", this, false);
+            pressComposer.addEventListener("press", this, false);
         }
     },
 
     enterDocument: {
-        value: function (firstTime) {
+        value: function(firstTime) {
             if (firstTime) {
-                this.element.addEventListener('dblclick', this, false);
-                this.element.addEventListener('blur', this, true);
-                this.element.addEventListener('submit', this, false);
+                this._element.addEventListener('change', this);
             }
         }
     },
 
-    captureDestroyButtonAction: {
-        value: function () {
-            this.dispatchDestroy();
+    /**
+    Fake the checking of the element.
+
+    Changes the checked property of the element and dispatches a change event.
+    Radio button overrides this.
+
+    @private
+    */
+    _fakeCheck: {
+        enumerable: false,
+        value: function() {
+            var changeEvent;
+            // NOTE: this may be BAD, modifying the element outside of
+            // the draw loop, but it's what a click/touch would
+            // actually have done
+            this._element.checked = !this._element.checked;
+            changeEvent = document.createEvent("HTMLEvents");
+            changeEvent.initEvent("change", true, true);
+            this._element.dispatchEvent(changeEvent);
         }
     },
 
-    dispatchDestroy: {
-        value: function () {
-            this.dispatchEventNamed('destroyTodo', true, true, {todo: this.todo});
-        }
-    },
+    /**
+    Stores if we need to "fake" checking of the input element.
 
-    handleDblclick: {
-        value: function () {
-            this.isEditing = true;
-        }
-    },
+    When preventDefault is called on touchstart and touchend events (e.g. by
+    the scroller component) the checkbox doesn't check itself, so we need
+    to fake it later.
 
-    _isEditing: {
+    @default false
+    @private
+    */
+    _shouldFakeCheck: {
+        enumerable: false,
         value: false
     },
 
-    isEditing: {
-        get: function () {
-            return this._isEditing;
-        },
-        set: function (value) {
-            if (value === this._isEditing) {
-                return;
-            }
+    // Handlers
 
-            if (value) {
-                this.classList.add('editing');
-            } else {
-                this.classList.remove('editing');
-            }
-
-            this._isEditing = value;
-            this.needsDraw = true;
+    handlePressStart: {
+        value: function(event) {
+            this._shouldFakeCheck = event.defaultPrevented;
         }
     },
 
-    _isCompleted: {
-        value: false
-    },
 
-    isCompleted: {
-        get: function () {
-            return this._isCompleted;
-        },
-        set: function (value) {
-            if (value === this._isCompleted) {
-                return;
-            }
-
-            if (value) {
-                this.classList.add('completed');
-            } else {
-                this.classList.remove('completed');
-            }
-
-            this._isCompleted = value;
-            this.needsDraw = true;
-        }
-    },
-
-    captureBlur: {
-        value: function (evt) {
-            if (this.isEditing && this.editInput.element === evt.target) {
-                this._submitTitle();
+    handlePress: {
+        value: function(event) {
+            if (this._shouldFakeCheck) {
+                this._shouldFakeCheck = false;
+                this._fakeCheck();
             }
         }
     },
 
-    handleSubmit: {
-        value: function (evt) {
-            if (this.isEditing) {
-                evt.preventDefault();
-                this._submitTitle();
-            }
-        }
-    },
-
-    _submitTitle: {
-        value: function () {
-
-            var title = this.editInput.value.trim();
-
-            if ('' === title) {
-                this.dispatchDestroy();
-            } else {
-                this.todo.title = title;
-            }
-
-            this.isEditing = false;
-        }
-    },
-
-    draw: {
-        value: function () {
-            if (this.isEditing) {
-                this.editInput.element.focus();
-            } else {
-                this.editInput.element.blur();
+    handleChange: {
+        enumerable: false,
+        value: function(event) {
+            if (!this._pressComposer || this._pressComposer.state !== PressComposer.CANCELLED) {
+                Object.getPropertyDescriptor(this, "checked").set.call(this,
+                    this.element.checked, true);
+                this._dispatchActionEvent();
             }
         }
     }
-
 });
 
 }})
 ;
 //*/
-montageDefine("2e7d2a9","ui/input-checkbox.reel/input-checkbox",{dependencies:["ui/check-input"],factory:function(require,exports,module){/**
+montageDefine("e396087","ui/input-checkbox.reel/input-checkbox",{dependencies:["ui/check-input"],factory:function(require,exports,module){/**
     @module "montage/ui/native/input-checkbox.reel"
     @requires montage/core/core
     @requires montage/ui/check-input
@@ -1081,6 +1316,30 @@ InputCheckbox.addAttributes( /** @lends module:"montage/ui/native/input-checkbox
     */
     value: {value: 'on'}
 });
+
+}})
+;
+//*/
+montageDefine("e396087","ui/input-text.reel/input-text",{dependencies:["ui/text-input"],factory:function(require,exports,module){/**
+    @module "montage/ui/native/input-text.reel"
+*/
+var TextInput = require("ui/text-input").TextInput;
+/**
+ * Wraps the a &lt;input type="text"> element with binding support for the element's standard attributes.
+   @class module:"montage/ui/native/input-text.reel".InputText
+   @extends module:montage/ui/text-input.TextInput
+
+ */
+exports.InputText = TextInput.specialize({
+
+    select: {
+        value: function() {
+            this._element.select();
+        }
+    }
+
+});
+
 
 }})
 bundleLoaded("index.html.bundle-1-0.js")

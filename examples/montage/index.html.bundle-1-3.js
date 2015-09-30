@@ -1,4 +1,4 @@
-montageDefine("604e6eb","ui/repetition.reel/repetition",{dependencies:["../../core/core","../component","../../core/template","../../core/range-controller","../../core/promise","../../core/browser","collections/map","collections/set","../../core/deprecate","../../core/logger","frb/observers"],factory:function(require,exports,module){/**
+montageDefine("666a351","ui/repetition.reel/repetition",{dependencies:["../../core/core","../component","../../core/template","../../core/range-controller","../../core/promise","../../core/browser","../../composer/press-composer","collections/map","collections/set","../../core/deprecate","../../core/logger","frb/observers"],factory:function(require,exports,module){/**
  * @module "montage/ui/repetition.reel"
  */
 var Montage = require("../../core/core").Montage;
@@ -7,6 +7,7 @@ var Template = require("../../core/template").Template;
 var RangeController = require("../../core/range-controller").RangeController;
 var Promise = require("../../core/promise").Promise;
 var browser = require("../../core/browser").browser;
+var PressComposer = require("../../composer/press-composer").PressComposer;
 
 var Map = require("collections/map");
 var Set = require("collections/set");
@@ -53,17 +54,27 @@ var Iteration = exports.Iteration = Montage.specialize( /** @lends Iteration.pro
      * The corresponding content for this iteration.
      * @type {Object}
      */
-    object: {value: null},
 
-    /**
-     * Whether the content for this iteration is selected.  This property is
-     * bound bidirectionally to whether every element on the document for the
-     * corresponding drawn iteration has the `selected` CSS class (synchronized
-     * on draw), and whether the [object]{@link Iteration#object} is in the
-     * `contentController.selection` collection.
-     * @type {boolean}
-     */
-    selected: {value: null},
+    _object: {
+        value: null
+    },
+
+    object: {
+        get: function () {
+            return this._object;
+        },
+        set: function (value) {
+            var selected;
+
+            if (this._object !== value) {
+                this._object = value;
+                selected = this.repetition.contentController.selection.indexOf(value) !== -1;
+                if (this._selected !== selected) {
+                    this.selected = selected;
+                }
+            }
+        }
+    },
 
     /**
      * A `DocumentFragment`, donated by the repetition's `_iterationTemplate`
@@ -120,6 +131,31 @@ var Iteration = exports.Iteration = Montage.specialize( /** @lends Iteration.pro
      */
     isDirty: {value: false},
 
+    _selected: {
+        value: null
+    },
+
+    selected: {
+        get: function () {
+            return this._selected;
+        },
+        set: function (value) {
+            value = !!value;
+            if (this.object && this.repetition && this.repetition.contentController) {
+                if (value) {
+                    this.repetition.contentController.selection.add(this.object);
+                } else {
+                    this.repetition.contentController.selection.delete(this.object);
+                }
+            }
+            if (this._selected !== value) {
+                this._selected = value;
+                this.repetition._addDirtyClassListIteration(this);
+                this.repetition.needsDraw = true;
+            }
+        }
+    },
+
     /**
      * Creates the initial values of all instance state.
      * @private
@@ -134,13 +170,6 @@ var Iteration = exports.Iteration = Montage.specialize( /** @lends Iteration.pro
             this.repetition = null;
             this.controller = null;
             this.object = null;
-            // The iteration watches whether it is selected.  If the iteration
-            // is drawn, it enqueue's selection change draw operations and
-            // notifies the repetition it needs to be redrawn.
-            // Dispatches handlePropertyChange with the "selected" key:
-            this.defineBinding("selected", {
-                "<->": "object.defined() ? repetition.contentController.selection.has(object) : selected"
-            });
             // An iteration can be "on" or "off" the document.  When the
             // iteration is added to a document, the "fragment" is depopulated
             // and placed between "topBoundary" and "bottomBoundary" on the
@@ -179,7 +208,6 @@ var Iteration = exports.Iteration = Montage.specialize( /** @lends Iteration.pro
 
             // dispatch handlePropertyChange:
             this.addOwnPropertyChangeListener("active", this);
-            this.addOwnPropertyChangeListener("selected", this);
             this.addOwnPropertyChangeListener("_noTransition", this);
 
             this.addPathChangeListener(
@@ -561,14 +589,18 @@ var Repetition = exports.Repetition = Component.specialize(/** @lends Repetition
      * corresponds to the position within the visible region of the controller.
      * @type {Array.<Object>}
      */
+
     content: {
         get: function () {
-            return this.getPath("contentController.content");
+            if (this.contentController) {
+                return this.contentController.content;
+            }
+            return null;
         },
-        set: function (content) {
+        set: function (value) {
             // TODO if we provide an implicit content controller, it should be
             // excluded from a serialization of the repetition.
-            this.contentController = new RangeController().initWithContent(content);
+            this.contentController = new RangeController().initWithContent(value);
         }
     },
 
@@ -598,16 +630,6 @@ var Repetition = exports.Repetition = Component.specialize(/** @lends Repetition
      * @type {boolean}
      */
     isSelectionEnabled: {value: null},
-
-    /**
-     * A collection of the selected content.  It may be any ranged collection
-     * like Array or SortedSet.  The user may get, set, or modify the selection
-     * directly.  The selection property is bidirectionally bound to the
-     * selection of the content controller.  Every repetition has a content
-     * controller, and will use a RangeController if not given one.
-     * @type {Array.<Object>}
-     */
-    selection: {value: null},
 
     /**
      * The repetition maintains an array of every visible, selected iteration,
@@ -696,9 +718,115 @@ var Repetition = exports.Repetition = Component.specialize(/** @lends Repetition
      */
     clonesChildComponents: {value: true},
 
+    __pressComposer: {value: null},
+
+    _pressComposer: {
+        get: function () {
+            if (!this.__pressComposer) {
+                this.__pressComposer = new PressComposer();
+                this.__pressComposer.lazyLoad = true;
+                this.addComposerForElement(this.__pressComposer, this.element);
+            }
+
+            return this.__pressComposer;
+        }
+    },
+
 
     // Implementation:
     // ----
+
+    _cancelSelectionRangeChangeListener: {
+        value: null
+    },
+
+    _selection: {
+        value: null
+    },
+
+    selection: {
+        get: function () {
+            return this._selection;
+        },
+        set: function (value) {
+            if (this.contentController) {
+                if (this.contentController.selection !== value) {
+                    this.contentController.selection = value;
+                }
+                if (this._selection !== this.contentController.selection) {
+                    this._selection = this.contentController.selection;
+                }
+                if (this._cancelSelectionRangeChangeListener) {
+                    this._cancelSelectionRangeChangeListener();
+                }
+                if (value) {
+                    this._cancelSelectionRangeChangeListener = (
+                        this.contentController.selection.addRangeChangeListener(this, "selection")
+                    );
+                    this.handleSelectionRangeChange(value, []);
+                } else {
+                    this._cancelSelectionRangeChangeListener = null;
+                }
+            } else {
+                this._selection = value;
+            }
+        }
+    },
+
+    handleSelectionRangeChange: {
+        value: function (add, remove) {
+            var iterationsMap,
+                length = this.iterations.length,
+                objectIterations,
+                object,
+                iteration,
+                i, j;
+
+            if ((add.length <= 1) && (remove.length <= 1)) {
+                if (remove.length) {
+                    object = remove[0];
+                    for (i = 0; i < length; i++) {
+                        if (this.iterations[i].object === object) {
+                            this.iterations[i].selected = false;
+                        }
+                    }
+                }
+                if (add.length) {
+                    object = add[0];
+                    for (i = 0; i < length; i++) {
+                        if (this.iterations[i].object === object) {
+                            this.iterations[i].selected = true;
+                        }
+                    }
+                }
+            } else {
+                iterationsMap = new Map();
+                for (i = 0; i < length; i++) {
+                    iteration = this.iterations[i];
+                    object = iteration.object;
+                    if (!(objectIterations = iterationsMap.get(object))) {
+                        objectIterations = [];
+                        iterationsMap.set(object, objectIterations);
+                    }
+                    objectIterations.push(iteration);
+                }
+                for (i = 0; i < remove.length; i++) {
+                    if (objectIterations = iterationsMap.get(remove[i])) {
+                        for (j = 0; j < objectIterations.length; j++) {
+                            objectIterations[j].selected = false;
+                        }
+                    }
+                }
+                for (i = 0; i < add.length; i++) {
+                    if (objectIterations = iterationsMap.get(add[i])) {
+                        for (j = 0; j < objectIterations.length; j++) {
+                            objectIterations[j].selected = true;
+                        }
+                    }
+                }
+            }
+        }
+    },
 
     /**
      * @private
@@ -721,7 +849,7 @@ var Repetition = exports.Repetition = Component.specialize(/** @lends Repetition
             // iteration when the user touches.
             this.isSelectionEnabled = false;
             this.defineBinding("selection", {
-                "<->": "contentController.selection"
+                "<-": "contentController.selection"
             });
             this.defineBinding("selectedIterations", {
                 "<-": "iterations.filter{selected}"
@@ -1411,26 +1539,22 @@ var Repetition = exports.Repetition = Component.specialize(/** @lends Repetition
                 logger.debug("Repetition:%s +%s -%s iterations", Object.hash(this), addIterationsCount, removeIterationsCount);
             }
 
-            if (reusableIterationsCount > 0) {
-
-                for (var i = 0; i < reusableIterationsCount; i++, index++) {
-                    iterations[index].object = plus[i];
-                    contentForIteration.set(iterations[index], plus[i]);
-                }
-
+            for (var i = 0; i < reusableIterationsCount; i++, index++) {
+                iterations[index].object = plus[i];
+                contentForIteration.set(iterations[index], plus[i]);
             }
 
             if (removeIterationsCount > 0) {
                 // Subtract iterations
                 var freedIterations = iterations.splice(index, removeIterationsCount);
-                freedIterations.forEach(function (iteration) {
-                    // Notify these iterations that they have been recycled,
-                    // particularly so they know to disable animations with the
-                    // "no-transition" CSS class.
-                    iteration.recycle();
-                });
+
+                // Notify these iterations that they have been recycled,
+                // particularly so they know to disable animations with the
+                // "no-transition" CSS class.
                 // Add them back to the free list so they can be reused
-                for (var i = 0, freedIteration; freedIteration = freedIterations[i]; i++) {
+                for (var i = 0, freedIteration; i < removeIterationsCount; i++) {
+                    freedIteration = freedIterations[i];
+                    freedIteration.recycle();
                     if (!freedIteration.isDirty) {
                         this._freeIterations.push(freedIteration);
                     }
@@ -1756,12 +1880,7 @@ var Repetition = exports.Repetition = Component.specialize(/** @lends Repetition
     // isSelectionEnabled becoming true.
     _enableSelectionTracking: {
         value: function () {
-
-            if (window.Touch) {
-                this.element.addEventListener("touchstart", this, true);
-            } else {
-                this.element.addEventListener("mousedown", this, true);
-            }
+            this._pressComposer.addEventListener("pressStart", this, false);
         }
     },
 
@@ -1772,57 +1891,36 @@ var Repetition = exports.Repetition = Component.specialize(/** @lends Repetition
     // isSelectionEnabled becoming false.
     _disableSelectionTracking: {
         value: function () {
-            if (window.Touch) {
-                this.element.removeEventListener("touchstart", this, true);
-            } else {
-                this.element.removeEventListener("mousedown", this, true);
+            this._pressComposer.removeEventListener("pressStart", this, false);
+        }
+    },
+
+    handlePressStart: {
+        value: function (pressEvent) {
+            var iteration = this._findIterationContainingElement(pressEvent.targetElement);
+
+            if (iteration) {
+                this._startX = pressEvent.clientX;
+                this._startY = pressEvent.clientY;
+
+                this.__pressComposer.addEventListener("press", this, false);
+                this.__pressComposer.addEventListener("pressCancel", this, false);
+
+                this.element.addEventListener("touchmove", this, false);
+                document.addEventListener("scroll", this, true);
+
+                iteration.shouldBecomeActive = true;
+                this._currentActiveIteration = iteration;
             }
         }
     },
 
-    // ---
-
-    // Called by captureMousedown and captureTouchstart when a gesture begins:
-    /**
-     * @param pointerIdentifier an identifier that can be "mouse" or the
-     * "identifier" property of a "Touch" in a touch change event.
-     * @private
-     */
-    _observeSelectionPointer: {
-        value: function (pointerIdentifier) {
-            this._selectionPointer = pointerIdentifier;
-            this.eventManager.claimPointer(pointerIdentifier, this);
-
-            var document = this.element.ownerDocument;
-
-            if (window.Touch) {
-                // dispatches handleTouchend
-                document.addEventListener("touchend", this, false);
-                // dispatches handleTouchmove
-                document.addEventListener("touchmove", this, false);
-                // dispatches handleTouchcancel
-                document.addEventListener("touchcancel", this, false);
-
-            } else {
-                // dispatches handleMouseup
-                document.addEventListener("mouseup", this, false);
-                // dispatches handleMousemove
-                document.addEventListener("mousemove", this, false);
-            }
-        }
-    },
 
     /**
      * @private
      */
-    _ignoreSelectionPointer: {
+    _ignoreSelection: {
         value: function () {
-            // The pointer may have been already taken
-            if (this.eventManager.isPointerClaimedByComponent(this._selectionPointer, this)) {
-                this.eventManager.forfeitPointer(this._selectionPointer, this);
-            }
-            this._selectionPointer = null;
-
             if (this._currentActiveIteration) {
                 this._currentActiveIteration.shouldBecomeActive = false;
                 this._currentActiveIteration = null;
@@ -1833,94 +1931,32 @@ var Repetition = exports.Repetition = Component.specialize(/** @lends Repetition
             this._startX = 0;
             this._startY = 0;
 
-            var document = this.element.ownerDocument;
+            this.__pressComposer.removeEventListener("press", this, false);
+            this.__pressComposer.removeEventListener("pressCancel", this, false);
 
-            if (window.Touch) {
-                document.removeEventListener("touchend", this, false);
-                document.removeEventListener("touchmove", this, false);
-                document.removeEventListener("touchcancel", this, false);
-
-            } else {
-                document.removeEventListener("mouseup", this, false);
-                document.removeEventListener("mousemove", this, false);
-            }
+            this.element.removeEventListener("touchmove", this, false);
+            document.removeEventListener("scroll", this, true);
         }
     },
 
-    // ---
-
-    /**
-     * @private
-     */
-    // Dispatched by "mousedown" event listener if isSelectionEnabled
-    captureMousedown: {
-        value: function (event) {
-            if (this._selectionPointer != null) {
-                // If we already have one touch making a selection, ignore any
-                // other pointers.
-                return;
-            }
-            this._observeSelectionPointer("mouse");
-            var iteration = this._findIterationContainingElement(event.target);
-            if (iteration) {
-                this._startX = event.clientX;
-                this._startY = event.clientY;
-
-                iteration.shouldBecomeActive = true;
-                this._currentActiveIteration = iteration;
-            } else {
-                this._ignoreSelectionPointer();
-            }
-        }
-    },
-
-    /**
-     * @private
-     */
-    // Dispatched by "touchstart" event listener if isSelectionEnabled
-    captureTouchstart: {
-        value: function (event) {
-            if (this._selectionPointer != null) {
-                // If we already have one touch or mouse making a selection, ignore any
-                // other pointers.
-                return;
-            }
-
-            this._observeSelectionPointer(event.changedTouches[0].identifier);
-            var iteration = this._findIterationContainingElement(event.target);
-
-            if (iteration) {
-                var touch = event.changedTouches[0];
-
-                this._startX = touch.clientX;
-                this._startY = touch.clientY;
-
-                iteration.shouldBecomeActive = true;
-                this._currentActiveIteration = iteration;
-            } else {
-                this._ignoreSelectionPointer();
-            }
-        }
-    },
-
-    // ---
 
     /**
      * @private
      */
     handleTouchmove: {
         value: function (event) {
-            var touch;
+            var changedTouches = event.changedTouches,
+                touch;
 
-            for (var i = 0; i < event.changedTouches.length; i++) {
-                if (event.changedTouches[i].identifier === this._selectionPointer) {
-                    touch = event.changedTouches[i];
+            for (var i = 0, length = changedTouches.length; i < length; i++) {
+                if (changedTouches[i].identifier === this.__pressComposer._observedPointer) {
+                    touch = changedTouches[i];
                     break;
                 }
             }
 
             if (touch) {
-                this._move(touch.clientX, touch.clientY);
+                this._handleMove(touch.clientX, touch.clientY);
             }
         }
     },
@@ -1929,11 +1965,9 @@ var Repetition = exports.Repetition = Component.specialize(/** @lends Repetition
     /**
      * @private
      */
-    handleMousemove: {
+    captureScroll: {
         value: function (event) {
-            if (event) {
-                this._move(event.clientX, event.clientY);
-            }
+            this._ignoreSelection();
         }
     },
 
@@ -1941,7 +1975,7 @@ var Repetition = exports.Repetition = Component.specialize(/** @lends Repetition
     /**
      * @private
      */
-    _move: {
+    _handleMove: {
         value: function (positionX, positionY) {
             var threshold = this._threshold,
                 dX = positionX - this._startX,
@@ -1949,7 +1983,7 @@ var Repetition = exports.Repetition = Component.specialize(/** @lends Repetition
 
             // Check if the current position is inside the allowed radius of pixels between a touchstart/mousedown and a touchmove/mousemove.
             if (dX * dX + dY * dY > threshold * threshold) {
-                this._ignoreSelectionPointer();
+                this._ignoreSelection();
             }
         }
     },
@@ -1958,61 +1992,27 @@ var Repetition = exports.Repetition = Component.specialize(/** @lends Repetition
     /**
      * @private
      */
-    handleTouchend: {
-        value: function (event) {
-            // TODO consider only grabbing touches that are in target touches
-            for (var i = 0; i < event.changedTouches.length; i++) {
-                if (this._endSelectionOnTarget(event.changedTouches[i].identifier, event.target)) {
-                    break;
-                }
-            }
-
-        }
-    },
-
-    /**
-     * @private
-     */
-    handleTouchcancel: {
+    handlePressCancel: {
         value: function () {
-            this._ignoreSelectionPointer();
+            this._ignoreSelection();
         }
     },
 
-    /**
-     * @private
-     */
-    handleMouseup: {
+
+    handlePress: {
         value: function (event) {
-            this._endSelectionOnTarget("mouse", event.target);
-        }
-    },
+            var iteration = this._findIterationContainingElement(event.targetElement);
 
-    /**
-     * @private
-     */
-    _endSelectionOnTarget: {
-        value: function (identifier, target) {
+            // And select it, if there is one
+            if (iteration && this._currentActiveIteration === iteration) {
+                iteration.active = false;
 
-            if (identifier !== this._selectionPointer) {
-                return;
-            }
-
-            if (this.eventManager.isPointerClaimedByComponent(this._selectionPointer, this)) {
-                // Find the corresponding iteration
-                var iteration = this._findIterationContainingElement(target);
-                // And select it, if there is one
-                if (iteration && this._currentActiveIteration === iteration) {
-                    iteration.active = false;
-                    if (!iteration.selected) {
-                        iteration.selected = true;
-                    }
+                if (!iteration.selected) {
+                    iteration.selected = true;
                 }
             }
 
-            this._ignoreSelectionPointer();
-
-            return true;
+            this._ignoreSelection();
         }
     },
 
@@ -2057,7 +2057,6 @@ var Repetition = exports.Repetition = Component.specialize(/** @lends Repetition
     Iteration: { value: Iteration, serializable: false }
 
 });
-
 
 }})
 bundleLoaded("index.html.bundle-1-3.js")
